@@ -1442,12 +1442,6 @@ abstract class AppLocalizations {
   /// **'Implausibly small'**
   String get plausibilityTiny;
 
-  /// No description provided for @plausibilityManyDigits.
-  ///
-  /// In en, this message translates to:
-  /// **'Many significant digits – rather unlikely'**
-  String get plausibilityManyDigits;
-
   /// No description provided for @plausibilityDate.
   ///
   /// In en, this message translates to:
@@ -2767,6 +2761,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No MAC addresses received: the system returned an empty ARP table. On macOS, allow local network access for Modbus Explorer (System Settings → Privacy & Security → Local Network) and scan again.'**
   String get netArpEmptyHint;
+
+  /// No description provided for @netMacRoutedHint.
+  ///
+  /// In en, this message translates to:
+  /// **'No MAC addresses for this range: it is outside this computer\'s local network segment (reached via a router). MAC addresses can only be determined for devices in the same segment.'**
+  String get netMacRoutedHint;
 }
 
 class _AppLocalizationsDelegate

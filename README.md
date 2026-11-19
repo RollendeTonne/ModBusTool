@@ -170,6 +170,7 @@ dart run flutter_launcher_icons              # Plattform-Icons
 | Widget | `flutter test` | Interpretations-Matrix, alle Seiten und Abläufe gegen den Simulator, Import/Export, Tastaturkürzel |
 | Layout | `test/layout_smoke_test.dart` | alle Seiten auf Deutsch in Handy-, Tablet- und Desktop-Größe (Überläufe lassen den Test scheitern) |
 | Barrierefreiheit | `test/core/contrast_test.dart` | Textkontraste ≥ 4,5:1 in beiden Themes |
+| Live (nur lesend) | `MODBUS_HOST=<ip> flutter test test_live/` | gegen ein echtes Gerät: Netzwerk-Scan der einen IP, Device ID, FC03/FC04 ab 19000 mit Interpretation; nicht Teil von `flutter test` |
 | Integration | `flutter test integration_test -d macos --no-dds` | in der echten App: libserialport (FFI), TCP, Dateipfade, ARP-Zugriff (nur passiv) |
 
 `--no-dds` ist nötig, weil der Debug-Dienst in dieser Umgebung nicht startet.
@@ -288,6 +289,16 @@ Profil lassen sich Latenz sowie verlorene und verfälschte Antworten simulieren.
 | Esc | Dialog schließen |
 | Umschalt + Klick | Bereich in der Tabelle auswählen |
 
+## Mit echter Hardware geprüft
+
+Ein **Janitza-UMG-Messgerät** über Modbus TCP (geroutet erreichbar), nur
+lesend: Netzwerk-Scan findet es in ~1,5 s (offen: 21, 22, 80, 443, 502, 8080;
+Modbus per Registerlesen bestätigt – FC43 beantwortet das Gerät nicht).
+FC03/FC04 ab Register 19000 liefern FLOAT32 in ABCD: Spannungen L–N ~230 V,
+L–L ~399 V; die Matrix markiert genau diese Interpretation als plausibel.
+Antwortzeit ~95 ms (Mac) bzw. ~108 ms (Android-Emulator). Die Prüfung lief
+über die Bibliothek und durch die Android-App im Emulator.
+
 ## Bekannte Einschränkungen
 
 - Windows, Linux, Android und iOS sind vorbereitet, aber in dieser Umgebung
@@ -300,6 +311,8 @@ Profil lassen sich Latenz sowie verlorene und verfälschte Antworten simulieren.
   TCP-Verbindungsversuch erkannt (auch eine Ablehnung zeigt einen lebenden
   Host) und, wo möglich, über die ARP-Tabelle. Geräte, die alle geprüften
   Ports stumm verwerfen und nicht im ARP-Cache stehen, bleiben unsichtbar.
+- MAC-Adressen gibt es grundsätzlich nur für Geräte im **selben Netzsegment**
+  (ARP endet am Router); bei gerouteten Bereichen zeigt die App das an.
 - MAC-Adressen im Netzwerk-Scan nur auf dem Desktop; Android 10+ und iOS
   sperren die ARP-Tabelle. Unter macOS liefert `arp` aus der App heraus in
   dieser Umgebung trotz abgeschalteter Sandbox keine Einträge (im Terminal

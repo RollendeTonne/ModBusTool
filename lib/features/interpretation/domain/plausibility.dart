@@ -1,6 +1,5 @@
 import 'package:meta/meta.dart';
 import 'package:modbus_explorer/features/interpretation/domain/data_type.dart';
-import 'package:modbus_explorer/features/interpretation/domain/float_utils.dart';
 import 'package:modbus_explorer/features/interpretation/domain/interpreted_value.dart';
 
 enum Plausibility { implausible, neutral, plausible }
@@ -11,7 +10,6 @@ enum PlausibilityIssue {
   denormalized,
   hugeMagnitude,
   tinyMagnitude,
-  manyDigits,
   dateOutOfRange,
   nonPrintable,
   invalid,
@@ -45,23 +43,23 @@ const _plausible = PlausibilityAssessment(Plausibility.plausible);
 /// Heuristic thresholds. Field devices rarely report values beyond these,
 /// while wrongly ordered bytes almost always land outside them.
 abstract final class PlausibilityThresholds {
-  static const maxPlausibleFloat = 1e7;
+  static const maxPlausibleFloat = 1e6;
   static const minPlausibleFloat = 1e-3;
   static const maxSaneFloat = 1e12;
   static const minSaneFloat = 1e-9;
   static const maxPlausibleInteger = 10000000;
   static const maxSaneInteger = 1000000000000;
 
-  /// Measured values have few decimals; byte garbage uses all available.
-  static const maxDecimals = 4;
   static final earliestPlausibleDate = DateTime.utc(2000);
   static final latestPlausibleDate = DateTime.utc(2100);
 
-  /// Only dates close to today count as plausible: floats between ~2 and
-  /// ~1000 read as UNIX32 always land in 2004–2014 and would otherwise be
-  /// highlighted (seen on a real device screen).
-  static const recentPast = Duration(days: 3653); // ~10 years
-  static const nearFuture = Duration(days: 731); // ~2 years
+  /// Only dates close to today count as plausible. Floats between ~2 and
+  /// ~1000 read as UNIX32 land in 2004–2014, and a random 32-bit value
+  /// falls into a 10-year window ~9 % of the time – both seen on a real
+  /// meter's screen. A 3-year window keeps device clocks (≈ now) while
+  /// random hits drop to ~2 %.
+  static const recentPast = Duration(days: 731); // ~2 years
+  static const nearFuture = Duration(days: 366); // ~1 year
 }
 
 /// Classifies how likely [value] is the intended interpretation of [type].
@@ -109,26 +107,10 @@ PlausibilityAssessment _assessFloat(FloatValue float) {
       magnitude < PlausibilityThresholds.minPlausibleFloat) {
     return _neutral;
   }
-  return _hasFewDecimals(float)
-      ? _plausible
-      : const PlausibilityAssessment(
-          Plausibility.neutral,
-          PlausibilityIssue.manyDigits,
-        );
-}
-
-/// True if a short decimal (≤ 4 places) rounds to exactly this float, i.e.
-/// the value was most likely written as e.g. `230.1`, not random bits.
-bool _hasFewDecimals(FloatValue float) {
-  final v = float.value;
-  for (var places = 0; places <= PlausibilityThresholds.maxDecimals; places++) {
-    final candidate = double.parse(v.toStringAsFixed(places));
-    final roundTrip = float.precision == FloatPrecision.single
-        ? toFloat32(candidate)
-        : candidate;
-    if (roundTrip == v) return true;
-  }
-  return false;
+  // Magnitude only. Counting decimals was tried and failed on a real
+  // meter: measured floats use full precision (230.11449 V), while byte-
+  // swapped garbage of large magnitude has few decimals (-49984.14).
+  return _plausible;
 }
 
 PlausibilityAssessment _assessInteger(BigInt value, DataType type) {

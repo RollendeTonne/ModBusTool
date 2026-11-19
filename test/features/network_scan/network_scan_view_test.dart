@@ -18,6 +18,8 @@ NetworkScanner fakeScanner() => NetworkScanner(
       return PortState.open;
     }
     if ('$ip' == '192.168.50.20' && port == 22) return PortState.open;
+    // A routed device (outside the local /24).
+    if ('$ip' == '10.100.0.24' && port == 502) return PortState.open;
     return PortState.filtered;
   },
   modbusProbe: (ip, port, _) async => '$ip' == '192.168.50.10'
@@ -220,7 +222,11 @@ void main() {
             localAddresses: () async => const [],
           ),
         ),
-        localAddressesProvider.overrideWith((ref) async => const []),
+        localAddressesProvider.overrideWith(
+          (ref) async => [
+            (interface: 'en0', address: Ipv4.parse('192.168.50.5')),
+          ],
+        ),
         platformCapabilitiesProvider.overrideWithValue(
           PlatformCapabilities.forPlatform(TargetPlatform.macOS),
         ),
@@ -236,5 +242,18 @@ void main() {
     await runScan(tester);
     expect(find.byKey(const Key('network.arpEmpty')), findsOneWidget);
     expect(find.textContaining('Local Network'), findsOneWidget);
+  });
+
+  testWidgets('routed ranges explain that MACs cannot be determined', (
+    tester,
+  ) async {
+    await openNetworkTab(tester); // local address 192.168.50.5
+    await tester.enterText(
+      find.byKey(const Key('network.range')),
+      '10.100.0.24',
+    );
+    await runScan(tester);
+    expect(find.byKey(const Key('network.routed')), findsOneWidget);
+    expect(find.byKey(const Key('network.arpEmpty')), findsNothing);
   });
 }

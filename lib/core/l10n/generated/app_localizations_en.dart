@@ -776,10 +776,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get plausibilityTiny => 'Implausibly small';
 
   @override
-  String get plausibilityManyDigits =>
-      'Many significant digits – rather unlikely';
-
-  @override
   String get plausibilityDate => 'Date outside 2000–2100';
 
   @override
@@ -1520,4 +1516,8 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get netArpEmptyHint =>
       'No MAC addresses received: the system returned an empty ARP table. On macOS, allow local network access for Modbus Explorer (System Settings → Privacy & Security → Local Network) and scan again.';
+
+  @override
+  String get netMacRoutedHint =>
+      'No MAC addresses for this range: it is outside this computer\'s local network segment (reached via a router). MAC addresses can only be determined for devices in the same segment.';
 }

@@ -109,6 +109,17 @@ final class Ipv4Range {
 
   int get length => last.value - first.value + 1;
 
+  bool overlaps(Ipv4Range other) =>
+      first.value <= other.last.value && last.value >= other.first.value;
+
+  static Ipv4Range? tryParse(String text) {
+    try {
+      return Ipv4Range.parse(text);
+    } on FormatException {
+      return null;
+    }
+  }
+
   bool contains(Ipv4 address) =>
       address.value >= first.value && address.value <= last.value;
 

@@ -25,15 +25,18 @@ void main() {
       expect(assessFloat32(0x3DCC, 0xCCCD).level, Plausibility.plausible);
     });
 
-    test('value with many significant digits is neutral', () {
-      // 10.000000953674316 (0x41200001)
-      expect(
-        assessFloat32(0x4120, 0x0001),
-        const PlausibilityAssessment(
-          Plausibility.neutral,
-          PlausibilityIssue.manyDigits,
-        ),
-      );
+    test('full-precision measured values are plausible (real meter data)', () {
+      // 230.11449 V and 398.2832 V from a Janitza UMG (FLOAT32 ABCD).
+      expect(assessFloat32(0x4366, 0x1D4F).level, Plausibility.plausible);
+      expect(assessFloat32(0x43C7, 0x2440).level, Plausibility.plausible);
+      expect(assessFloat32(0x4120, 0x0001).level, Plausibility.plausible);
+    });
+
+    test('values above 1e6 are no longer highlighted', () {
+      // 2.3065077e+23 is BADC garbage of a voltage: implausible.
+      expect(assessFloat32(0x6643, 0x5E6A).level, Plausibility.implausible);
+      // ~1.6e7 is in the sane range but not highlighted.
+      expect(assessFloat32(0x4B80, 0x0000).level, Plausibility.neutral);
     });
 
     test('NaN, Inf, denormal, huge and tiny are implausible', () {
@@ -103,8 +106,11 @@ void main() {
         DataType.unixTime32,
         now: now,
       ).level;
-      expect(level(DateTime.utc(2024, 5)), Plausibility.plausible);
-      expect(level(DateTime.utc(2028, 6)), Plausibility.plausible);
+      expect(level(DateTime.utc(2026, 11, 19, 8)), Plausibility.plausible);
+      expect(level(DateTime.utc(2025, 3)), Plausibility.plausible);
+      expect(level(DateTime.utc(2027, 6)), Plausibility.plausible);
+      // Byte-swapped real meter data read as UNIX32 → 2023-11-02.
+      expect(level(DateTime.utc(2023, 11, 2)), Plausibility.neutral);
       // FLOAT32 10.0 (0x41200000) read as UNIX32 → 2004: in range, but old.
       expect(level(DateTime.utc(2004, 8, 16)), Plausibility.neutral);
       expect(level(DateTime.utc(2060)), Plausibility.neutral);

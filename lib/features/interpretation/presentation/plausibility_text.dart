@@ -10,7 +10,6 @@ String? plausibilityText(
   PlausibilityIssue.denormalized => l10n.plausibilityDenormal,
   PlausibilityIssue.hugeMagnitude => l10n.plausibilityHuge,
   PlausibilityIssue.tinyMagnitude => l10n.plausibilityTiny,
-  PlausibilityIssue.manyDigits => l10n.plausibilityManyDigits,
   PlausibilityIssue.dateOutOfRange => l10n.plausibilityDate,
   PlausibilityIssue.nonPrintable => l10n.plausibilityNonPrintable,
   PlausibilityIssue.invalid => l10n.plausibilityInvalid,

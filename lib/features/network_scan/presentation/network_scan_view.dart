@@ -179,6 +179,13 @@ class _NetworkScanViewState extends ConsumerState<NetworkScanView> {
         ? state.hosts.where((h) => h.modbus != null).toList()
         : state.hosts;
     final modbusCount = state.hosts.where((h) => h.modbus != null).length;
+    final scannedRange = Ipv4Range.tryParse(_range.text);
+    // ARP only covers the local segment; dart:io gives no netmask, so the
+    // /24 around each own address approximates it.
+    final rangeIsLocal =
+        scannedRange != null &&
+        locals.any((l) => scannedRange.overlaps(Ipv4Range.around(l.address)));
+    final scanFinished = !state.isRunning && state.finishedAt != null;
     final elapsed = state.startedAt != null && state.finishedAt != null
         ? state.finishedAt!.difference(state.startedAt!)
         : null;
@@ -333,7 +340,19 @@ class _NetworkScanViewState extends ConsumerState<NetworkScanView> {
             },
           ),
         ],
-        if (state.arpEmpty && state.hosts.isNotEmpty && !state.isRunning)
+        if (caps.supportsMacAddresses &&
+            scanFinished &&
+            state.hosts.isNotEmpty &&
+            !rangeIsLocal)
+          Padding(
+            padding: const EdgeInsets.only(top: 12),
+            child: Text(
+              l10n.netMacRoutedHint,
+              key: const Key('network.routed'),
+              style: theme.textTheme.bodySmall,
+            ),
+          )
+        else if (state.arpEmpty && state.hosts.isNotEmpty && scanFinished)
           Padding(
             padding: const EdgeInsets.only(top: 12),
             child: Text(

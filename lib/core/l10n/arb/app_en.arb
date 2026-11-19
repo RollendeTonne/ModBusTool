@@ -438,7 +438,6 @@
   "plausibilityDenormal": "Denormalized float – almost certainly the wrong byte order",
   "plausibilityHuge": "Implausibly large",
   "plausibilityTiny": "Implausibly small",
-  "plausibilityManyDigits": "Many significant digits – rather unlikely",
   "plausibilityDate": "Date outside 2000–2100",
   "plausibilityNonPrintable": "Contains non-printable characters",
   "plausibilityInvalid": "Invalid value",
@@ -936,5 +935,6 @@
   },
   "netExport": "Export results…",
   "netScanNoMacSandbox": "MAC addresses are not available: the macOS app sandbox blocks access to the ARP table.",
-  "netArpEmptyHint": "No MAC addresses received: the system returned an empty ARP table. On macOS, allow local network access for Modbus Explorer (System Settings → Privacy & Security → Local Network) and scan again."
+  "netArpEmptyHint": "No MAC addresses received: the system returned an empty ARP table. On macOS, allow local network access for Modbus Explorer (System Settings → Privacy & Security → Local Network) and scan again.",
+  "netMacRoutedHint": "No MAC addresses for this range: it is outside this computer's local network segment (reached via a router). MAC addresses can only be determined for devices in the same segment."
 }
