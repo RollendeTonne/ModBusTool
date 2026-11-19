@@ -1,7 +1,10 @@
+import 'dart:io';
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:modbus_explorer/core/files/file_exchange.dart';
 import 'package:modbus_explorer/core/platform/platform_capabilities.dart';
+import 'package:modbus_explorer/features/network_scan/data/active_network_detector.dart';
 import 'package:modbus_explorer/features/network_scan/data/network_scanner.dart';
 import 'package:modbus_explorer/features/network_scan/domain/ipv4.dart';
 import 'package:modbus_explorer/features/network_scan/domain/scan_models.dart';
@@ -36,12 +39,33 @@ NetworkScanner fakeScanner() => NetworkScanner(
   ],
 );
 
+/// Simulated `route`/`ifconfig` output; tests change it to "switch" networks.
+String fakeIfconfig =
+    'inet 192.168.50.5 netmask 0xffffff00 broadcast 192.168.50.255';
+List<({Ipv4 address, String interface})> fakeInterfaces = [
+  (interface: 'en0', address: Ipv4.parse('192.168.50.5')),
+];
+
+ActiveNetworkDetector fakeDetector() => ActiveNetworkDetector(
+  platform: TargetPlatform.macOS,
+  listAddresses: () async => fakeInterfaces,
+  runProcess: (executable, args) async => ProcessResult(
+    0,
+    0,
+    executable.endsWith('route')
+        ? 'gateway: 10.0.0.1\n  interface: en0\n'
+        : fakeIfconfig,
+    '',
+  ),
+);
+
 Future<FakeFileExchange> openNetworkTab(WidgetTester tester) async {
   final files = FakeFileExchange();
   await tester.pumpModbusApp(
     size: const Size(1600, 1100),
     overrides: [
       networkScannerProvider.overrideWithValue(fakeScanner()),
+      activeNetworkDetectorProvider.overrideWithValue(fakeDetector()),
       localAddressesProvider.overrideWith(
         (ref) async => [
           (interface: 'en0', address: Ipv4.parse('192.168.50.5')),
@@ -67,6 +91,43 @@ Future<void> runScan(WidgetTester tester) async {
 }
 
 void main() {
+  setUp(() {
+    fakeIfconfig =
+        'inet 192.168.50.5 netmask 0xffffff00 broadcast 192.168.50.255';
+    fakeInterfaces = [(interface: 'en0', address: Ipv4.parse('192.168.50.5'))];
+  });
+
+  testWidgets('active network button fills in the current subnet', (
+    tester,
+  ) async {
+    await openNetworkTab(tester);
+    final range = find.byKey(const Key('network.range'));
+    expect(tester.widget<TextField>(range).controller!.text, '192.168.50.0/24');
+
+    // Laptop moves to another WLAN with a /23.
+    fakeInterfaces = [
+      (interface: 'lo0', address: Ipv4.parse('127.0.0.1')),
+      (interface: 'utun3', address: Ipv4.parse('100.64.0.7')),
+      (interface: 'en0', address: Ipv4.parse('10.0.3.89')),
+    ];
+    fakeIfconfig = 'inet 10.0.3.89 netmask 0xfffffe00 broadcast 10.0.3.255';
+    await tester.enterText(range, '1.2.3.4');
+    await tester.tap(find.byKey(const Key('network.useActive')));
+    await tester.pumpAndSettle();
+    expect(tester.widget<TextField>(range).controller!.text, '10.0.2.0/23');
+    expect(find.text('en0: 10.0.3.89 → 10.0.2.0/23'), findsOneWidget);
+  });
+
+  testWidgets('active network button reports when nothing is found', (
+    tester,
+  ) async {
+    await openNetworkTab(tester);
+    fakeInterfaces = [(interface: 'lo0', address: Ipv4.parse('127.0.0.1'))];
+    await tester.tap(find.byKey(const Key('network.useActive')));
+    await tester.pumpAndSettle();
+    expect(find.text('No active network found'), findsOneWidget);
+  });
+
   testWidgets('range is suggested from the local interface', (tester) async {
     await openNetworkTab(tester);
     final range = tester.widget<TextField>(
@@ -168,6 +229,7 @@ void main() {
       overrides: [
         networkScannerProvider.overrideWithValue(fakeScanner()),
         localAddressesProvider.overrideWith((ref) async => const []),
+        activeNetworkProvider.overrideWith((ref) async => null),
         platformCapabilitiesProvider.overrideWithValue(
           PlatformCapabilities.forPlatform(TargetPlatform.android),
         ),
@@ -192,6 +254,7 @@ void main() {
       overrides: [
         networkScannerProvider.overrideWithValue(fakeScanner()),
         localAddressesProvider.overrideWith((ref) async => const []),
+        activeNetworkProvider.overrideWith((ref) async => null),
         platformCapabilitiesProvider.overrideWithValue(
           PlatformCapabilities.forPlatform(
             TargetPlatform.macOS,
@@ -222,6 +285,7 @@ void main() {
             localAddresses: () async => const [],
           ),
         ),
+        activeNetworkProvider.overrideWith((ref) async => null),
         localAddressesProvider.overrideWith(
           (ref) async => [
             (interface: 'en0', address: Ipv4.parse('192.168.50.5')),

@@ -936,5 +936,23 @@
   "netExport": "Export results…",
   "netScanNoMacSandbox": "MAC addresses are not available: the macOS app sandbox blocks access to the ARP table.",
   "netArpEmptyHint": "No MAC addresses received: the system returned an empty ARP table. On macOS, allow local network access for Modbus Explorer (System Settings → Privacy & Security → Local Network) and scan again.",
-  "netMacRoutedHint": "No MAC addresses for this range: it is outside this computer's local network segment (reached via a router). MAC addresses can only be determined for devices in the same segment."
+  "netMacRoutedHint": "No MAC addresses for this range: it is outside this computer's local network segment (reached via a router). MAC addresses can only be determined for devices in the same segment.",
+  "netUseActive": "Active network",
+  "netUseActiveTooltip": "Fill in the range of the network currently in use",
+  "netActiveNone": "No active network found",
+  "netActiveFound": "{iface}: {address} → {range}",
+  "netActiveMaskUnknown": "Netmask unknown, assuming /24",
+  "@netActiveFound": {
+    "placeholders": {
+      "iface": {
+        "type": "String"
+      },
+      "address": {
+        "type": "String"
+      },
+      "range": {
+        "type": "String"
+      }
+    }
+  }
 }

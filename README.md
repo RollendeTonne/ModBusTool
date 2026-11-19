@@ -61,7 +61,8 @@ hervorgehoben. So sieht man sofort, wie ein Gerät seine Werte ablegt.
   (Wert → Register, z. B. 230,1 V als FLOAT32 CDAB), eigene Muster wie `EFGHABCD`.
 - Scanner: Slave-IDs 1–247 und Registerbereiche, mit Fortschritt und Abbruch.
 - Netzwerk-Scan: IP-Bereich (CIDR oder von–bis, Vorschlag aus den eigenen
-  Netzwerkkarten) nach Geräten durchsuchen; listet IP, Hostname, MAC-Adresse
+  Netzwerkkarten; Knopf „Aktives Netz“ trägt das gerade genutzte Subnetz
+  ein) nach Geräten durchsuchen; listet IP, Hostname, MAC-Adresse
   und offene gängige Ports (u. a. 502 Modbus, 102 S7, 4840 OPC UA, 44818
   EtherNet/IP, 20000 DNP3, 1883 MQTT, HTTP/HTTPS, SSH). Offene Modbus-Ports
   werden mit einer echten Modbus-Anfrage geprüft (Hersteller/Produkt per
@@ -319,8 +320,11 @@ Antwortzeit ~95 ms (Mac) bzw. ~108 ms (Android-Emulator). Die Prüfung lief
   schon); vermutete Ursache ist die fehlende Freigabe „Lokales Netzwerk“ –
   das ließ sich hier nicht überprüfen. Bleibt die Tabelle leer, zeigt die App
   einen Hinweis.
-- Subnetzmasken liefert Dart nicht; der Netzwerk-Scan schlägt /24 vor, der
-  Bereich ist frei editierbar (max. 4096 Adressen).
+- „Aktives Netz“: Schnittstelle der Standardroute und echte Netzmaske nur
+  unter macOS (`route`, `ifconfig`) und Linux (`/proc/net/route`, `ip`).
+  Windows, Android und iOS wählen die Schnittstelle per Namensheuristik
+  (LAN/WLAN vor VPN/virtuell) und nehmen /24 an. Netze größer als /20
+  werden auf das /24 um die eigene Adresse begrenzt (max. 4096 Adressen).
 - Keine separate Sitzungsaufzeichnung; das Log (bis 5000 Telegramme) lässt
   sich als Text/CSV speichern.
 - Windows: keine Mindestfenstergröße (macOS und Linux haben eine).

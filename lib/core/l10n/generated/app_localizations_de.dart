@@ -1527,4 +1527,22 @@ class AppLocalizationsDe extends AppLocalizations {
   @override
   String get netMacRoutedHint =>
       'Keine MAC-Adressen für diesen Bereich: Er liegt außerhalb des lokalen Netzsegments dieses Rechners (über einen Router erreichbar). MAC-Adressen lassen sich nur für Geräte im selben Segment ermitteln.';
+
+  @override
+  String get netUseActive => 'Aktives Netz';
+
+  @override
+  String get netUseActiveTooltip =>
+      'Bereich des gerade genutzten Netzwerks eintragen';
+
+  @override
+  String get netActiveNone => 'Kein aktives Netzwerk gefunden';
+
+  @override
+  String netActiveFound(String iface, String address, String range) {
+    return '$iface: $address → $range';
+  }
+
+  @override
+  String get netActiveMaskUnknown => 'Netzmaske unbekannt, /24 angenommen';
 }

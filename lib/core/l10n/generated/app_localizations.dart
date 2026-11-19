@@ -2767,6 +2767,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No MAC addresses for this range: it is outside this computer\'s local network segment (reached via a router). MAC addresses can only be determined for devices in the same segment.'**
   String get netMacRoutedHint;
+
+  /// No description provided for @netUseActive.
+  ///
+  /// In en, this message translates to:
+  /// **'Active network'**
+  String get netUseActive;
+
+  /// No description provided for @netUseActiveTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Fill in the range of the network currently in use'**
+  String get netUseActiveTooltip;
+
+  /// No description provided for @netActiveNone.
+  ///
+  /// In en, this message translates to:
+  /// **'No active network found'**
+  String get netActiveNone;
+
+  /// No description provided for @netActiveFound.
+  ///
+  /// In en, this message translates to:
+  /// **'{iface}: {address} → {range}'**
+  String netActiveFound(String iface, String address, String range);
+
+  /// No description provided for @netActiveMaskUnknown.
+  ///
+  /// In en, this message translates to:
+  /// **'Netmask unknown, assuming /24'**
+  String get netActiveMaskUnknown;
 }
 
 class _AppLocalizationsDelegate

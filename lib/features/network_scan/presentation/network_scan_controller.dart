@@ -2,8 +2,10 @@ import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:meta/meta.dart';
+import 'package:modbus_explorer/features/network_scan/data/active_network_detector.dart';
 import 'package:modbus_explorer/features/network_scan/data/network_probes.dart';
 import 'package:modbus_explorer/features/network_scan/data/network_scanner.dart';
+import 'package:modbus_explorer/features/network_scan/domain/active_network.dart';
 import 'package:modbus_explorer/features/network_scan/domain/ipv4.dart';
 import 'package:modbus_explorer/features/network_scan/domain/scan_models.dart';
 
@@ -72,6 +74,15 @@ final localAddressesProvider =
     FutureProvider<List<({String interface, Ipv4 address})>>(
       (ref) => localIpv4Addresses(),
     );
+
+final activeNetworkDetectorProvider = Provider<ActiveNetworkDetector>(
+  (ref) => ActiveNetworkDetector(),
+);
+
+/// The network currently in use; refreshed by the "active network" button.
+final activeNetworkProvider = FutureProvider<ActiveNetwork?>(
+  (ref) => ref.watch(activeNetworkDetectorProvider).detect(),
+);
 
 final class NetworkScanController extends Notifier<NetworkScanState> {
   /// Keeps scans bounded (a /20 network); larger ranges are rarely useful

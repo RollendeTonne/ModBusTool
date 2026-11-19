@@ -17,6 +17,7 @@ import 'package:modbus_explorer/features/connection/presentation/profiles_contro
 import 'package:modbus_explorer/features/interpretation/domain/matrix_export.dart';
 import 'package:modbus_explorer/features/interpretation/domain/value_formatter.dart';
 import 'package:modbus_explorer/features/network_scan/data/network_scanner.dart';
+import 'package:modbus_explorer/features/network_scan/domain/active_network.dart';
 import 'package:modbus_explorer/features/network_scan/domain/ipv4.dart';
 import 'package:modbus_explorer/features/network_scan/domain/known_ports.dart';
 import 'package:modbus_explorer/features/network_scan/domain/scan_models.dart';
@@ -163,6 +164,38 @@ class _NetworkScanViewState extends ConsumerState<NetworkScanView> {
     };
   }
 
+  Future<void> _useActiveNetwork() async {
+    final l10n = context.l10n;
+    final messenger = ScaffoldMessenger.of(context);
+    ActiveNetwork? active;
+    try {
+      // Re-detect: the user may have switched WLAN/LAN since the tab opened.
+      active = await ref.refresh(activeNetworkProvider.future);
+    } on Object {
+      active = null;
+    }
+    if (!mounted) return;
+    if (active == null) {
+      messenger.showReplacing(l10n.netActiveNone);
+      return;
+    }
+    final range = active.cidr();
+    setState(() {
+      _range.text = range;
+      _error = null;
+    });
+    final found = l10n.netActiveFound(
+      active.interface,
+      '${active.address}',
+      range,
+    );
+    messenger.showReplacing(
+      active.prefixLength == null
+          ? '$found · ${l10n.netActiveMaskUnknown}'
+          : found,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
@@ -172,8 +205,13 @@ class _NetworkScanViewState extends ConsumerState<NetworkScanView> {
     final state = ref.watch(networkScanControllerProvider);
     final controller = ref.read(networkScanControllerProvider.notifier);
     final locals = ref.watch(localAddressesProvider).value ?? const [];
-    if (_range.text.isEmpty && locals.isNotEmpty) {
-      _range.text = '${locals.first.address.octets.take(3).join('.')}.0/24';
+    final active = ref.watch(activeNetworkProvider).value;
+    if (_range.text.isEmpty) {
+      if (active != null) {
+        _range.text = active.cidr();
+      } else if (locals.isNotEmpty) {
+        _range.text = '${locals.first.address.octets.take(3).join('.')}.0/24';
+      }
     }
     final visible = _onlyModbus
         ? state.hosts.where((h) => h.modbus != null).toList()
@@ -184,7 +222,10 @@ class _NetworkScanViewState extends ConsumerState<NetworkScanView> {
     // /24 around each own address approximates it.
     final rangeIsLocal =
         scannedRange != null &&
-        locals.any((l) => scannedRange.overlaps(Ipv4Range.around(l.address)));
+        (locals.any(
+              (l) => scannedRange.overlaps(Ipv4Range.around(l.address)),
+            ) ||
+            (active != null && scannedRange.overlaps(active.scanRange())));
     final scanFinished = !state.isRunning && state.finishedAt != null;
     final elapsed = state.startedAt != null && state.finishedAt != null
         ? state.finishedAt!.difference(state.startedAt!)
@@ -234,6 +275,15 @@ class _NetworkScanViewState extends ConsumerState<NetworkScanView> {
               260,
               key: const Key('network.range'),
               hint: l10n.netRangeHint,
+            ),
+            Tooltip(
+              message: l10n.netUseActiveTooltip,
+              child: FilledButton.tonalIcon(
+                key: const Key('network.useActive'),
+                onPressed: state.isRunning ? null : _useActiveNetwork,
+                icon: const Icon(Icons.my_location, size: 18),
+                label: Text(l10n.netUseActive),
+              ),
             ),
             field(_ports, l10n.netPorts, 320, key: const Key('network.ports')),
             field(
