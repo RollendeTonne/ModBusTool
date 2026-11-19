@@ -7,6 +7,7 @@ import 'package:modbus_explorer/core/routing/active_module.dart';
 import 'package:modbus_explorer/core/routing/app_destination.dart';
 import 'package:modbus_explorer/core/widgets/breakpoints.dart';
 import 'package:modbus_explorer/modules/modbus/connection/presentation/connection_status_chip.dart';
+import 'package:modbus_explorer/modules/mqtt/presentation/mqtt_status_chip.dart';
 import 'package:modbus_explorer/shared/profiles/protocol_module.dart';
 
 /// Module switcher in the app bar; navigation rail on wide windows, bottom
@@ -82,8 +83,10 @@ class AdaptiveShell extends ConsumerWidget {
         ],
       ),
       actions: [
-        if (module == ProtocolModule.modbus)
-          ConnectionStatusChip(compact: compact),
+        switch (module) {
+          ProtocolModule.modbus => ConnectionStatusChip(compact: compact),
+          ProtocolModule.mqtt => MqttStatusChip(compact: compact),
+        },
         SizedBox(width: compact ? 4 : 12),
       ],
     );

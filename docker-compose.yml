@@ -1,0 +1,57 @@
+# Local MQTT test backend for the ProtocollExplorer MQTT module.
+#
+#   tool/mqtt/generate_certs.sh   # once: self-signed CA + server cert
+#   docker compose up -d
+#
+# Listeners (all on localhost):
+#   1883  MQTT, anonymous
+#   1884  MQTT, user "demo" / password "demo-pass"
+#   8883  MQTT over TLS (CA: docker/mosquitto/certs/ca.crt)
+#   9001  MQTT over WebSocket (path /mqtt)
+services:
+  mosquitto:
+    image: eclipse-mosquitto:2.0.20
+    container_name: pe-mosquitto
+    ports:
+      - "1883:1883"
+      - "1884:1884"
+      - "8883:8883"
+      - "9001:9001"
+    volumes:
+      - ./docker/mosquitto/mosquitto.conf:/mosquitto/config/mosquitto.conf:ro
+      - ./docker/mosquitto/certs:/mosquitto/certs:ro
+    # The password file is created at start so no hashes live in the repo.
+    entrypoint:
+      - sh
+      - -c
+      - |
+        mosquitto_passwd -b -c /mosquitto/data/passwd demo demo-pass
+        chmod 0700 /mosquitto/data/passwd
+        chown mosquitto:mosquitto /mosquitto/data/passwd
+        exec mosquitto -c /mosquitto/config/mosquitto.conf
+
+  # Publishes example topics: JSON, binary (UINT32 counter), retained text.
+  demo-publisher:
+    image: eclipse-mosquitto:2.0.20
+    container_name: pe-demo-publisher
+    depends_on: [mosquitto]
+    entrypoint:
+      - sh
+      - -c
+      - |
+        H=mosquitto
+        sleep 2
+        mosquitto_pub -h $$H -t factory/hall1/status -m online -r
+        mosquitto_pub -h $$H -t factory/hall1/meter/info -r -m '{"vendor":"ACME","model":"EM-3","serial":"A1B2C3"}'
+        i=0
+        while true; do
+          i=$$((i + 1))
+          t=$$(awk -v i=$$i 'BEGIN { printf "%.2f", 21 + 2 * sin(i / 10) }')
+          mosquitto_pub -h $$H -t factory/hall1/sensor/temperature -m "{\"value\":$$t,\"unit\":\"C\",\"seq\":$$i}"
+          # UINT32 big endian counter as raw bytes.
+          printf "$$(printf '\\%03o\\%03o\\%03o\\%03o' $$(( (i >> 24) & 255 )) $$(( (i >> 16) & 255 )) $$(( (i >> 8) & 255 )) $$(( i & 255 )))" | mosquitto_pub -h $$H -t factory/hall1/meter/counter -s
+          if [ $$((i % 10)) -eq 0 ]; then
+            mosquitto_pub -h $$H -t factory/hall1/line/state -r -m "$$([ $$((i % 20)) -eq 0 ] && echo idle || echo running)"
+          fi
+          sleep 1
+        done

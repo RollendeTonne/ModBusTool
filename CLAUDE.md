@@ -1,6 +1,6 @@
-# Protocol Explorer (working title; package `modbus_explorer`)
+# ProtocollExplorer (package `modbus_explorer`)
 
-Flutter debugging tool with two modules: Modbus (done) and MQTT (M9–M14).
+Flutter debugging tool with two modules: Modbus (done) and MQTT (M9 done, M10–M14 open).
 Read DECISIONS.md before changing behaviour; add an entry for every
 non-obvious decision (German, table row `| Dnnn | decision | reason |`).
 
@@ -24,10 +24,14 @@ non-obvious decision (German, table row `| Dnnn | decision | reason |`).
   `flutter gen-l10n`); placeholders described in the EN file.
 - Widget tests: never touch real network/processes – inject (e.g.
   `connectionFactoryProvider` with `tcpConnect`, `urlOpenerProvider`,
-  `activeNetworkDetectorProvider`). Overflow errors fail tests;
+  `activeNetworkDetectorProvider`, `secretStoreProvider` /
+  `pumpModbusApp(secrets:)`, MQTT via the demo broker). Overflow errors fail tests;
   `test/layout_smoke_test.dart` renders all pages in German.
 
 ## Rules
-- Real-device tests: read-only, only `MODBUS_HOST=<ip> flutter test test_live/`.
+- Real-device tests: read-only, only `MODBUS_HOST=<ip> flutter test test_live/device_probe_test.dart`.
+- MQTT live test against the local Docker broker:
+  `tool/mqtt/generate_certs.sh && docker compose up -d`, then
+  `MQTT_HOST=localhost flutter test test_live/mqtt_live_test.dart`.
 - Never commit real device/network IPs.
 - Push to GitHub after each milestone (project-specific permission).

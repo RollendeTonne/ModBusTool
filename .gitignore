@@ -46,3 +46,6 @@ app.*.map.json
 
 # Widget Preview related
 .widget_preview/
+
+# Local MQTT test certificates (tool/mqtt/generate_certs.sh)
+docker/mosquitto/certs/

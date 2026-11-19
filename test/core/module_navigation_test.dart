@@ -25,9 +25,9 @@ void main() {
     expect(railLabel('Topics'), findsOneWidget);
     expect(railLabel('Registers'), findsNothing);
     expect(railLabel('Settings'), findsOneWidget);
-    expect(find.textContaining('MQTT module is under construction'), findsOne);
-    // The Modbus connection state is not shown in the MQTT module.
-    expect(find.text('Disconnected'), findsNothing);
+    expect(find.byKey(const Key('mqtt.connectionPage')), findsOneWidget);
+    // The MQTT status replaces the Modbus one.
+    expect(find.byKey(const Key('mqtt.statusChip')), findsOneWidget);
   });
 
   testWidgets('each module returns to where it was left', (tester) async {

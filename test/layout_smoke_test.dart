@@ -1,5 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:material_ui/material_ui.dart';
+import 'package:modbus_explorer/modules/mqtt/presentation/mqtt_profile_editor.dart';
 
 import 'helpers/pump_app.dart';
 
@@ -134,6 +135,60 @@ void main() {
         await tester.tap(segment);
         await tester.pumpAndSettle();
       }
+      await tester.tap(find.byIcon(Icons.close).first);
+      await tester.pumpAndSettle();
+
+      // MQTT module: editor in its widest state (TLS, last will, warning).
+      await tester.tap(find.byKey(const Key('module.mqtt')));
+      await tester.pumpAndSettle();
+      await tester.tap(find.byKey(const Key('mqtt.profiles.new')));
+      await tester.pumpAndSettle();
+      await tester.tap(
+        find.descendant(
+          of: find.byKey(const Key('mqttEditor.transport')),
+          matching: find.text('TLS'),
+        ),
+      );
+      await tester.pumpAndSettle();
+      final editorList = find
+          .descendant(
+            of: find.byType(MqttProfileEditor),
+            matching: find.byType(Scrollable),
+          )
+          .first;
+      for (final key in [
+        'mqttEditor.willEnabled',
+        'mqttEditor.acceptInvalid',
+      ]) {
+        await tester.scrollUntilVisible(
+          find.byKey(Key(key)),
+          200,
+          scrollable: editorList,
+        );
+        await tester.pumpAndSettle();
+        await tester.tap(find.byKey(Key(key)));
+        await tester.pumpAndSettle();
+      }
+      await tester.drag(editorList, const Offset(0, -3000));
+      await tester.pumpAndSettle();
+      await tester.tap(find.byIcon(Icons.close).first);
+      await tester.pumpAndSettle();
+
+      // Connected to the demo broker with live messages.
+      await tester.tap(find.text('Demo-Broker (Simulator)'));
+      await tester.pumpAndSettle();
+      await go('Topics');
+      await tester.pump(const Duration(seconds: 2));
+      await tester.pumpAndSettle();
+      if (size.width < 1000) {
+        for (final tab in ['Abos', 'Publish', 'Nachrichten']) {
+          await tester.tap(find.widgetWithText(Tab, tab));
+          await tester.pumpAndSettle();
+        }
+      }
+      await go('Verbindung');
+      await tester.tap(find.byKey(const Key('mqtt.disconnect')));
+      await tester.pumpAndSettle();
     });
   }
 }

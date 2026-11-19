@@ -6,6 +6,7 @@ import 'package:modbus_explorer/app.dart';
 import 'package:modbus_explorer/core/routing/app_router.dart';
 import 'package:modbus_explorer/core/storage/document_store.dart';
 import 'package:modbus_explorer/core/storage/key_value_store.dart';
+import 'package:modbus_explorer/core/storage/secret_store.dart';
 import 'package:modbus_explorer/modules/modbus/protocol/data/modbus_providers.dart';
 import 'package:modbus_explorer/modules/modbus/simulator/data/simulator_bank.dart';
 
@@ -18,6 +19,7 @@ extension PumpApp on WidgetTester {
     Locale locale = const Locale('en'),
     Map<String, Object>? storedValues,
     Map<String, String>? documents,
+    SecretStore? secrets,
     List<Override> overrides = const [],
   }) async {
     view
@@ -37,6 +39,10 @@ extension PumpApp on WidgetTester {
           ),
           // No animation timer: widget tests fail on pending timers.
           simulatorBankProvider.overrideWithValue(SimulatorBank.demo()),
+          // Keychain/Keystore plugins are unavailable in tests.
+          secretStoreProvider.overrideWithValue(
+            secrets ?? InMemorySecretStore(),
+          ),
           // Platform plugins are unavailable in widget tests.
           serialPortServiceProvider.overrideWithValue(
             const FakeSerialPortService(),

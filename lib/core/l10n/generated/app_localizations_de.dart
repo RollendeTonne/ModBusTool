@@ -10,7 +10,7 @@ class AppLocalizationsDe extends AppLocalizations {
   AppLocalizationsDe([String locale = 'de']) : super(locale);
 
   @override
-  String get appTitle => 'Protocol Explorer';
+  String get appTitle => 'ProtocollExplorer';
 
   @override
   String get navConnection => 'Verbindung';
@@ -1417,7 +1417,7 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String aboutText(String version) {
-    return 'Protocol Explorer $version – Debugging-Werkzeug für Modbus TCP/RTU und MQTT. Alle Daten bleiben auf diesem Gerät.';
+    return 'ProtocollExplorer $version – Debugging-Werkzeug für Modbus TCP/RTU und MQTT. Alle Daten bleiben auf diesem Gerät.';
   }
 
   @override
@@ -1522,7 +1522,7 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get netArpEmptyHint =>
-      'Keine MAC-Adressen erhalten: Das System hat eine leere ARP-Tabelle geliefert. Unter macOS den Zugriff auf das lokale Netzwerk für Modbus Explorer erlauben (Systemeinstellungen → Datenschutz & Sicherheit → Lokales Netzwerk) und erneut scannen.';
+      'Keine MAC-Adressen erhalten: Das System hat eine leere ARP-Tabelle geliefert. Unter macOS den Zugriff auf das lokale Netzwerk für ProtocollExplorer erlauben (Systemeinstellungen → Datenschutz & Sicherheit → Lokales Netzwerk) und erneut scannen.';
 
   @override
   String get netMacRoutedHint =>
@@ -1604,6 +1604,493 @@ class AppLocalizationsDe extends AppLocalizations {
   String get moduleSwitchTooltip => 'Modul wechseln (Strg/⌘ + Umschalt + M)';
 
   @override
-  String get mqttComingSoon =>
-      'Das MQTT-Modul entsteht gerade.\nVerbindung und Publish/Subscribe folgen mit M9.';
+  String get mqttProfiles => 'Broker-Profile';
+
+  @override
+  String get mqttNewProfile => 'Neues Broker-Profil';
+
+  @override
+  String get mqttEditProfile => 'Broker-Profil bearbeiten';
+
+  @override
+  String get mqttNoProfiles => 'Noch keine Broker-Profile.';
+
+  @override
+  String get mqttStatusDisconnected => 'Getrennt';
+
+  @override
+  String get mqttStatusConnecting => 'Verbinde …';
+
+  @override
+  String get mqttStatusConnected => 'Verbunden';
+
+  @override
+  String get mqttStatusReconnecting => 'Neuer Versuch …';
+
+  @override
+  String get mqttStatusError => 'Fehler';
+
+  @override
+  String mqttStatusLabel(String status) {
+    return 'MQTT-Status: $status';
+  }
+
+  @override
+  String get mqttConnect => 'Verbinden';
+
+  @override
+  String get mqttDisconnect => 'Trennen';
+
+  @override
+  String get mqttCancelReconnect => 'Abbrechen';
+
+  @override
+  String mqttClientIdLabel(String id) {
+    return 'Client-ID: $id';
+  }
+
+  @override
+  String mqttReconnectIn(int attempt, int seconds) {
+    return 'Versuch $attempt in $seconds s';
+  }
+
+  @override
+  String get mqttSimulatorBadge => 'Demo-Broker';
+
+  @override
+  String get mqttSimulatorHint =>
+      'Eingebauter Demo-Broker: veröffentlicht JSON-, Binär- und Retained-Topics sowie \$SYS-Werte. Benutzername „denied“ zeigt eine abgelehnte Verbindung.';
+
+  @override
+  String get mqttFieldType => 'Typ';
+
+  @override
+  String get mqttTypeBroker => 'Broker';
+
+  @override
+  String get mqttTypeSimulator => 'Demo-Broker';
+
+  @override
+  String get mqttFieldTransport => 'Transport';
+
+  @override
+  String get mqttFieldWsPath => 'WebSocket-Pfad';
+
+  @override
+  String get mqttFieldVersion => 'Protokollversion';
+
+  @override
+  String get mqttFieldClientId => 'Client-ID';
+
+  @override
+  String get mqttClientIdAuto =>
+      'leer = bei jeder Verbindung zufällig erzeugen';
+
+  @override
+  String get mqttGenerateClientId => 'Client-ID erzeugen';
+
+  @override
+  String get mqttFieldUsername => 'Benutzername';
+
+  @override
+  String get mqttFieldPassword => 'Passwort';
+
+  @override
+  String get mqttPasswordStored =>
+      'gespeichert – leer lassen, um es zu behalten';
+
+  @override
+  String get mqttPasswordSecure =>
+      'wird im Schlüsselbund des Systems gespeichert, nicht im Profil';
+
+  @override
+  String get mqttRemovePassword => 'Gespeichertes Passwort löschen';
+
+  @override
+  String get mqttSectionBroker => 'Broker';
+
+  @override
+  String get mqttSectionAuth => 'Anmeldung';
+
+  @override
+  String get mqttSectionSession => 'Sitzung';
+
+  @override
+  String get mqttSectionWill => 'Last Will';
+
+  @override
+  String get mqttSectionTls => 'TLS';
+
+  @override
+  String get mqttCleanStart => 'Clean Start / Clean Session';
+
+  @override
+  String get mqttCleanStartHint =>
+      'Aus: Broker behält Abos und QoS-1/2-Nachrichten der Sitzung';
+
+  @override
+  String get mqttFieldKeepAlive => 'Keep-Alive (s)';
+
+  @override
+  String get mqttFieldSessionExpiry => 'Session Expiry (s, MQTT 5)';
+
+  @override
+  String get mqttFieldConnectTimeout => 'Verbindungs-Timeout (s)';
+
+  @override
+  String get mqttAutoReconnect => 'Automatisch neu verbinden';
+
+  @override
+  String get mqttWillEnabled => 'Last Will senden';
+
+  @override
+  String get mqttFieldTopic => 'Topic';
+
+  @override
+  String get mqttFieldPayload => 'Payload';
+
+  @override
+  String get mqttFieldQos => 'QoS';
+
+  @override
+  String get mqttRetain => 'Retain';
+
+  @override
+  String get mqttTlsVerify =>
+      'Serverzertifikat wird gegen die System-CAs geprüft.';
+
+  @override
+  String get mqttCaCert => 'Eigene CA (PEM)';
+
+  @override
+  String get mqttClientCert => 'Client-Zertifikat (PEM)';
+
+  @override
+  String get mqttClientKey => 'Privater Schlüssel des Clients (PEM)';
+
+  @override
+  String get mqttClientKeyStored => 'im Schlüsselbund gespeichert';
+
+  @override
+  String get mqttClientKeyPassword => 'Passwort des Schlüssels';
+
+  @override
+  String get mqttLoadFile => 'Datei laden';
+
+  @override
+  String get mqttRemove => 'Entfernen';
+
+  @override
+  String get mqttNotSet => 'nicht gesetzt';
+
+  @override
+  String get mqttAcceptInvalid => 'Ungültige Zertifikate akzeptieren';
+
+  @override
+  String get mqttAcceptInvalidWarning =>
+      'Unsicher: Die Verbindung ist dann nicht vor Mitlesen oder Manipulation geschützt. Nur für Test-Broker mit selbstsignierten Zertifikaten verwenden.';
+
+  @override
+  String get mqttWssCertLimit =>
+      'Über WebSocket (wss) werden eigene CA und Client-Zertifikate vom MQTT-Paket nicht unterstützt; es gelten die System-CAs.';
+
+  @override
+  String get mqttWebOnlyWs =>
+      'Im Browser sind nur WebSocket-Verbindungen möglich.';
+
+  @override
+  String get mqttErrorTitle => 'Verbindung fehlgeschlagen';
+
+  @override
+  String get mqttErrorLost => 'Verbindung zum Broker verloren';
+
+  @override
+  String get mqttFailNetwork =>
+      'Broker nicht erreichbar. Host, Port und Netzwerk prüfen.';
+
+  @override
+  String get mqttFailTls =>
+      'TLS-Fehler: Zertifikat abgelehnt oder Handshake fehlgeschlagen. CA, Hostname und Port (8883?) prüfen.';
+
+  @override
+  String get mqttFailTimeout =>
+      'Zeitüberschreitung: Der Broker hat nicht rechtzeitig geantwortet.';
+
+  @override
+  String get mqttFailLost =>
+      'Der Broker hat die Verbindung getrennt (z. B. Keep-Alive abgelaufen oder gleiche Client-ID an anderer Stelle).';
+
+  @override
+  String get mqttFailUnknown => 'Unbekannter Fehler beim Verbinden.';
+
+  @override
+  String mqttFailRefused(String reason, String code) {
+    return 'Broker lehnt ab: $reason (Code $code)';
+  }
+
+  @override
+  String get connackProtocolVersion => 'Protokollversion nicht unterstützt';
+
+  @override
+  String get connackClientId => 'Client-ID abgelehnt';
+
+  @override
+  String get connackServerUnavailable => 'Dienst nicht verfügbar';
+
+  @override
+  String get connackBadCredentials => 'Benutzername oder Passwort falsch';
+
+  @override
+  String get connackNotAuthorized => 'nicht berechtigt';
+
+  @override
+  String get connackUnspecified => 'nicht näher bezeichneter Fehler';
+
+  @override
+  String get connackMalformed => 'fehlerhaftes Paket';
+
+  @override
+  String get connackProtocolError => 'Protokollfehler';
+
+  @override
+  String get connackImplementation => 'implementierungsspezifischer Fehler';
+
+  @override
+  String get connackServerBusy => 'Broker ausgelastet';
+
+  @override
+  String get connackBanned => 'Client gesperrt';
+
+  @override
+  String get connackBadAuthMethod =>
+      'Authentifizierungsmethode nicht unterstützt';
+
+  @override
+  String get connackTopicInvalid => 'Topic ungültig (Last Will)';
+
+  @override
+  String get connackPacketTooLarge => 'Paket zu groß';
+
+  @override
+  String get connackQuota => 'Kontingent überschritten';
+
+  @override
+  String get connackPayloadFormat => 'Payload-Format ungültig';
+
+  @override
+  String get connackRetainNotSupported =>
+      'Retain nicht unterstützt (Last Will)';
+
+  @override
+  String get connackQosNotSupported => 'QoS nicht unterstützt (Last Will)';
+
+  @override
+  String get connackUseAnotherServer => 'anderen Broker verwenden';
+
+  @override
+  String get connackServerMoved => 'Broker umgezogen';
+
+  @override
+  String get connackRateExceeded => 'zu viele Verbindungsversuche';
+
+  @override
+  String get connackUnknown => 'unbekannter Grund';
+
+  @override
+  String get mqttNotConnectedHint => 'Nicht mit einem Broker verbunden.';
+
+  @override
+  String get mqttGoToConnection => 'Zur Verbindung';
+
+  @override
+  String get mqttTabMessages => 'Nachrichten';
+
+  @override
+  String get mqttTabSubscriptions => 'Abos';
+
+  @override
+  String get mqttTabPublish => 'Publish';
+
+  @override
+  String mqttMessagesCount(int shown, int total) {
+    return '$shown von $total Nachrichten';
+  }
+
+  @override
+  String get mqttNoMessages => 'Noch keine Nachrichten. Abonnements prüfen.';
+
+  @override
+  String get mqttPause => 'Anhalten';
+
+  @override
+  String get mqttResume => 'Fortsetzen';
+
+  @override
+  String get mqttClear => 'Leeren';
+
+  @override
+  String get mqttSubscriptions => 'Abonnements';
+
+  @override
+  String get mqttNoSubscriptions => 'Keine Abonnements.';
+
+  @override
+  String get mqttAddSubscription => 'Abonnieren';
+
+  @override
+  String get mqttTopicFilter => 'Topic-Filter';
+
+  @override
+  String get mqttTopicFilterHint => 'z. B. haus/+/temperatur oder sensoren/#';
+
+  @override
+  String get mqttSubscribeAll => 'Alles abonnieren (#)';
+
+  @override
+  String get mqttSubscribeAllWarning =>
+      '„#“ empfängt jede Nachricht des Brokers. Auf großen oder öffentlichen Brokern können das tausende Nachrichten pro Sekunde sein. Trotzdem abonnieren?';
+
+  @override
+  String get mqttSubscribeAllConfirm => 'Abonnieren';
+
+  @override
+  String get mqttMqtt5Options => 'MQTT-5-Optionen';
+
+  @override
+  String get mqttNoLocal => 'No Local (eigene Nachrichten nicht empfangen)';
+
+  @override
+  String get mqttRetainAsPublished => 'Retain As Published';
+
+  @override
+  String get mqttRetainHandling => 'Retain Handling';
+
+  @override
+  String get mqttRetainSend => 'Retained beim Abo senden';
+
+  @override
+  String get mqttRetainSendIfNew => 'nur bei neuem Abo';
+
+  @override
+  String get mqttRetainDont => 'nicht senden';
+
+  @override
+  String get mqttSubscriptionEnabled => 'aktiv';
+
+  @override
+  String get mqttDeleteSubscription => 'Abo entfernen';
+
+  @override
+  String get mqttFormat => 'Format';
+
+  @override
+  String get mqttPublishAction => 'Veröffentlichen';
+
+  @override
+  String mqttPublishTooltip(String shortcut) {
+    return 'Veröffentlichen ($shortcut)';
+  }
+
+  @override
+  String mqttPublished(String topic, int bytes) {
+    return 'Auf „$topic“ veröffentlicht ($bytes Bytes)';
+  }
+
+  @override
+  String get mqttClearRetained => 'Retained Message löschen';
+
+  @override
+  String mqttClearRetainedConfirm(String topic) {
+    return 'Die Retained Message auf „$topic“ wird gelöscht (leere Payload mit Retain). Neue Abonnenten erhalten dann keinen gespeicherten Wert mehr.';
+  }
+
+  @override
+  String mqttClearRetainedDone(String topic) {
+    return 'Retained Message auf „$topic“ gelöscht';
+  }
+
+  @override
+  String get mqttOverwriteTitle => 'Bestehendes Topic überschreiben?';
+
+  @override
+  String mqttOverwriteText(String topic) {
+    return 'Auf „$topic“ wurden bereits Nachrichten empfangen. Wirklich veröffentlichen?';
+  }
+
+  @override
+  String get mqttDontAskAgain => 'Nicht mehr fragen';
+
+  @override
+  String get mqttConfirmOverwrite => 'Vor Publish auf bekannte Topics fragen';
+
+  @override
+  String get mqttProperties => 'MQTT-5-Properties';
+
+  @override
+  String get mqttContentType => 'Content-Type';
+
+  @override
+  String get mqttResponseTopic => 'Response Topic';
+
+  @override
+  String get mqttCorrelationData => 'Correlation Data (Text)';
+
+  @override
+  String get mqttMessageExpiry => 'Message Expiry (s)';
+
+  @override
+  String get mqttUserProperties =>
+      'User Properties (eine pro Zeile: name=wert)';
+
+  @override
+  String get mqttPropertiesV311Hint => 'Nur mit MQTT 5 verfügbar.';
+
+  @override
+  String get mqttTopicErrorEmpty => 'Topic darf nicht leer sein';
+
+  @override
+  String get mqttTopicErrorWildcard =>
+      'Beim Veröffentlichen sind + und # nicht erlaubt';
+
+  @override
+  String get mqttTopicErrorMultiLevel =>
+      '# nur als letzte Ebene allein erlaubt';
+
+  @override
+  String get mqttTopicErrorSingleLevel => '+ muss eine ganze Ebene sein';
+
+  @override
+  String get mqttTopicErrorNull => 'Nullzeichen nicht erlaubt';
+
+  @override
+  String get mqttTopicErrorTooLong => 'Topic zu lang (max. 65535 Bytes)';
+
+  @override
+  String mqttPayloadInvalid(String error) {
+    return 'Payload ungültig: $error';
+  }
+
+  @override
+  String get mqttRx => 'RX';
+
+  @override
+  String get mqttTx => 'TX';
+
+  @override
+  String get mqttDeleteProfileTitle => 'Broker-Profil löschen?';
+
+  @override
+  String mqttDeleteProfileText(String name) {
+    return '„$name“ und die gespeicherten Zugangsdaten werden gelöscht.';
+  }
+
+  @override
+  String mqttProfileCopy(String name) {
+    return '$name (Kopie)';
+  }
+
+  @override
+  String mqttComingSoonMilestone(String milestone) {
+    return 'Dieser Bereich folgt mit $milestone.';
+  }
 }

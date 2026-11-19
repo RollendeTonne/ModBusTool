@@ -3,9 +3,10 @@ import 'package:modbus_explorer/core/l10n/l10n.dart';
 
 /// Stand-in for MQTT pages until their milestone is built.
 class MqttPlaceholderPage extends StatelessWidget {
-  const new({required this.icon, super.key});
+  const new({required this.icon, required this.milestone, super.key});
 
   final IconData icon;
+  final String milestone;
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +20,7 @@ class MqttPlaceholderPage extends StatelessWidget {
             Icon(icon, size: 48, color: theme.colorScheme.onSurfaceVariant),
             const SizedBox(height: 12),
             Text(
-              context.l10n.mqttComingSoon,
+              context.l10n.mqttComingSoonMilestone(milestone),
               textAlign: TextAlign.center,
               style: theme.textTheme.bodyLarge,
             ),

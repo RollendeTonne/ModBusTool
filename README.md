@@ -1,8 +1,9 @@
-# Protocol Explorer (Arbeitstitel, vormals Modbus Explorer)
+# ProtocollExplorer (vormals Modbus Explorer)
 
-> Die App wächst zu einem Debugging-Werkzeug mit zwei Modulen: **Modbus**
-> (fertig) und **MQTT** (im Aufbau, Meilensteine M9–M14). Oben in der App
-> wechselt ein Umschalter **Modbus | MQTT** zwischen den Modulen.
+> Debugging-Werkzeug mit zwei Modulen: **Modbus** (fertig) und **MQTT**
+> (Verbindung und Publish/Subscribe fertig; Topic-Baum, Payload-Analyse,
+> Historie und Monitor folgen mit M10–M14). Oben in der App wechselt ein
+> Umschalter **Modbus | MQTT** zwischen den Modulen.
 
 Plattformübergreifendes Debugging-Werkzeug für **Modbus TCP**, **Modbus RTU**
 (seriell) und **RTU über TCP**, gebaut mit Flutter. Kernidee: Rohe
@@ -13,7 +14,9 @@ hervorgehoben. So sieht man sofort, wie ein Gerät seine Werte ablegt.
 > Screenshots folgen. Platzhalter:
 > `docs/screenshots/registers.png` (Rohwerte + Interpretations-Matrix),
 > `docs/screenshots/monitor.png` (Telegramm-Monitor mit Frame-Zerlegung),
-> `docs/screenshots/mobile.png` (Handy-Layout).
+> `docs/screenshots/mobile.png` (Handy-Layout),
+> `docs/screenshots/mqtt-connection.png` (Broker-Profile und Status),
+> `docs/screenshots/mqtt-topics.png` (Nachrichten, Abos, Publish).
 
 ## Funktionen
 
@@ -84,6 +87,58 @@ hervorgehoben. So sieht man sofort, wie ein Gerät seine Werte ablegt.
 responsives Layout (Desktop mehrspaltig mit verstellbaren Panels, Handy
 einspaltig), Tastaturkürzel, Screenreader-Beschriftungen, Kontraste nach WCAG AA.
 
+## MQTT-Modul
+
+**Stand M9:** Broker-Verbindung, Profile, TLS, Abonnements und Publish.
+
+- **Profile:** Host, Port, Transport **TCP (1883) / TLS (8883) / WebSocket
+  (ws, wss)**, Protokoll **MQTT 3.1.1 oder 5.0**, Client-ID (leer = bei jeder
+  Verbindung zufällig), Benutzer/Passwort, Clean Start, Keep-Alive, Session
+  Expiry (MQTT 5), Verbindungs-Timeout, automatisches Neuverbinden, Last
+  Will (Topic, Payload, QoS, Retain). Im Browser nur WebSocket.
+- **Geheimnisse** (Passwort, privater Client-Schlüssel und dessen Passwort)
+  liegen im **Schlüsselbund des Systems** (macOS/iOS Keychain, Android
+  Keystore, Linux libsecret, Windows DPAPI), nie in der Profildatei.
+- **TLS:** Prüfung gegen die System-CAs, optional eigene CA und
+  Client-Zertifikat (PEM-Dateien laden); „Ungültige Zertifikate
+  akzeptieren“ nur mit deutlicher Warnung.
+- **Status und Fehler im Klartext:** CONNACK-Codes beider Versionen (z. B.
+  „Broker lehnt ab: Benutzername oder Passwort falsch (Code 4)“), Netzwerk-,
+  TLS- und Timeout-Fehler mit technischem Detail. Bricht die Verbindung ab,
+  verbindet die App mit wachsender Wartezeit neu (1, 2, 4 … 30 s) und
+  abonniert erneut; eine Ablehnung durch den Broker wird nicht wiederholt.
+- **Abonnements** pro Profil gespeichert: Filter mit `+`/`#` (geprüft), QoS
+  0–2, MQTT-5-Optionen No Local, Retain As Published, Retain Handling;
+  einzeln (de)aktivierbar. „Alles abonnieren (#)“ warnt vor großen Brokern.
+- **Publish:** Payload als Text, JSON (geprüft), Hex oder Base64; QoS,
+  Retain, MQTT-5-Properties (Content-Type, Response Topic, Correlation
+  Data, Message Expiry, User Properties). Strg/⌘+Enter sendet. Rückfrage
+  vor Publish auf bereits empfangene Topics (abschaltbar), eigener Knopf
+  „Retained Message löschen“ mit Bestätigung.
+- **Nachrichtenliste** (RX/TX, Zeit, QoS, Retain, DUP, Größe, Vorschau):
+  Ringpuffer mit 5000 Einträgen, UI-Aktualisierung gebündelt alle 150 ms,
+  virtualisierte Liste; Anhalten, Leeren (Strg/⌘+L).
+- **Demo-Broker** eingebaut (Profil „Demo-Broker (Simulator)“): JSON-,
+  Binär- (UINT32, FLOAT32) und Retained-Topics, `$SYS`-Werte, MQTT-5-
+  Properties; Benutzername `denied` zeigt eine abgelehnte Verbindung.
+
+**Lokaler Test-Broker (Mosquitto in Docker):**
+
+```sh
+tool/mqtt/generate_certs.sh   # einmal: Test-CA + Serverzertifikat
+docker compose up -d          # Broker + Demo-Publisher
+```
+
+| Port | Zugang |
+|---|---|
+| 1883 | MQTT, anonym |
+| 1884 | MQTT, Benutzer `demo` / Passwort `demo-pass` |
+| 8883 | MQTT über TLS, CA `docker/mosquitto/certs/ca.crt` |
+| 9001 | MQTT über WebSocket, Pfad `/mqtt` |
+
+Der Demo-Publisher sendet `factory/hall1/…` (JSON-Temperatur, UINT32-Zähler
+als Rohbytes, Retained-Status). Nur für lokale Tests gedacht.
+
 ## Plattformen
 
 | Plattform | TCP | RTU seriell | Status |
@@ -123,7 +178,7 @@ flutter test
 - Xcode, **CocoaPods** (für `flutter_libserialport`, das noch kein Swift Package
   Manager kann) sowie `automake` und `libtool` (`brew install automake libtool`).
 - `flutter run -d macos` bzw. `flutter build macos --release`
-  → `build/macos/Build/Products/Release/Modbus Explorer.app` (ca. 50 MB).
+  → `build/macos/Build/Products/Release/ProtocollExplorer.app` (ca. 50 MB).
 - **Ohne App-Sandbox** (nötig für den Netzwerk-Scan; damit ist kein Vertrieb
   über den Mac App Store möglich). Daten aus der früheren Sandbox-Version
   werden beim ersten Start automatisch übernommen.
@@ -176,12 +231,13 @@ dart run flutter_launcher_icons              # Plattform-Icons
 
 | Ebene | Befehl | Inhalt |
 |---|---|---|
-| Unit | `flutter test test/shared test/modules …` | CRC16, MBAP/RTU-Framing, PDU-Codec, alle Datentyp-/Byte-Order-Konvertierungen (Referenzwerte unabhängig berechnet), Encoder, Adressen, Exceptions, Client mit Simulator (Timeouts, Retries, CRC, verspätete Antworten), Register-Map, Scanner, Statistik |
+| Unit | `flutter test test/shared test/modules …` | MQTT: Topic-Filter (`+`, `#`, `$SYS`, Grenzfälle), Payload-Formate, CONNACK-Codes, Profil-Speicher, Demo-Broker (Retained, No Local, Retain Handling), Verbindungs-Controller (Neuverbinden, Abos), Ringpuffer. Modbus: CRC16, MBAP/RTU-Framing, PDU-Codec, alle Datentyp-/Byte-Order-Konvertierungen (Referenzwerte unabhängig berechnet), Encoder, Adressen, Exceptions, Client mit Simulator (Timeouts, Retries, CRC, verspätete Antworten), Register-Map, Scanner, Statistik |
 | Widget | `flutter test` | Interpretations-Matrix, alle Seiten und Abläufe gegen den Simulator, Import/Export, Tastaturkürzel |
 | Layout | `test/layout_smoke_test.dart` | alle Seiten auf Deutsch in Handy-, Tablet- und Desktop-Größe (Überläufe lassen den Test scheitern) |
 | Barrierefreiheit | `test/core/contrast_test.dart` | Textkontraste ≥ 4,5:1 in beiden Themes |
-| Live (nur lesend) | `MODBUS_HOST=<ip> flutter test test_live/` | gegen ein echtes Gerät: Netzwerk-Scan der einen IP, Device ID, FC03/FC04 ab 19000 mit Interpretation; nicht Teil von `flutter test` |
-| Integration | `flutter test integration_test -d macos --no-dds` | in der echten App: libserialport (FFI), TCP, Dateipfade, ARP-Zugriff (nur passiv) |
+| Live (nur lesend) | `MODBUS_HOST=<ip> flutter test test_live/device_probe_test.dart` | gegen ein echtes Gerät: Netzwerk-Scan der einen IP, Device ID, FC03/FC04 ab 19000 mit Interpretation; nicht Teil von `flutter test` |
+| Live MQTT | `MQTT_HOST=localhost flutter test test_live/mqtt_live_test.dart` | gegen den Docker-Mosquitto: beide Protokollversionen über TCP, TLS (eigene CA, abgelehnt ohne CA, „ungültig akzeptieren“), WebSocket, Passwort richtig/falsch, Retained, Binär, MQTT-5-Properties |
+| Integration | `flutter test integration_test -d macos --no-dds` | in der echten App: libserialport (FFI), TCP, Dateipfade, ARP-Zugriff (nur passiv), Schlüsselbund, MQTT über den App-Netzwerkstack |
 
 `--no-dds` ist nötig, weil der Debug-Dienst in dieser Umgebung nicht startet.
 
@@ -212,7 +268,12 @@ lib/
       monitor/     Telegramm-Log, Statistik, Frame-Details
       tools/       Hex-Rechner, Scanner, Trend
       simulator/   Demo-Geräte, Endpunkt mit Fehlerinjektion, TCP-Server
-    mqtt/          im Aufbau
+    mqtt/
+      domain/      Konfiguration, Topic-Filter, Nachrichten, CONNACK-Codes,
+                   Payload-Formate (reines Dart)
+      data/        MqttSession-Schnittstelle mit mqtt_client (3.1.1),
+                   mqtt5_client (5.0) und Demo-Broker; Profile + Geheimnisse
+      presentation/ Verbindung, Profil-Editor, Topics (Liste/Abos/Publish)
 ```
 
 **Transport in drei Schichten:**
@@ -305,7 +366,8 @@ Profil lassen sich Latenz sowie verlorene und verfälschte Antworten simulieren.
 | Strg + 1 … 5 | Bereich des aktiven Moduls wechseln |
 | Strg + R / F5 | einmal lesen (Register oder Register-Map) |
 | Strg + P | Polling starten/stoppen |
-| Strg + Enter | Dialog bestätigen / Profil speichern |
+| Strg + Enter | Dialog bestätigen / Profil speichern / MQTT-Publish |
+| Strg + L | MQTT-Nachrichtenliste leeren |
 | Esc | Dialog schließen |
 | Umschalt + Klick | Bereich in der Tabelle auswählen |
 
@@ -344,6 +406,13 @@ Antwortzeit ~95 ms (Mac) bzw. ~108 ms (Android-Emulator). Die Prüfung lief
   Windows, Android und iOS wählen die Schnittstelle per Namensheuristik
   (LAN/WLAN vor VPN/virtuell) und nehmen /24 an. Netze größer als /20
   werden auf das /24 um die eigene Adresse begrenzt (max. 4096 Adressen).
+- MQTT über WebSocket (wss): eigene CA und Client-Zertifikate unterstützt
+  das MQTT-Paket nicht, es gelten die System-CAs (TLS über TCP kann beides).
+- MQTT: Publish-Vorlagen/Favoriten, Topic-Baum, Payload-Analyse, Historie,
+  Monitor und Broker-Info folgen mit M10–M14.
+- macOS speichert MQTT-Geheimnisse im Anmelde-Schlüsselbund statt im
+  Data-Protection-Schlüsselbund, weil dieser eine signierte App mit Team-ID
+  voraussetzt.
 - Keine separate Sitzungsaufzeichnung; das Log (bis 5000 Telegramme) lässt
   sich als Text/CSV speichern.
 - Windows: keine Mindestfenstergröße (macOS und Linux haben eine).

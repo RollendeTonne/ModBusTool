@@ -101,7 +101,7 @@ abstract class AppLocalizations {
   /// No description provided for @appTitle.
   ///
   /// In en, this message translates to:
-  /// **'Protocol Explorer'**
+  /// **'ProtocollExplorer'**
   String get appTitle;
 
   /// No description provided for @navConnection.
@@ -2585,7 +2585,7 @@ abstract class AppLocalizations {
   /// No description provided for @aboutText.
   ///
   /// In en, this message translates to:
-  /// **'Protocol Explorer {version} – debugging tool for Modbus TCP/RTU and MQTT. Data stays on this device.'**
+  /// **'ProtocollExplorer {version} – debugging tool for Modbus TCP/RTU and MQTT. Data stays on this device.'**
   String aboutText(String version);
 
   /// No description provided for @toolsNetwork.
@@ -2759,7 +2759,7 @@ abstract class AppLocalizations {
   /// No description provided for @netArpEmptyHint.
   ///
   /// In en, this message translates to:
-  /// **'No MAC addresses received: the system returned an empty ARP table. On macOS, allow local network access for Modbus Explorer (System Settings → Privacy & Security → Local Network) and scan again.'**
+  /// **'No MAC addresses received: the system returned an empty ARP table. On macOS, allow local network access for ProtocollExplorer (System Settings → Privacy & Security → Local Network) and scan again.'**
   String get netArpEmptyHint;
 
   /// No description provided for @netMacRoutedHint.
@@ -2876,11 +2876,893 @@ abstract class AppLocalizations {
   /// **'Switch module (Ctrl/⌘ + Shift + M)'**
   String get moduleSwitchTooltip;
 
-  /// No description provided for @mqttComingSoon.
+  /// No description provided for @mqttProfiles.
   ///
   /// In en, this message translates to:
-  /// **'The MQTT module is under construction.\nConnection and publish/subscribe follow in M9.'**
-  String get mqttComingSoon;
+  /// **'Broker profiles'**
+  String get mqttProfiles;
+
+  /// No description provided for @mqttNewProfile.
+  ///
+  /// In en, this message translates to:
+  /// **'New broker profile'**
+  String get mqttNewProfile;
+
+  /// No description provided for @mqttEditProfile.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit broker profile'**
+  String get mqttEditProfile;
+
+  /// No description provided for @mqttNoProfiles.
+  ///
+  /// In en, this message translates to:
+  /// **'No broker profiles yet.'**
+  String get mqttNoProfiles;
+
+  /// No description provided for @mqttStatusDisconnected.
+  ///
+  /// In en, this message translates to:
+  /// **'Disconnected'**
+  String get mqttStatusDisconnected;
+
+  /// No description provided for @mqttStatusConnecting.
+  ///
+  /// In en, this message translates to:
+  /// **'Connecting …'**
+  String get mqttStatusConnecting;
+
+  /// No description provided for @mqttStatusConnected.
+  ///
+  /// In en, this message translates to:
+  /// **'Connected'**
+  String get mqttStatusConnected;
+
+  /// No description provided for @mqttStatusReconnecting.
+  ///
+  /// In en, this message translates to:
+  /// **'Reconnecting …'**
+  String get mqttStatusReconnecting;
+
+  /// No description provided for @mqttStatusError.
+  ///
+  /// In en, this message translates to:
+  /// **'Error'**
+  String get mqttStatusError;
+
+  /// No description provided for @mqttStatusLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'MQTT status: {status}'**
+  String mqttStatusLabel(String status);
+
+  /// No description provided for @mqttConnect.
+  ///
+  /// In en, this message translates to:
+  /// **'Connect'**
+  String get mqttConnect;
+
+  /// No description provided for @mqttDisconnect.
+  ///
+  /// In en, this message translates to:
+  /// **'Disconnect'**
+  String get mqttDisconnect;
+
+  /// No description provided for @mqttCancelReconnect.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get mqttCancelReconnect;
+
+  /// No description provided for @mqttClientIdLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Client ID: {id}'**
+  String mqttClientIdLabel(String id);
+
+  /// No description provided for @mqttReconnectIn.
+  ///
+  /// In en, this message translates to:
+  /// **'Attempt {attempt} in {seconds} s'**
+  String mqttReconnectIn(int attempt, int seconds);
+
+  /// No description provided for @mqttSimulatorBadge.
+  ///
+  /// In en, this message translates to:
+  /// **'Demo broker'**
+  String get mqttSimulatorBadge;
+
+  /// No description provided for @mqttSimulatorHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Built-in demo broker: publishes JSON, binary and retained topics plus \$SYS values. Username “denied” shows a refused connection.'**
+  String get mqttSimulatorHint;
+
+  /// No description provided for @mqttFieldType.
+  ///
+  /// In en, this message translates to:
+  /// **'Type'**
+  String get mqttFieldType;
+
+  /// No description provided for @mqttTypeBroker.
+  ///
+  /// In en, this message translates to:
+  /// **'Broker'**
+  String get mqttTypeBroker;
+
+  /// No description provided for @mqttTypeSimulator.
+  ///
+  /// In en, this message translates to:
+  /// **'Demo broker'**
+  String get mqttTypeSimulator;
+
+  /// No description provided for @mqttFieldTransport.
+  ///
+  /// In en, this message translates to:
+  /// **'Transport'**
+  String get mqttFieldTransport;
+
+  /// No description provided for @mqttFieldWsPath.
+  ///
+  /// In en, this message translates to:
+  /// **'WebSocket path'**
+  String get mqttFieldWsPath;
+
+  /// No description provided for @mqttFieldVersion.
+  ///
+  /// In en, this message translates to:
+  /// **'Protocol version'**
+  String get mqttFieldVersion;
+
+  /// No description provided for @mqttFieldClientId.
+  ///
+  /// In en, this message translates to:
+  /// **'Client ID'**
+  String get mqttFieldClientId;
+
+  /// No description provided for @mqttClientIdAuto.
+  ///
+  /// In en, this message translates to:
+  /// **'empty = generate a random ID on every connect'**
+  String get mqttClientIdAuto;
+
+  /// No description provided for @mqttGenerateClientId.
+  ///
+  /// In en, this message translates to:
+  /// **'Generate client ID'**
+  String get mqttGenerateClientId;
+
+  /// No description provided for @mqttFieldUsername.
+  ///
+  /// In en, this message translates to:
+  /// **'Username'**
+  String get mqttFieldUsername;
+
+  /// No description provided for @mqttFieldPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Password'**
+  String get mqttFieldPassword;
+
+  /// No description provided for @mqttPasswordStored.
+  ///
+  /// In en, this message translates to:
+  /// **'stored – leave empty to keep it'**
+  String get mqttPasswordStored;
+
+  /// No description provided for @mqttPasswordSecure.
+  ///
+  /// In en, this message translates to:
+  /// **'stored in the system keychain, not in the profile'**
+  String get mqttPasswordSecure;
+
+  /// No description provided for @mqttRemovePassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete stored password'**
+  String get mqttRemovePassword;
+
+  /// No description provided for @mqttSectionBroker.
+  ///
+  /// In en, this message translates to:
+  /// **'Broker'**
+  String get mqttSectionBroker;
+
+  /// No description provided for @mqttSectionAuth.
+  ///
+  /// In en, this message translates to:
+  /// **'Authentication'**
+  String get mqttSectionAuth;
+
+  /// No description provided for @mqttSectionSession.
+  ///
+  /// In en, this message translates to:
+  /// **'Session'**
+  String get mqttSectionSession;
+
+  /// No description provided for @mqttSectionWill.
+  ///
+  /// In en, this message translates to:
+  /// **'Last will'**
+  String get mqttSectionWill;
+
+  /// No description provided for @mqttSectionTls.
+  ///
+  /// In en, this message translates to:
+  /// **'TLS'**
+  String get mqttSectionTls;
+
+  /// No description provided for @mqttCleanStart.
+  ///
+  /// In en, this message translates to:
+  /// **'Clean start / clean session'**
+  String get mqttCleanStart;
+
+  /// No description provided for @mqttCleanStartHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Off: the broker keeps the session’s subscriptions and QoS 1/2 messages'**
+  String get mqttCleanStartHint;
+
+  /// No description provided for @mqttFieldKeepAlive.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep alive (s)'**
+  String get mqttFieldKeepAlive;
+
+  /// No description provided for @mqttFieldSessionExpiry.
+  ///
+  /// In en, this message translates to:
+  /// **'Session expiry (s, MQTT 5)'**
+  String get mqttFieldSessionExpiry;
+
+  /// No description provided for @mqttFieldConnectTimeout.
+  ///
+  /// In en, this message translates to:
+  /// **'Connect timeout (s)'**
+  String get mqttFieldConnectTimeout;
+
+  /// No description provided for @mqttAutoReconnect.
+  ///
+  /// In en, this message translates to:
+  /// **'Reconnect automatically'**
+  String get mqttAutoReconnect;
+
+  /// No description provided for @mqttWillEnabled.
+  ///
+  /// In en, this message translates to:
+  /// **'Send last will'**
+  String get mqttWillEnabled;
+
+  /// No description provided for @mqttFieldTopic.
+  ///
+  /// In en, this message translates to:
+  /// **'Topic'**
+  String get mqttFieldTopic;
+
+  /// No description provided for @mqttFieldPayload.
+  ///
+  /// In en, this message translates to:
+  /// **'Payload'**
+  String get mqttFieldPayload;
+
+  /// No description provided for @mqttFieldQos.
+  ///
+  /// In en, this message translates to:
+  /// **'QoS'**
+  String get mqttFieldQos;
+
+  /// No description provided for @mqttRetain.
+  ///
+  /// In en, this message translates to:
+  /// **'Retain'**
+  String get mqttRetain;
+
+  /// No description provided for @mqttTlsVerify.
+  ///
+  /// In en, this message translates to:
+  /// **'The server certificate is checked against the system CAs.'**
+  String get mqttTlsVerify;
+
+  /// No description provided for @mqttCaCert.
+  ///
+  /// In en, this message translates to:
+  /// **'Custom CA (PEM)'**
+  String get mqttCaCert;
+
+  /// No description provided for @mqttClientCert.
+  ///
+  /// In en, this message translates to:
+  /// **'Client certificate (PEM)'**
+  String get mqttClientCert;
+
+  /// No description provided for @mqttClientKey.
+  ///
+  /// In en, this message translates to:
+  /// **'Client private key (PEM)'**
+  String get mqttClientKey;
+
+  /// No description provided for @mqttClientKeyStored.
+  ///
+  /// In en, this message translates to:
+  /// **'stored in the keychain'**
+  String get mqttClientKeyStored;
+
+  /// No description provided for @mqttClientKeyPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Key password'**
+  String get mqttClientKeyPassword;
+
+  /// No description provided for @mqttLoadFile.
+  ///
+  /// In en, this message translates to:
+  /// **'Load file'**
+  String get mqttLoadFile;
+
+  /// No description provided for @mqttRemove.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove'**
+  String get mqttRemove;
+
+  /// No description provided for @mqttNotSet.
+  ///
+  /// In en, this message translates to:
+  /// **'not set'**
+  String get mqttNotSet;
+
+  /// No description provided for @mqttAcceptInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Accept invalid certificates'**
+  String get mqttAcceptInvalid;
+
+  /// No description provided for @mqttAcceptInvalidWarning.
+  ///
+  /// In en, this message translates to:
+  /// **'Insecure: the connection is then not protected against eavesdropping or tampering. Only use for test brokers with self-signed certificates.'**
+  String get mqttAcceptInvalidWarning;
+
+  /// No description provided for @mqttWssCertLimit.
+  ///
+  /// In en, this message translates to:
+  /// **'Over WebSocket (wss) the MQTT package does not support a custom CA or client certificates; the system CAs apply.'**
+  String get mqttWssCertLimit;
+
+  /// No description provided for @mqttWebOnlyWs.
+  ///
+  /// In en, this message translates to:
+  /// **'Browsers only support WebSocket connections.'**
+  String get mqttWebOnlyWs;
+
+  /// No description provided for @mqttErrorTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Connection failed'**
+  String get mqttErrorTitle;
+
+  /// No description provided for @mqttErrorLost.
+  ///
+  /// In en, this message translates to:
+  /// **'Connection to the broker lost'**
+  String get mqttErrorLost;
+
+  /// No description provided for @mqttFailNetwork.
+  ///
+  /// In en, this message translates to:
+  /// **'Broker unreachable. Check host, port and network.'**
+  String get mqttFailNetwork;
+
+  /// No description provided for @mqttFailTls.
+  ///
+  /// In en, this message translates to:
+  /// **'TLS error: certificate rejected or handshake failed. Check the CA, host name and port (8883?).'**
+  String get mqttFailTls;
+
+  /// No description provided for @mqttFailTimeout.
+  ///
+  /// In en, this message translates to:
+  /// **'Timeout: the broker did not answer in time.'**
+  String get mqttFailTimeout;
+
+  /// No description provided for @mqttFailLost.
+  ///
+  /// In en, this message translates to:
+  /// **'The broker closed the connection (e.g. keep alive expired or the same client ID connected elsewhere).'**
+  String get mqttFailLost;
+
+  /// No description provided for @mqttFailUnknown.
+  ///
+  /// In en, this message translates to:
+  /// **'Unknown error while connecting.'**
+  String get mqttFailUnknown;
+
+  /// No description provided for @mqttFailRefused.
+  ///
+  /// In en, this message translates to:
+  /// **'Broker refused: {reason} (code {code})'**
+  String mqttFailRefused(String reason, String code);
+
+  /// No description provided for @connackProtocolVersion.
+  ///
+  /// In en, this message translates to:
+  /// **'unsupported protocol version'**
+  String get connackProtocolVersion;
+
+  /// No description provided for @connackClientId.
+  ///
+  /// In en, this message translates to:
+  /// **'client ID rejected'**
+  String get connackClientId;
+
+  /// No description provided for @connackServerUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'server unavailable'**
+  String get connackServerUnavailable;
+
+  /// No description provided for @connackBadCredentials.
+  ///
+  /// In en, this message translates to:
+  /// **'bad user name or password'**
+  String get connackBadCredentials;
+
+  /// No description provided for @connackNotAuthorized.
+  ///
+  /// In en, this message translates to:
+  /// **'not authorized'**
+  String get connackNotAuthorized;
+
+  /// No description provided for @connackUnspecified.
+  ///
+  /// In en, this message translates to:
+  /// **'unspecified error'**
+  String get connackUnspecified;
+
+  /// No description provided for @connackMalformed.
+  ///
+  /// In en, this message translates to:
+  /// **'malformed packet'**
+  String get connackMalformed;
+
+  /// No description provided for @connackProtocolError.
+  ///
+  /// In en, this message translates to:
+  /// **'protocol error'**
+  String get connackProtocolError;
+
+  /// No description provided for @connackImplementation.
+  ///
+  /// In en, this message translates to:
+  /// **'implementation-specific error'**
+  String get connackImplementation;
+
+  /// No description provided for @connackServerBusy.
+  ///
+  /// In en, this message translates to:
+  /// **'server busy'**
+  String get connackServerBusy;
+
+  /// No description provided for @connackBanned.
+  ///
+  /// In en, this message translates to:
+  /// **'client banned'**
+  String get connackBanned;
+
+  /// No description provided for @connackBadAuthMethod.
+  ///
+  /// In en, this message translates to:
+  /// **'bad authentication method'**
+  String get connackBadAuthMethod;
+
+  /// No description provided for @connackTopicInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'topic name invalid (last will)'**
+  String get connackTopicInvalid;
+
+  /// No description provided for @connackPacketTooLarge.
+  ///
+  /// In en, this message translates to:
+  /// **'packet too large'**
+  String get connackPacketTooLarge;
+
+  /// No description provided for @connackQuota.
+  ///
+  /// In en, this message translates to:
+  /// **'quota exceeded'**
+  String get connackQuota;
+
+  /// No description provided for @connackPayloadFormat.
+  ///
+  /// In en, this message translates to:
+  /// **'payload format invalid'**
+  String get connackPayloadFormat;
+
+  /// No description provided for @connackRetainNotSupported.
+  ///
+  /// In en, this message translates to:
+  /// **'retain not supported (last will)'**
+  String get connackRetainNotSupported;
+
+  /// No description provided for @connackQosNotSupported.
+  ///
+  /// In en, this message translates to:
+  /// **'QoS not supported (last will)'**
+  String get connackQosNotSupported;
+
+  /// No description provided for @connackUseAnotherServer.
+  ///
+  /// In en, this message translates to:
+  /// **'use another server'**
+  String get connackUseAnotherServer;
+
+  /// No description provided for @connackServerMoved.
+  ///
+  /// In en, this message translates to:
+  /// **'server moved'**
+  String get connackServerMoved;
+
+  /// No description provided for @connackRateExceeded.
+  ///
+  /// In en, this message translates to:
+  /// **'connection rate exceeded'**
+  String get connackRateExceeded;
+
+  /// No description provided for @connackUnknown.
+  ///
+  /// In en, this message translates to:
+  /// **'unknown reason'**
+  String get connackUnknown;
+
+  /// No description provided for @mqttNotConnectedHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Not connected to a broker.'**
+  String get mqttNotConnectedHint;
+
+  /// No description provided for @mqttGoToConnection.
+  ///
+  /// In en, this message translates to:
+  /// **'Go to connection'**
+  String get mqttGoToConnection;
+
+  /// No description provided for @mqttTabMessages.
+  ///
+  /// In en, this message translates to:
+  /// **'Messages'**
+  String get mqttTabMessages;
+
+  /// No description provided for @mqttTabSubscriptions.
+  ///
+  /// In en, this message translates to:
+  /// **'Subscriptions'**
+  String get mqttTabSubscriptions;
+
+  /// No description provided for @mqttTabPublish.
+  ///
+  /// In en, this message translates to:
+  /// **'Publish'**
+  String get mqttTabPublish;
+
+  /// No description provided for @mqttMessagesCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{shown} of {total} messages'**
+  String mqttMessagesCount(int shown, int total);
+
+  /// No description provided for @mqttNoMessages.
+  ///
+  /// In en, this message translates to:
+  /// **'No messages yet. Check the subscriptions.'**
+  String get mqttNoMessages;
+
+  /// No description provided for @mqttPause.
+  ///
+  /// In en, this message translates to:
+  /// **'Pause'**
+  String get mqttPause;
+
+  /// No description provided for @mqttResume.
+  ///
+  /// In en, this message translates to:
+  /// **'Resume'**
+  String get mqttResume;
+
+  /// No description provided for @mqttClear.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear'**
+  String get mqttClear;
+
+  /// No description provided for @mqttSubscriptions.
+  ///
+  /// In en, this message translates to:
+  /// **'Subscriptions'**
+  String get mqttSubscriptions;
+
+  /// No description provided for @mqttNoSubscriptions.
+  ///
+  /// In en, this message translates to:
+  /// **'No subscriptions.'**
+  String get mqttNoSubscriptions;
+
+  /// No description provided for @mqttAddSubscription.
+  ///
+  /// In en, this message translates to:
+  /// **'Subscribe'**
+  String get mqttAddSubscription;
+
+  /// No description provided for @mqttTopicFilter.
+  ///
+  /// In en, this message translates to:
+  /// **'Topic filter'**
+  String get mqttTopicFilter;
+
+  /// No description provided for @mqttTopicFilterHint.
+  ///
+  /// In en, this message translates to:
+  /// **'e.g. home/+/temperature or sensors/#'**
+  String get mqttTopicFilterHint;
+
+  /// No description provided for @mqttSubscribeAll.
+  ///
+  /// In en, this message translates to:
+  /// **'Subscribe to everything (#)'**
+  String get mqttSubscribeAll;
+
+  /// No description provided for @mqttSubscribeAllWarning.
+  ///
+  /// In en, this message translates to:
+  /// **'“#” receives every message on the broker. On large or public brokers this can be thousands of messages per second. Subscribe anyway?'**
+  String get mqttSubscribeAllWarning;
+
+  /// No description provided for @mqttSubscribeAllConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Subscribe'**
+  String get mqttSubscribeAllConfirm;
+
+  /// No description provided for @mqttMqtt5Options.
+  ///
+  /// In en, this message translates to:
+  /// **'MQTT 5 options'**
+  String get mqttMqtt5Options;
+
+  /// No description provided for @mqttNoLocal.
+  ///
+  /// In en, this message translates to:
+  /// **'No local (do not receive own messages)'**
+  String get mqttNoLocal;
+
+  /// No description provided for @mqttRetainAsPublished.
+  ///
+  /// In en, this message translates to:
+  /// **'Retain as published'**
+  String get mqttRetainAsPublished;
+
+  /// No description provided for @mqttRetainHandling.
+  ///
+  /// In en, this message translates to:
+  /// **'Retain handling'**
+  String get mqttRetainHandling;
+
+  /// No description provided for @mqttRetainSend.
+  ///
+  /// In en, this message translates to:
+  /// **'send retained on subscribe'**
+  String get mqttRetainSend;
+
+  /// No description provided for @mqttRetainSendIfNew.
+  ///
+  /// In en, this message translates to:
+  /// **'only for new subscriptions'**
+  String get mqttRetainSendIfNew;
+
+  /// No description provided for @mqttRetainDont.
+  ///
+  /// In en, this message translates to:
+  /// **'do not send'**
+  String get mqttRetainDont;
+
+  /// No description provided for @mqttSubscriptionEnabled.
+  ///
+  /// In en, this message translates to:
+  /// **'active'**
+  String get mqttSubscriptionEnabled;
+
+  /// No description provided for @mqttDeleteSubscription.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove subscription'**
+  String get mqttDeleteSubscription;
+
+  /// No description provided for @mqttFormat.
+  ///
+  /// In en, this message translates to:
+  /// **'Format'**
+  String get mqttFormat;
+
+  /// No description provided for @mqttPublishAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Publish'**
+  String get mqttPublishAction;
+
+  /// No description provided for @mqttPublishTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Publish ({shortcut})'**
+  String mqttPublishTooltip(String shortcut);
+
+  /// No description provided for @mqttPublished.
+  ///
+  /// In en, this message translates to:
+  /// **'Published to “{topic}” ({bytes} bytes)'**
+  String mqttPublished(String topic, int bytes);
+
+  /// No description provided for @mqttClearRetained.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear retained message'**
+  String get mqttClearRetained;
+
+  /// No description provided for @mqttClearRetainedConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'The retained message on “{topic}” will be deleted (empty payload with retain). New subscribers will no longer get a stored value.'**
+  String mqttClearRetainedConfirm(String topic);
+
+  /// No description provided for @mqttClearRetainedDone.
+  ///
+  /// In en, this message translates to:
+  /// **'Retained message on “{topic}” cleared'**
+  String mqttClearRetainedDone(String topic);
+
+  /// No description provided for @mqttOverwriteTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Overwrite an existing topic?'**
+  String get mqttOverwriteTitle;
+
+  /// No description provided for @mqttOverwriteText.
+  ///
+  /// In en, this message translates to:
+  /// **'Messages were already received on “{topic}”. Publish anyway?'**
+  String mqttOverwriteText(String topic);
+
+  /// No description provided for @mqttDontAskAgain.
+  ///
+  /// In en, this message translates to:
+  /// **'Don’t ask again'**
+  String get mqttDontAskAgain;
+
+  /// No description provided for @mqttConfirmOverwrite.
+  ///
+  /// In en, this message translates to:
+  /// **'Ask before publishing to known topics'**
+  String get mqttConfirmOverwrite;
+
+  /// No description provided for @mqttProperties.
+  ///
+  /// In en, this message translates to:
+  /// **'MQTT 5 properties'**
+  String get mqttProperties;
+
+  /// No description provided for @mqttContentType.
+  ///
+  /// In en, this message translates to:
+  /// **'Content type'**
+  String get mqttContentType;
+
+  /// No description provided for @mqttResponseTopic.
+  ///
+  /// In en, this message translates to:
+  /// **'Response topic'**
+  String get mqttResponseTopic;
+
+  /// No description provided for @mqttCorrelationData.
+  ///
+  /// In en, this message translates to:
+  /// **'Correlation data (text)'**
+  String get mqttCorrelationData;
+
+  /// No description provided for @mqttMessageExpiry.
+  ///
+  /// In en, this message translates to:
+  /// **'Message expiry (s)'**
+  String get mqttMessageExpiry;
+
+  /// No description provided for @mqttUserProperties.
+  ///
+  /// In en, this message translates to:
+  /// **'User properties (one per line: name=value)'**
+  String get mqttUserProperties;
+
+  /// No description provided for @mqttPropertiesV311Hint.
+  ///
+  /// In en, this message translates to:
+  /// **'Only available with MQTT 5.'**
+  String get mqttPropertiesV311Hint;
+
+  /// No description provided for @mqttTopicErrorEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Topic must not be empty'**
+  String get mqttTopicErrorEmpty;
+
+  /// No description provided for @mqttTopicErrorWildcard.
+  ///
+  /// In en, this message translates to:
+  /// **'+ and # are not allowed when publishing'**
+  String get mqttTopicErrorWildcard;
+
+  /// No description provided for @mqttTopicErrorMultiLevel.
+  ///
+  /// In en, this message translates to:
+  /// **'# is only allowed alone as the last level'**
+  String get mqttTopicErrorMultiLevel;
+
+  /// No description provided for @mqttTopicErrorSingleLevel.
+  ///
+  /// In en, this message translates to:
+  /// **'+ must be a whole level'**
+  String get mqttTopicErrorSingleLevel;
+
+  /// No description provided for @mqttTopicErrorNull.
+  ///
+  /// In en, this message translates to:
+  /// **'Null character not allowed'**
+  String get mqttTopicErrorNull;
+
+  /// No description provided for @mqttTopicErrorTooLong.
+  ///
+  /// In en, this message translates to:
+  /// **'Topic too long (max. 65535 bytes)'**
+  String get mqttTopicErrorTooLong;
+
+  /// No description provided for @mqttPayloadInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid payload: {error}'**
+  String mqttPayloadInvalid(String error);
+
+  /// No description provided for @mqttRx.
+  ///
+  /// In en, this message translates to:
+  /// **'RX'**
+  String get mqttRx;
+
+  /// No description provided for @mqttTx.
+  ///
+  /// In en, this message translates to:
+  /// **'TX'**
+  String get mqttTx;
+
+  /// No description provided for @mqttDeleteProfileTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete broker profile?'**
+  String get mqttDeleteProfileTitle;
+
+  /// No description provided for @mqttDeleteProfileText.
+  ///
+  /// In en, this message translates to:
+  /// **'“{name}” and its stored credentials will be deleted.'**
+  String mqttDeleteProfileText(String name);
+
+  /// No description provided for @mqttProfileCopy.
+  ///
+  /// In en, this message translates to:
+  /// **'{name} (copy)'**
+  String mqttProfileCopy(String name);
+
+  /// No description provided for @mqttComingSoonMilestone.
+  ///
+  /// In en, this message translates to:
+  /// **'This area follows in {milestone}.'**
+  String mqttComingSoonMilestone(String milestone);
 }
 
 class _AppLocalizationsDelegate

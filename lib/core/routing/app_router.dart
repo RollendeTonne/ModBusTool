@@ -8,7 +8,9 @@ import 'package:modbus_explorer/modules/modbus/connection/presentation/connectio
 import 'package:modbus_explorer/modules/modbus/monitor/presentation/monitor_page.dart';
 import 'package:modbus_explorer/modules/modbus/registers/presentation/registers_page.dart';
 import 'package:modbus_explorer/modules/modbus/tools/presentation/tools_page.dart';
+import 'package:modbus_explorer/modules/mqtt/presentation/mqtt_connection_page.dart';
 import 'package:modbus_explorer/modules/mqtt/presentation/mqtt_placeholder_page.dart';
+import 'package:modbus_explorer/modules/mqtt/presentation/mqtt_topics_page.dart';
 
 GoRouter createAppRouter({String initialLocation = '/modbus/connection'}) {
   Widget pageFor(AppDestination destination) => switch (destination) {
@@ -16,10 +18,10 @@ GoRouter createAppRouter({String initialLocation = '/modbus/connection'}) {
     AppDestination.modbusRegisters => const RegistersPage(),
     AppDestination.modbusMonitor => const MonitorPage(),
     AppDestination.modbusTools => const ToolsPage(),
-    AppDestination.mqttConnection ||
-    AppDestination.mqttTopics ||
-    AppDestination.mqttMonitor ||
-    AppDestination.mqttTools => MqttPlaceholderPage(icon: destination.icon),
+    AppDestination.mqttConnection => const MqttConnectionPage(),
+    AppDestination.mqttTopics => const MqttTopicsPage(),
+    AppDestination.mqttMonitor || AppDestination.mqttTools =>
+      MqttPlaceholderPage(icon: destination.icon, milestone: 'M13'),
     AppDestination.settings => const SettingsPage(),
   };
 

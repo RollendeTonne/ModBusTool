@@ -1,6 +1,6 @@
 {
   "@@locale": "en",
-  "appTitle": "Protocol Explorer",
+  "appTitle": "ProtocollExplorer",
   "navConnection": "Connection",
   "navRegisters": "Registers",
   "navMonitor": "Monitor",
@@ -842,7 +842,7 @@
   "shortcutRange": "Select a range in the table",
   "shortcutShiftClick": "Shift + click",
   "settingsAbout": "About",
-  "aboutText": "Protocol Explorer {version} – debugging tool for Modbus TCP/RTU and MQTT. Data stays on this device.",
+  "aboutText": "ProtocollExplorer {version} – debugging tool for Modbus TCP/RTU and MQTT. Data stays on this device.",
   "@aboutText": {
     "placeholders": {
       "version": {
@@ -935,7 +935,7 @@
   },
   "netExport": "Export results…",
   "netScanNoMacSandbox": "MAC addresses are not available: the macOS app sandbox blocks access to the ARP table.",
-  "netArpEmptyHint": "No MAC addresses received: the system returned an empty ARP table. On macOS, allow local network access for Modbus Explorer (System Settings → Privacy & Security → Local Network) and scan again.",
+  "netArpEmptyHint": "No MAC addresses received: the system returned an empty ARP table. On macOS, allow local network access for ProtocollExplorer (System Settings → Privacy & Security → Local Network) and scan again.",
   "netMacRoutedHint": "No MAC addresses for this range: it is outside this computer's local network segment (reached via a router). MAC addresses can only be determined for devices in the same segment.",
   "netUseActive": "Active network",
   "netUseActiveTooltip": "Fill in the range of the network currently in use",
@@ -1031,5 +1031,262 @@
   "moduleModbus": "Modbus",
   "moduleMqtt": "MQTT",
   "moduleSwitchTooltip": "Switch module (Ctrl/⌘ + Shift + M)",
-  "mqttComingSoon": "The MQTT module is under construction.\nConnection and publish/subscribe follow in M9."
+  "mqttProfiles": "Broker profiles",
+  "mqttNewProfile": "New broker profile",
+  "mqttEditProfile": "Edit broker profile",
+  "mqttNoProfiles": "No broker profiles yet.",
+  "mqttStatusDisconnected": "Disconnected",
+  "mqttStatusConnecting": "Connecting …",
+  "mqttStatusConnected": "Connected",
+  "mqttStatusReconnecting": "Reconnecting …",
+  "mqttStatusError": "Error",
+  "mqttStatusLabel": "MQTT status: {status}",
+  "@mqttStatusLabel": {
+    "placeholders": {
+      "status": {
+        "type": "String"
+      }
+    }
+  },
+  "mqttConnect": "Connect",
+  "mqttDisconnect": "Disconnect",
+  "mqttCancelReconnect": "Cancel",
+  "mqttClientIdLabel": "Client ID: {id}",
+  "@mqttClientIdLabel": {
+    "placeholders": {
+      "id": {
+        "type": "String"
+      }
+    }
+  },
+  "mqttReconnectIn": "Attempt {attempt} in {seconds} s",
+  "@mqttReconnectIn": {
+    "placeholders": {
+      "attempt": {
+        "type": "int"
+      },
+      "seconds": {
+        "type": "int"
+      }
+    }
+  },
+  "mqttSimulatorBadge": "Demo broker",
+  "mqttSimulatorHint": "Built-in demo broker: publishes JSON, binary and retained topics plus $SYS values. Username “denied” shows a refused connection.",
+  "mqttFieldType": "Type",
+  "mqttTypeBroker": "Broker",
+  "mqttTypeSimulator": "Demo broker",
+  "mqttFieldTransport": "Transport",
+  "mqttFieldWsPath": "WebSocket path",
+  "mqttFieldVersion": "Protocol version",
+  "mqttFieldClientId": "Client ID",
+  "mqttClientIdAuto": "empty = generate a random ID on every connect",
+  "mqttGenerateClientId": "Generate client ID",
+  "mqttFieldUsername": "Username",
+  "mqttFieldPassword": "Password",
+  "mqttPasswordStored": "stored – leave empty to keep it",
+  "mqttPasswordSecure": "stored in the system keychain, not in the profile",
+  "mqttRemovePassword": "Delete stored password",
+  "mqttSectionBroker": "Broker",
+  "mqttSectionAuth": "Authentication",
+  "mqttSectionSession": "Session",
+  "mqttSectionWill": "Last will",
+  "mqttSectionTls": "TLS",
+  "mqttCleanStart": "Clean start / clean session",
+  "mqttCleanStartHint": "Off: the broker keeps the session’s subscriptions and QoS 1/2 messages",
+  "mqttFieldKeepAlive": "Keep alive (s)",
+  "mqttFieldSessionExpiry": "Session expiry (s, MQTT 5)",
+  "mqttFieldConnectTimeout": "Connect timeout (s)",
+  "mqttAutoReconnect": "Reconnect automatically",
+  "mqttWillEnabled": "Send last will",
+  "mqttFieldTopic": "Topic",
+  "mqttFieldPayload": "Payload",
+  "mqttFieldQos": "QoS",
+  "mqttRetain": "Retain",
+  "mqttTlsVerify": "The server certificate is checked against the system CAs.",
+  "mqttCaCert": "Custom CA (PEM)",
+  "mqttClientCert": "Client certificate (PEM)",
+  "mqttClientKey": "Client private key (PEM)",
+  "mqttClientKeyStored": "stored in the keychain",
+  "mqttClientKeyPassword": "Key password",
+  "mqttLoadFile": "Load file",
+  "mqttRemove": "Remove",
+  "mqttNotSet": "not set",
+  "mqttAcceptInvalid": "Accept invalid certificates",
+  "mqttAcceptInvalidWarning": "Insecure: the connection is then not protected against eavesdropping or tampering. Only use for test brokers with self-signed certificates.",
+  "mqttWssCertLimit": "Over WebSocket (wss) the MQTT package does not support a custom CA or client certificates; the system CAs apply.",
+  "mqttWebOnlyWs": "Browsers only support WebSocket connections.",
+  "mqttErrorTitle": "Connection failed",
+  "mqttErrorLost": "Connection to the broker lost",
+  "mqttFailNetwork": "Broker unreachable. Check host, port and network.",
+  "mqttFailTls": "TLS error: certificate rejected or handshake failed. Check the CA, host name and port (8883?).",
+  "mqttFailTimeout": "Timeout: the broker did not answer in time.",
+  "mqttFailLost": "The broker closed the connection (e.g. keep alive expired or the same client ID connected elsewhere).",
+  "mqttFailUnknown": "Unknown error while connecting.",
+  "mqttFailRefused": "Broker refused: {reason} (code {code})",
+  "@mqttFailRefused": {
+    "placeholders": {
+      "reason": {
+        "type": "String"
+      },
+      "code": {
+        "type": "String"
+      }
+    }
+  },
+  "connackProtocolVersion": "unsupported protocol version",
+  "connackClientId": "client ID rejected",
+  "connackServerUnavailable": "server unavailable",
+  "connackBadCredentials": "bad user name or password",
+  "connackNotAuthorized": "not authorized",
+  "connackUnspecified": "unspecified error",
+  "connackMalformed": "malformed packet",
+  "connackProtocolError": "protocol error",
+  "connackImplementation": "implementation-specific error",
+  "connackServerBusy": "server busy",
+  "connackBanned": "client banned",
+  "connackBadAuthMethod": "bad authentication method",
+  "connackTopicInvalid": "topic name invalid (last will)",
+  "connackPacketTooLarge": "packet too large",
+  "connackQuota": "quota exceeded",
+  "connackPayloadFormat": "payload format invalid",
+  "connackRetainNotSupported": "retain not supported (last will)",
+  "connackQosNotSupported": "QoS not supported (last will)",
+  "connackUseAnotherServer": "use another server",
+  "connackServerMoved": "server moved",
+  "connackRateExceeded": "connection rate exceeded",
+  "connackUnknown": "unknown reason",
+  "mqttNotConnectedHint": "Not connected to a broker.",
+  "mqttGoToConnection": "Go to connection",
+  "mqttTabMessages": "Messages",
+  "mqttTabSubscriptions": "Subscriptions",
+  "mqttTabPublish": "Publish",
+  "mqttMessagesCount": "{shown} of {total} messages",
+  "@mqttMessagesCount": {
+    "placeholders": {
+      "shown": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "mqttNoMessages": "No messages yet. Check the subscriptions.",
+  "mqttPause": "Pause",
+  "mqttResume": "Resume",
+  "mqttClear": "Clear",
+  "mqttSubscriptions": "Subscriptions",
+  "mqttNoSubscriptions": "No subscriptions.",
+  "mqttAddSubscription": "Subscribe",
+  "mqttTopicFilter": "Topic filter",
+  "mqttTopicFilterHint": "e.g. home/+/temperature or sensors/#",
+  "mqttSubscribeAll": "Subscribe to everything (#)",
+  "mqttSubscribeAllWarning": "“#” receives every message on the broker. On large or public brokers this can be thousands of messages per second. Subscribe anyway?",
+  "mqttSubscribeAllConfirm": "Subscribe",
+  "mqttMqtt5Options": "MQTT 5 options",
+  "mqttNoLocal": "No local (do not receive own messages)",
+  "mqttRetainAsPublished": "Retain as published",
+  "mqttRetainHandling": "Retain handling",
+  "mqttRetainSend": "send retained on subscribe",
+  "mqttRetainSendIfNew": "only for new subscriptions",
+  "mqttRetainDont": "do not send",
+  "mqttSubscriptionEnabled": "active",
+  "mqttDeleteSubscription": "Remove subscription",
+  "mqttFormat": "Format",
+  "mqttPublishAction": "Publish",
+  "mqttPublishTooltip": "Publish ({shortcut})",
+  "@mqttPublishTooltip": {
+    "placeholders": {
+      "shortcut": {
+        "type": "String"
+      }
+    }
+  },
+  "mqttPublished": "Published to “{topic}” ({bytes} bytes)",
+  "@mqttPublished": {
+    "placeholders": {
+      "topic": {
+        "type": "String"
+      },
+      "bytes": {
+        "type": "int"
+      }
+    }
+  },
+  "mqttClearRetained": "Clear retained message",
+  "mqttClearRetainedConfirm": "The retained message on “{topic}” will be deleted (empty payload with retain). New subscribers will no longer get a stored value.",
+  "@mqttClearRetainedConfirm": {
+    "placeholders": {
+      "topic": {
+        "type": "String"
+      }
+    }
+  },
+  "mqttClearRetainedDone": "Retained message on “{topic}” cleared",
+  "@mqttClearRetainedDone": {
+    "placeholders": {
+      "topic": {
+        "type": "String"
+      }
+    }
+  },
+  "mqttOverwriteTitle": "Overwrite an existing topic?",
+  "mqttOverwriteText": "Messages were already received on “{topic}”. Publish anyway?",
+  "@mqttOverwriteText": {
+    "placeholders": {
+      "topic": {
+        "type": "String"
+      }
+    }
+  },
+  "mqttDontAskAgain": "Don’t ask again",
+  "mqttConfirmOverwrite": "Ask before publishing to known topics",
+  "mqttProperties": "MQTT 5 properties",
+  "mqttContentType": "Content type",
+  "mqttResponseTopic": "Response topic",
+  "mqttCorrelationData": "Correlation data (text)",
+  "mqttMessageExpiry": "Message expiry (s)",
+  "mqttUserProperties": "User properties (one per line: name=value)",
+  "mqttPropertiesV311Hint": "Only available with MQTT 5.",
+  "mqttTopicErrorEmpty": "Topic must not be empty",
+  "mqttTopicErrorWildcard": "+ and # are not allowed when publishing",
+  "mqttTopicErrorMultiLevel": "# is only allowed alone as the last level",
+  "mqttTopicErrorSingleLevel": "+ must be a whole level",
+  "mqttTopicErrorNull": "Null character not allowed",
+  "mqttTopicErrorTooLong": "Topic too long (max. 65535 bytes)",
+  "mqttPayloadInvalid": "Invalid payload: {error}",
+  "@mqttPayloadInvalid": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "mqttRx": "RX",
+  "mqttTx": "TX",
+  "mqttDeleteProfileTitle": "Delete broker profile?",
+  "mqttDeleteProfileText": "“{name}” and its stored credentials will be deleted.",
+  "@mqttDeleteProfileText": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "mqttProfileCopy": "{name} (copy)",
+  "@mqttProfileCopy": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "mqttComingSoonMilestone": "This area follows in {milestone}.",
+  "@mqttComingSoonMilestone": {
+    "placeholders": {
+      "milestone": {
+        "type": "String"
+      }
+    }
+  }
 }

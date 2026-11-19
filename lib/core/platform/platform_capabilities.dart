@@ -72,6 +72,9 @@ class PlatformCapabilities {
   bool get supportsRtu => supportsSerial;
   bool get supportsRtuOverTcp => supportsTcp;
 
+  /// MQTT over plain TCP/TLS sockets; browsers only offer WebSockets.
+  bool get supportsMqttSockets => supportsTcp;
+
   /// Reading the ARP table (MAC addresses of scanned hosts).
   bool get supportsMacAddresses => macAddressLimit == null;
 }
