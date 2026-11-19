@@ -3763,6 +3763,258 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'This area follows in {milestone}.'**
   String mqttComingSoonMilestone(String milestone);
+
+  /// No description provided for @mqttTabTree.
+  ///
+  /// In en, this message translates to:
+  /// **'Tree'**
+  String get mqttTabTree;
+
+  /// No description provided for @mqttTabDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'Details'**
+  String get mqttTabDetails;
+
+  /// No description provided for @mqttTreeSearch.
+  ///
+  /// In en, this message translates to:
+  /// **'Filter topics'**
+  String get mqttTreeSearch;
+
+  /// No description provided for @mqttTreeSearchTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Filter topics ({shortcut})'**
+  String mqttTreeSearchTooltip(String shortcut);
+
+  /// No description provided for @mqttFilterText.
+  ///
+  /// In en, this message translates to:
+  /// **'Text'**
+  String get mqttFilterText;
+
+  /// No description provided for @mqttFilterWildcard.
+  ///
+  /// In en, this message translates to:
+  /// **'Wildcard (+/#)'**
+  String get mqttFilterWildcard;
+
+  /// No description provided for @mqttFilterRegex.
+  ///
+  /// In en, this message translates to:
+  /// **'Regex'**
+  String get mqttFilterRegex;
+
+  /// No description provided for @mqttTreeShowSys.
+  ///
+  /// In en, this message translates to:
+  /// **'Show \$SYS'**
+  String get mqttTreeShowSys;
+
+  /// No description provided for @mqttTreeOnlyChanged.
+  ///
+  /// In en, this message translates to:
+  /// **'Only changed'**
+  String get mqttTreeOnlyChanged;
+
+  /// No description provided for @mqttTreeOnlyChangedTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Hide topics whose value never changed'**
+  String get mqttTreeOnlyChangedTooltip;
+
+  /// No description provided for @mqttTreeExpandAll.
+  ///
+  /// In en, this message translates to:
+  /// **'Expand all'**
+  String get mqttTreeExpandAll;
+
+  /// No description provided for @mqttTreeCollapseAll.
+  ///
+  /// In en, this message translates to:
+  /// **'Collapse all'**
+  String get mqttTreeCollapseAll;
+
+  /// No description provided for @mqttTreeClear.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear tree'**
+  String get mqttTreeClear;
+
+  /// No description provided for @mqttTreeStats.
+  ///
+  /// In en, this message translates to:
+  /// **'{topics} topics · {messages} messages'**
+  String mqttTreeStats(int topics, int messages);
+
+  /// No description provided for @mqttTreeEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No topics received yet.'**
+  String get mqttTreeEmpty;
+
+  /// No description provided for @mqttTreeNoMatch.
+  ///
+  /// In en, this message translates to:
+  /// **'No topic matches the filter.'**
+  String get mqttTreeNoMatch;
+
+  /// No description provided for @mqttTreeFilterError.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid filter: {error}'**
+  String mqttTreeFilterError(String error);
+
+  /// No description provided for @mqttNodeMessages.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} msg'**
+  String mqttNodeMessages(int count);
+
+  /// No description provided for @mqttNodeTopics.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} topics'**
+  String mqttNodeTopics(int count);
+
+  /// No description provided for @mqttEmptyLevel.
+  ///
+  /// In en, this message translates to:
+  /// **'(empty)'**
+  String get mqttEmptyLevel;
+
+  /// No description provided for @mqttRetainedBadge.
+  ///
+  /// In en, this message translates to:
+  /// **'Retained'**
+  String get mqttRetainedBadge;
+
+  /// No description provided for @mqttExpand.
+  ///
+  /// In en, this message translates to:
+  /// **'Expand'**
+  String get mqttExpand;
+
+  /// No description provided for @mqttCollapse.
+  ///
+  /// In en, this message translates to:
+  /// **'Collapse'**
+  String get mqttCollapse;
+
+  /// No description provided for @mqttDetailNone.
+  ///
+  /// In en, this message translates to:
+  /// **'Select a topic in the tree.'**
+  String get mqttDetailNone;
+
+  /// No description provided for @mqttDetailBranch.
+  ///
+  /// In en, this message translates to:
+  /// **'No message was received on this level itself.'**
+  String get mqttDetailBranch;
+
+  /// No description provided for @mqttDetailLast.
+  ///
+  /// In en, this message translates to:
+  /// **'Last message'**
+  String get mqttDetailLast;
+
+  /// No description provided for @mqttDetailReceived.
+  ///
+  /// In en, this message translates to:
+  /// **'Received'**
+  String get mqttDetailReceived;
+
+  /// No description provided for @mqttDetailMessages.
+  ///
+  /// In en, this message translates to:
+  /// **'Messages'**
+  String get mqttDetailMessages;
+
+  /// No description provided for @mqttDetailSubtopics.
+  ///
+  /// In en, this message translates to:
+  /// **'Subtopics'**
+  String get mqttDetailSubtopics;
+
+  /// No description provided for @mqttDetailSize.
+  ///
+  /// In en, this message translates to:
+  /// **'Size'**
+  String get mqttDetailSize;
+
+  /// No description provided for @mqttDetailFlags.
+  ///
+  /// In en, this message translates to:
+  /// **'QoS / flags'**
+  String get mqttDetailFlags;
+
+  /// No description provided for @mqttDetailChanged.
+  ///
+  /// In en, this message translates to:
+  /// **'Last changed'**
+  String get mqttDetailChanged;
+
+  /// No description provided for @mqttBytes.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} bytes'**
+  String mqttBytes(int count);
+
+  /// No description provided for @mqttTruncated.
+  ///
+  /// In en, this message translates to:
+  /// **'… truncated, {count} bytes in total'**
+  String mqttTruncated(int count);
+
+  /// No description provided for @mqttSecondsAgo.
+  ///
+  /// In en, this message translates to:
+  /// **'{value} s ago'**
+  String mqttSecondsAgo(int value);
+
+  /// No description provided for @mqttMinutesAgo.
+  ///
+  /// In en, this message translates to:
+  /// **'{value} min ago'**
+  String mqttMinutesAgo(int value);
+
+  /// No description provided for @mqttHoursAgo.
+  ///
+  /// In en, this message translates to:
+  /// **'{value} h ago'**
+  String mqttHoursAgo(int value);
+
+  /// No description provided for @mqttCopyTopic.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy topic'**
+  String get mqttCopyTopic;
+
+  /// No description provided for @mqttCopyPayload.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy payload'**
+  String get mqttCopyPayload;
+
+  /// No description provided for @mqttCopied.
+  ///
+  /// In en, this message translates to:
+  /// **'Copied'**
+  String get mqttCopied;
+
+  /// No description provided for @mqttUseForPublish.
+  ///
+  /// In en, this message translates to:
+  /// **'Use for publish'**
+  String get mqttUseForPublish;
+
+  /// No description provided for @mqttSubscribeSubtree.
+  ///
+  /// In en, this message translates to:
+  /// **'Subscribe to {filter}'**
+  String mqttSubscribeSubtree(String filter);
 }
 
 class _AppLocalizationsDelegate

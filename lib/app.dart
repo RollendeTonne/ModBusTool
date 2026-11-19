@@ -8,6 +8,7 @@ import 'package:modbus_explorer/features/settings/presentation/settings_controll
 import 'package:modbus_explorer/modules/modbus/monitor/presentation/communication_log_controller.dart';
 import 'package:modbus_explorer/modules/modbus/tools/presentation/trend_controller.dart';
 import 'package:modbus_explorer/modules/mqtt/presentation/mqtt_message_log_controller.dart';
+import 'package:modbus_explorer/modules/mqtt/presentation/mqtt_topic_tree_controller.dart';
 
 class ModbusExplorerApp extends ConsumerWidget {
   const new({super.key});
@@ -22,7 +23,8 @@ class ModbusExplorerApp extends ConsumerWidget {
       ..listen(communicationLogControllerProvider, (_, _) {})
       ..listen(statisticsControllerProvider, (_, _) {})
       ..listen(trendControllerProvider, (_, _) {})
-      ..listen(mqttMessageLogControllerProvider, (_, _) {});
+      ..listen(mqttMessageLogControllerProvider, (_, _) {})
+      ..listen(mqttTopicTreeControllerProvider, (_, _) {});
 
     return MaterialApp.router(
       onGenerateTitle: (context) => context.l10n.appTitle,

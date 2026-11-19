@@ -13,9 +13,10 @@ import 'package:modbus_explorer/modules/mqtt/domain/mqtt_message.dart';
 import 'package:modbus_explorer/modules/mqtt/domain/payload_codec.dart';
 import 'package:modbus_explorer/modules/mqtt/domain/topic_filter.dart';
 import 'package:modbus_explorer/modules/mqtt/presentation/mqtt_connection_controller.dart';
-import 'package:modbus_explorer/modules/mqtt/presentation/mqtt_message_log_controller.dart';
 import 'package:modbus_explorer/modules/mqtt/presentation/mqtt_profile_editor.dart';
+import 'package:modbus_explorer/modules/mqtt/presentation/mqtt_publish_draft.dart';
 import 'package:modbus_explorer/modules/mqtt/presentation/mqtt_texts.dart';
+import 'package:modbus_explorer/modules/mqtt/presentation/mqtt_topic_tree_controller.dart';
 
 const _confirmKey = 'mqtt.confirmOverwrite';
 
@@ -107,10 +108,10 @@ class _MqttPublishPanelState extends ConsumerState<MqttPublishPanel> {
     return (topic, payload);
   }
 
-  bool _isKnownTopic(String topic) => ref
-      .read(mqttMessageLogControllerProvider)
-      .messages
-      .any((m) => m.direction == MqttDirection.received && m.topic == topic);
+  /// Received before: the tree knows every topic, unlike the bounded log.
+  bool _isKnownTopic(String topic) =>
+      ref.read(mqttTopicTreeControllerProvider).tree.find(topic)?.isTopic ??
+      false;
 
   Future<void> _publish() async {
     final input = _validated();
@@ -229,6 +230,9 @@ class _MqttPublishPanelState extends ConsumerState<MqttPublishPanel> {
     final l10n = context.l10n;
     final theme = Theme.of(context);
     final mono = theme.textTheme.bodyMedium!.mono;
+    ref.listen(mqttPublishDraftProvider, (_, draft) {
+      if (draft != null) setState(() => _topic.text = draft.topic);
+    });
     final state = ref.watch(mqttConnectionControllerProvider);
     final connected = state.isConnected;
     final v5 = state.profile?.config.protocolVersion == MqttProtocolVersion.v5;

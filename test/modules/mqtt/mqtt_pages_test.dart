@@ -22,7 +22,11 @@ void main() {
     WidgetTester tester, {
     Size size = const Size(1400, 900),
   }) async {
-    await tester.pumpModbusApp(size: size, secrets: secrets);
+    await tester.pumpModbusApp(
+      size: size,
+      secrets: secrets,
+      reduceMotion: true,
+    );
     await tester.tap(find.byKey(const Key('module.mqtt')));
     await tester.pumpAndSettle();
   }
@@ -212,7 +216,7 @@ void main() {
         topics,
         containsAll(['demo/plant/status', r'$SYS/broker/version']),
       );
-      expect(find.text('demo/plant/line1/temperature'), findsWidgets);
+      expect(find.byKey(const Key('mqtt.tree.row.demo')), findsOneWidget);
 
       // Invalid filter.
       await tester.enterText(find.byKey(const Key('mqtt.sub.filter')), 'a/#/b');
@@ -334,11 +338,19 @@ void main() {
       ),
     );
     await tester.pumpAndSettle();
-    for (final tab in ['Subscriptions', 'Publish', 'Messages']) {
+    for (final tab in ['Details', 'Subscriptions', 'Publish', 'Tree']) {
       await tester.tap(find.widgetWithText(Tab, tab));
       await tester.pumpAndSettle();
     }
-    expect(find.byKey(const Key('mqtt.messageCount')), findsOneWidget);
+    expect(find.byKey(const Key('mqtt.tree.stats')), findsOneWidget);
+    // Selecting a topic on a phone jumps to the details tab.
+    await tester.tap(find.byKey(const Key('mqtt.tree.row.demo')));
+    await tester.pumpAndSettle();
+    await tester.tap(find.byKey(const Key('mqtt.tree.row.demo/plant')));
+    await tester.pumpAndSettle();
+    await tester.tap(find.byKey(const Key('mqtt.tree.row.demo/plant/status')));
+    await tester.pumpAndSettle();
+    expect(find.byKey(const Key('mqtt.detail.topic')), findsOneWidget);
     await tester.tap(
       find.descendant(
         of: find.byType(NavigationBar),
@@ -346,6 +358,138 @@ void main() {
       ),
     );
     await tester.pumpAndSettle();
+    await tester.tap(find.byKey(const Key('mqtt.disconnect')));
+    await tester.pumpAndSettle();
+  });
+
+  testWidgets('topic tree: expand, filter, details, publish link, monitor', (
+    tester,
+  ) async {
+    await openMqtt(tester);
+    await connectDemo(tester);
+    await tester.tapNavigation('Topics');
+    await tester.pump(const Duration(seconds: 3));
+    await tester.pumpAndSettle();
+
+    // Collapsed: only the first level.
+    expect(find.byKey(const Key(r'mqtt.tree.row.$SYS')), findsOneWidget);
+    expect(find.byKey(const Key('mqtt.tree.row.demo/plant')), findsNothing);
+    await tester.tap(find.byKey(const Key('mqtt.tree.toggle.demo')));
+    await tester.pumpAndSettle();
+    expect(find.byKey(const Key('mqtt.tree.row.demo/plant')), findsOneWidget);
+
+    // Filter: wildcard opens the path to the matches.
+    await tester.tap(find.byKey(const Key('mqtt.tree.mode')));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Wildcard (+/#)').last);
+    await tester.pumpAndSettle();
+    await tester.enterText(
+      find.byKey(const Key('mqtt.tree.search')),
+      'demo/sensors/+/humidity',
+    );
+    await tester.pumpAndSettle();
+    for (final id in ['s1', 's2', 's3']) {
+      expect(
+        find.byKey(Key('mqtt.tree.row.demo/sensors/$id/humidity')),
+        findsOneWidget,
+      );
+    }
+    expect(find.byKey(const Key('mqtt.tree.row.demo/plant')), findsNothing);
+
+    // Invalid regex is explained.
+    await tester.tap(find.byKey(const Key('mqtt.tree.mode')));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Regex').last);
+    await tester.pumpAndSettle();
+    await tester.enterText(find.byKey(const Key('mqtt.tree.search')), '(');
+    await tester.pumpAndSettle();
+    expect(find.textContaining('Invalid filter'), findsOneWidget);
+    await tester.enterText(find.byKey(const Key('mqtt.tree.search')), '');
+    await tester.pumpAndSettle();
+
+    // \$SYS toggle.
+    await tester.tap(find.byKey(const Key('mqtt.tree.sys')));
+    await tester.pumpAndSettle();
+    expect(find.byKey(const Key(r'mqtt.tree.row.$SYS')), findsNothing);
+
+    // Only changed: the retained status never changes, temperature does.
+    await tester.tap(find.byKey(const Key('mqtt.tree.onlyChanged')));
+    await tester.pumpAndSettle();
+    expect(
+      find.byKey(const Key('mqtt.tree.row.demo/plant/line1/temperature')),
+      findsOneWidget,
+    );
+    expect(
+      find.byKey(const Key('mqtt.tree.row.demo/plant/status')),
+      findsNothing,
+    );
+    await tester.tap(find.byKey(const Key('mqtt.tree.onlyChanged')));
+    await tester.pumpAndSettle();
+
+    // Details follow live updates of the selected topic.
+    await tester.tap(find.byKey(const Key('mqtt.tree.expandAll')));
+    await tester.pumpAndSettle();
+    await tester.tap(
+      find.byKey(const Key('mqtt.tree.row.demo/plant/line1/temperature')),
+    );
+    await tester.pumpAndSettle();
+    final detail = find.byKey(const Key('mqtt.detail'));
+    expect(
+      find.descendant(
+        of: detail,
+        matching: find.text('demo/plant/line1/temperature'),
+      ),
+      findsOneWidget,
+    );
+    String payload() => tester
+        .widget<SelectableText>(
+          find.descendant(
+            of: find.byKey(const Key('mqtt.detail.payload')),
+            matching: find.byType(SelectableText),
+          ),
+        )
+        .data!;
+    final before = payload();
+    expect(before, contains('"unit":"°C"'));
+    await tester.pump(const Duration(seconds: 1));
+    await tester.pumpAndSettle();
+    expect(payload(), isNot(before));
+
+    // Binary payloads are shown as hex.
+    await tester.tap(
+      find.byKey(const Key('mqtt.tree.row.demo/plant/line1/counter')),
+    );
+    await tester.pumpAndSettle();
+    expect(payload(), matches(RegExp(r'^([0-9A-F]{2} ){3}[0-9A-F]{2}$')));
+
+    // Hand the topic to the publish panel.
+    await tester.tap(find.byKey(const Key('mqtt.detail.usePublish')));
+    await tester.pumpAndSettle();
+    expect(
+      tester
+          .widget<TextField>(find.byKey(const Key('mqtt.pub.topic')))
+          .controller!
+          .text,
+      'demo/plant/line1/counter',
+    );
+
+    // Subscribing a subtree from the details.
+    await tester.tap(find.byKey(const Key('mqtt.tree.row.demo/sensors')));
+    await tester.pumpAndSettle();
+    await tester.tap(find.byKey(const Key('mqtt.detail.subscribe')));
+    await tester.pumpAndSettle();
+    expect(find.byKey(const Key('mqtt.sub.demo/sensors/#')), findsOneWidget);
+
+    // Clear empties the tree.
+    await tester.tap(find.byKey(const Key('mqtt.tree.clear')));
+    await tester.pumpAndSettle();
+    expect(find.text('No topics received yet.'), findsOneWidget);
+
+    // The chronological list lives in the Monitor tab.
+    await tester.tapNavigation('Monitor');
+    expect(find.byKey(const Key('mqtt.messageList')), findsOneWidget);
+
+    await tester.tapNavigation('Connection');
     await tester.tap(find.byKey(const Key('mqtt.disconnect')));
     await tester.pumpAndSettle();
   });

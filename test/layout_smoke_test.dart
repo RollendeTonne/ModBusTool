@@ -138,6 +138,10 @@ void main() {
       await tester.tap(find.byIcon(Icons.close).first);
       await tester.pumpAndSettle();
 
+      // Live MQTT data would keep the tree's change highlight animating.
+      tester.useReducedMotion();
+      await tester.pump();
+
       // MQTT module: editor in its widest state (TLS, last will, warning).
       await tester.tap(find.byKey(const Key('module.mqtt')));
       await tester.pumpAndSettle();
@@ -180,12 +184,21 @@ void main() {
       await go('Topics');
       await tester.pump(const Duration(seconds: 2));
       await tester.pumpAndSettle();
-      if (size.width < 1000) {
-        for (final tab in ['Abos', 'Publish', 'Nachrichten']) {
-          await tester.tap(find.widgetWithText(Tab, tab));
-          await tester.pumpAndSettle();
-        }
+      // Tree fully expanded, a topic selected, then every tab (layouts
+      // below 1000 px content width use tabs).
+      await tester.tap(find.byKey(const Key('mqtt.tree.expandAll')));
+      await tester.pumpAndSettle();
+      await tester.tap(
+        find.byKey(const Key('mqtt.tree.row.demo/plant/line1/temperature')),
+      );
+      await tester.pumpAndSettle();
+      for (final tab in ['Baum', 'Details', 'Abos', 'Publish']) {
+        final finder = find.widgetWithText(Tab, tab);
+        if (finder.evaluate().isEmpty) continue;
+        await tester.tap(finder);
+        await tester.pumpAndSettle();
       }
+      await go('Monitor');
       await go('Verbindung');
       await tester.tap(find.byKey(const Key('mqtt.disconnect')));
       await tester.pumpAndSettle();

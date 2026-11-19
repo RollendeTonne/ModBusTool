@@ -2080,4 +2080,154 @@ class AppLocalizationsEn extends AppLocalizations {
   String mqttComingSoonMilestone(String milestone) {
     return 'This area follows in $milestone.';
   }
+
+  @override
+  String get mqttTabTree => 'Tree';
+
+  @override
+  String get mqttTabDetails => 'Details';
+
+  @override
+  String get mqttTreeSearch => 'Filter topics';
+
+  @override
+  String mqttTreeSearchTooltip(String shortcut) {
+    return 'Filter topics ($shortcut)';
+  }
+
+  @override
+  String get mqttFilterText => 'Text';
+
+  @override
+  String get mqttFilterWildcard => 'Wildcard (+/#)';
+
+  @override
+  String get mqttFilterRegex => 'Regex';
+
+  @override
+  String get mqttTreeShowSys => 'Show \$SYS';
+
+  @override
+  String get mqttTreeOnlyChanged => 'Only changed';
+
+  @override
+  String get mqttTreeOnlyChangedTooltip =>
+      'Hide topics whose value never changed';
+
+  @override
+  String get mqttTreeExpandAll => 'Expand all';
+
+  @override
+  String get mqttTreeCollapseAll => 'Collapse all';
+
+  @override
+  String get mqttTreeClear => 'Clear tree';
+
+  @override
+  String mqttTreeStats(int topics, int messages) {
+    return '$topics topics · $messages messages';
+  }
+
+  @override
+  String get mqttTreeEmpty => 'No topics received yet.';
+
+  @override
+  String get mqttTreeNoMatch => 'No topic matches the filter.';
+
+  @override
+  String mqttTreeFilterError(String error) {
+    return 'Invalid filter: $error';
+  }
+
+  @override
+  String mqttNodeMessages(int count) {
+    return '$count msg';
+  }
+
+  @override
+  String mqttNodeTopics(int count) {
+    return '$count topics';
+  }
+
+  @override
+  String get mqttEmptyLevel => '(empty)';
+
+  @override
+  String get mqttRetainedBadge => 'Retained';
+
+  @override
+  String get mqttExpand => 'Expand';
+
+  @override
+  String get mqttCollapse => 'Collapse';
+
+  @override
+  String get mqttDetailNone => 'Select a topic in the tree.';
+
+  @override
+  String get mqttDetailBranch =>
+      'No message was received on this level itself.';
+
+  @override
+  String get mqttDetailLast => 'Last message';
+
+  @override
+  String get mqttDetailReceived => 'Received';
+
+  @override
+  String get mqttDetailMessages => 'Messages';
+
+  @override
+  String get mqttDetailSubtopics => 'Subtopics';
+
+  @override
+  String get mqttDetailSize => 'Size';
+
+  @override
+  String get mqttDetailFlags => 'QoS / flags';
+
+  @override
+  String get mqttDetailChanged => 'Last changed';
+
+  @override
+  String mqttBytes(int count) {
+    return '$count bytes';
+  }
+
+  @override
+  String mqttTruncated(int count) {
+    return '… truncated, $count bytes in total';
+  }
+
+  @override
+  String mqttSecondsAgo(int value) {
+    return '$value s ago';
+  }
+
+  @override
+  String mqttMinutesAgo(int value) {
+    return '$value min ago';
+  }
+
+  @override
+  String mqttHoursAgo(int value) {
+    return '$value h ago';
+  }
+
+  @override
+  String get mqttCopyTopic => 'Copy topic';
+
+  @override
+  String get mqttCopyPayload => 'Copy payload';
+
+  @override
+  String get mqttCopied => 'Copied';
+
+  @override
+  String get mqttUseForPublish => 'Use for publish';
+
+  @override
+  String mqttSubscribeSubtree(String filter) {
+    return 'Subscribe to $filter';
+  }
 }

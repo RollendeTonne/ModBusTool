@@ -1,6 +1,6 @@
 # ProtocollExplorer (package `modbus_explorer`)
 
-Flutter debugging tool with two modules: Modbus (done) and MQTT (M9 done, M10–M14 open).
+Flutter debugging tool with two modules: Modbus (done) and MQTT (M9–M10 done, M11–M14 open).
 Read DECISIONS.md before changing behaviour; add an entry for every
 non-obvious decision (German, table row `| Dnnn | decision | reason |`).
 
@@ -25,7 +25,9 @@ non-obvious decision (German, table row `| Dnnn | decision | reason |`).
 - Widget tests: never touch real network/processes – inject (e.g.
   `connectionFactoryProvider` with `tcpConnect`, `urlOpenerProvider`,
   `activeNetworkDetectorProvider`, `secretStoreProvider` /
-  `pumpModbusApp(secrets:)`, MQTT via the demo broker). Overflow errors fail tests;
+  `pumpModbusApp(secrets:)`, MQTT via the demo broker). With live MQTT
+  data use `pumpModbusApp(reduceMotion: true)` / `tester.useReducedMotion()`
+  or pumpAndSettle never settles (topic tree highlight). Overflow errors fail tests;
   `test/layout_smoke_test.dart` renders all pages in German.
 
 ## Rules

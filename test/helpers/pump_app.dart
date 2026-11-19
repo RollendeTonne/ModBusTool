@@ -20,6 +20,7 @@ extension PumpApp on WidgetTester {
     Map<String, Object>? storedValues,
     Map<String, String>? documents,
     SecretStore? secrets,
+    bool reduceMotion = false,
     List<Override> overrides = const [],
   }) async {
     view
@@ -28,6 +29,7 @@ extension PumpApp on WidgetTester {
     platformDispatcher.localesTestValue = [locale];
     addTearDown(view.reset);
     addTearDown(platformDispatcher.clearLocalesTestValue);
+    if (reduceMotion) useReducedMotion();
 
     final store = InMemoryKeyValueStore(storedValues);
     await pumpWidget(
@@ -69,5 +71,15 @@ extension NavigateTo on WidgetTester {
       ),
     );
     await pumpAndSettle();
+  }
+}
+
+extension ReducedMotion on WidgetTester {
+  /// System setting "reduce motion": live highlights (e.g. MQTT topic
+  /// tree) become static, so pumpAndSettle settles while data streams in.
+  void useReducedMotion() {
+    platformDispatcher.accessibilityFeaturesTestValue =
+        const FakeAccessibilityFeatures(disableAnimations: true);
+    addTearDown(platformDispatcher.clearAccessibilityFeaturesTestValue);
   }
 }

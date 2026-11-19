@@ -20,8 +20,11 @@ GoRouter createAppRouter({String initialLocation = '/modbus/connection'}) {
     AppDestination.modbusTools => const ToolsPage(),
     AppDestination.mqttConnection => const MqttConnectionPage(),
     AppDestination.mqttTopics => const MqttTopicsPage(),
-    AppDestination.mqttMonitor || AppDestination.mqttTools =>
-      MqttPlaceholderPage(icon: destination.icon, milestone: 'M13'),
+    AppDestination.mqttMonitor => const MqttMonitorPage(),
+    AppDestination.mqttTools => MqttPlaceholderPage(
+      icon: destination.icon,
+      milestone: 'M13',
+    ),
     AppDestination.settings => const SettingsPage(),
   };
 

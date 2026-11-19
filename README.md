@@ -1,8 +1,8 @@
 # ProtocollExplorer (vormals Modbus Explorer)
 
 > Debugging-Werkzeug mit zwei Modulen: **Modbus** (fertig) und **MQTT**
-> (Verbindung und Publish/Subscribe fertig; Topic-Baum, Payload-Analyse,
-> Historie und Monitor folgen mit M10–M14). Oben in der App wechselt ein
+> (Verbindung, Publish/Subscribe und Live-Topic-Baum fertig; Payload-
+> Analyse, Historie und Monitor folgen mit M11–M14). Oben in der App wechselt ein
 > Umschalter **Modbus | MQTT** zwischen den Modulen.
 
 Plattformübergreifendes Debugging-Werkzeug für **Modbus TCP**, **Modbus RTU**
@@ -89,7 +89,28 @@ einspaltig), Tastaturkürzel, Screenreader-Beschriftungen, Kontraste nach WCAG A
 
 ## MQTT-Modul
 
-**Stand M9:** Broker-Verbindung, Profile, TLS, Abonnements und Publish.
+**Stand M10:** Broker-Verbindung, Profile, TLS, Abonnements, Publish und
+Live-Topic-Baum.
+
+- **Topic-Baum** (Kernansicht): alle empfangenen Topics hierarchisch nach
+  `/`, natürlich sortiert (`sensor2` vor `sensor10`), leere Ebenen als
+  „(leer)“. Pro Knoten letzter Wert, Anzahl Nachrichten bzw. Unter-Topics,
+  Retained-Kennzeichen; ein neuer Wert lässt die Zeile kurz aufleuchten
+  (bei „Bewegung reduzieren“ statische Markierung). Auf- und Zuklappen
+  einzeln oder alle, Filter als **Text, Wildcard (`+`/`#`) oder Regex**
+  (Treffer werden automatisch aufgeklappt, ungültige Ausdrücke erklärt),
+  `$SYS` ein-/ausblendbar, **„Nur geänderte“** blendet Topics aus, deren
+  Wert sich nie geändert hat. Strg/⌘+F springt in den Filter.
+- **Details** zum gewählten Topic, live aktualisiert: Pfad, letzte
+  Payload (Text oder Hex), Empfangszeit und Alter, QoS/Retain/DUP, Größe,
+  Zähler; Kopieren, „In Publish übernehmen“, Unterbaum abonnieren.
+- **Layout:** Baum | Details | Abos + Publish in drei verschiebbaren
+  Spalten (ab 1000 px Inhaltsbreite), darunter Baum + Tabs, auf Telefonen
+  nur Tabs (Auswahl eines Topics öffnet die Details).
+- **Leistung:** Einfügen O(Tiefe) direkt beim Empfang, Oberfläche höchstens
+  alle 200 ms aktualisiert, virtualisierte Liste. Gemessen: 200 000
+  Nachrichten auf 10 000 Topics in ~45 ms eingefügt, 11 000 sichtbare
+  Zeilen in ~47 ms aufbereitet. Neuer Broker = leerer Baum.
 
 - **Profile:** Host, Port, Transport **TCP (1883) / TLS (8883) / WebSocket
   (ws, wss)**, Protokoll **MQTT 3.1.1 oder 5.0**, Client-ID (leer = bei jeder
@@ -115,7 +136,8 @@ einspaltig), Tastaturkürzel, Screenreader-Beschriftungen, Kontraste nach WCAG A
   Data, Message Expiry, User Properties). Strg/⌘+Enter sendet. Rückfrage
   vor Publish auf bereits empfangene Topics (abschaltbar), eigener Knopf
   „Retained Message löschen“ mit Bestätigung.
-- **Nachrichtenliste** (RX/TX, Zeit, QoS, Retain, DUP, Größe, Vorschau):
+- **Monitor** (vorläufig, wird mit M13 ausgebaut): chronologische
+  Nachrichtenliste (RX/TX, Zeit, QoS, Retain, DUP, Größe, Vorschau),
   Ringpuffer mit 5000 Einträgen, UI-Aktualisierung gebündelt alle 150 ms,
   virtualisierte Liste; Anhalten, Leeren (Strg/⌘+L).
 - **Demo-Broker** eingebaut (Profil „Demo-Broker (Simulator)“): JSON-,
@@ -231,7 +253,7 @@ dart run flutter_launcher_icons              # Plattform-Icons
 
 | Ebene | Befehl | Inhalt |
 |---|---|---|
-| Unit | `flutter test test/shared test/modules …` | MQTT: Topic-Filter (`+`, `#`, `$SYS`, Grenzfälle), Payload-Formate, CONNACK-Codes, Profil-Speicher, Demo-Broker (Retained, No Local, Retain Handling), Verbindungs-Controller (Neuverbinden, Abos), Ringpuffer. Modbus: CRC16, MBAP/RTU-Framing, PDU-Codec, alle Datentyp-/Byte-Order-Konvertierungen (Referenzwerte unabhängig berechnet), Encoder, Adressen, Exceptions, Client mit Simulator (Timeouts, Retries, CRC, verspätete Antworten), Register-Map, Scanner, Statistik |
+| Unit | `flutter test test/shared test/modules …` | MQTT: Topic-Filter (`+`, `#`, `$SYS`, Grenzfälle), Payload-Formate, CONNACK-Codes, Profil-Speicher, Demo-Broker (Retained, No Local, Retain Handling), Verbindungs-Controller (Neuverbinden, Abos), Ringpuffer, Topic-Baum (Aufbau, Sortierung, Filter, Leistung mit 10 000 Topics), Drosselung der UI-Updates. Modbus: CRC16, MBAP/RTU-Framing, PDU-Codec, alle Datentyp-/Byte-Order-Konvertierungen (Referenzwerte unabhängig berechnet), Encoder, Adressen, Exceptions, Client mit Simulator (Timeouts, Retries, CRC, verspätete Antworten), Register-Map, Scanner, Statistik |
 | Widget | `flutter test` | Interpretations-Matrix, alle Seiten und Abläufe gegen den Simulator, Import/Export, Tastaturkürzel |
 | Layout | `test/layout_smoke_test.dart` | alle Seiten auf Deutsch in Handy-, Tablet- und Desktop-Größe (Überläufe lassen den Test scheitern) |
 | Barrierefreiheit | `test/core/contrast_test.dart` | Textkontraste ≥ 4,5:1 in beiden Themes |
@@ -273,7 +295,8 @@ lib/
                    Payload-Formate (reines Dart)
       data/        MqttSession-Schnittstelle mit mqtt_client (3.1.1),
                    mqtt5_client (5.0) und Demo-Broker; Profile + Geheimnisse
-      presentation/ Verbindung, Profil-Editor, Topics (Liste/Abos/Publish)
+      presentation/ Verbindung, Profil-Editor, Topic-Baum, Details,
+                   Abos/Publish, Monitor
 ```
 
 **Transport in drei Schichten:**
@@ -367,7 +390,8 @@ Profil lassen sich Latenz sowie verlorene und verfälschte Antworten simulieren.
 | Strg + R / F5 | einmal lesen (Register oder Register-Map) |
 | Strg + P | Polling starten/stoppen |
 | Strg + Enter | Dialog bestätigen / Profil speichern / MQTT-Publish |
-| Strg + L | MQTT-Nachrichtenliste leeren |
+| Strg + F | MQTT-Topic-Baum filtern |
+| Strg + L | MQTT-Monitor leeren |
 | Esc | Dialog schließen |
 | Umschalt + Klick | Bereich in der Tabelle auswählen |
 
@@ -408,8 +432,9 @@ Antwortzeit ~95 ms (Mac) bzw. ~108 ms (Android-Emulator). Die Prüfung lief
   werden auf das /24 um die eigene Adresse begrenzt (max. 4096 Adressen).
 - MQTT über WebSocket (wss): eigene CA und Client-Zertifikate unterstützt
   das MQTT-Paket nicht, es gelten die System-CAs (TLS über TCP kann beides).
-- MQTT: Publish-Vorlagen/Favoriten, Topic-Baum, Payload-Analyse, Historie,
-  Monitor und Broker-Info folgen mit M10–M14.
+- MQTT: Publish-Vorlagen/Favoriten, Payload-Analyse, Historie, Monitor-
+  Filter/Export und Broker-Info folgen mit M11–M14. Der Topic-Baum hält nur
+  den letzten Wert je Topic; der Verlauf kommt mit M12.
 - macOS speichert MQTT-Geheimnisse im Anmelde-Schlüsselbund statt im
   Data-Protection-Schlüsselbund, weil dieser eine signierte App mit Team-ID
   voraussetzt.

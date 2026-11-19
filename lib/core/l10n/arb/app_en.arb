@@ -1288,5 +1288,127 @@
         "type": "String"
       }
     }
+  },
+  "mqttTabTree": "Tree",
+  "mqttTabDetails": "Details",
+  "mqttTreeSearch": "Filter topics",
+  "mqttTreeSearchTooltip": "Filter topics ({shortcut})",
+  "@mqttTreeSearchTooltip": {
+    "placeholders": {
+      "shortcut": {
+        "type": "String"
+      }
+    }
+  },
+  "mqttFilterText": "Text",
+  "mqttFilterWildcard": "Wildcard (+/#)",
+  "mqttFilterRegex": "Regex",
+  "mqttTreeShowSys": "Show $SYS",
+  "mqttTreeOnlyChanged": "Only changed",
+  "mqttTreeOnlyChangedTooltip": "Hide topics whose value never changed",
+  "mqttTreeExpandAll": "Expand all",
+  "mqttTreeCollapseAll": "Collapse all",
+  "mqttTreeClear": "Clear tree",
+  "mqttTreeStats": "{topics} topics · {messages} messages",
+  "@mqttTreeStats": {
+    "placeholders": {
+      "topics": {
+        "type": "int"
+      },
+      "messages": {
+        "type": "int"
+      }
+    }
+  },
+  "mqttTreeEmpty": "No topics received yet.",
+  "mqttTreeNoMatch": "No topic matches the filter.",
+  "mqttTreeFilterError": "Invalid filter: {error}",
+  "@mqttTreeFilterError": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "mqttNodeMessages": "{count} msg",
+  "@mqttNodeMessages": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "mqttNodeTopics": "{count} topics",
+  "@mqttNodeTopics": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "mqttEmptyLevel": "(empty)",
+  "mqttRetainedBadge": "Retained",
+  "mqttExpand": "Expand",
+  "mqttCollapse": "Collapse",
+  "mqttDetailNone": "Select a topic in the tree.",
+  "mqttDetailBranch": "No message was received on this level itself.",
+  "mqttDetailLast": "Last message",
+  "mqttDetailReceived": "Received",
+  "mqttDetailMessages": "Messages",
+  "mqttDetailSubtopics": "Subtopics",
+  "mqttDetailSize": "Size",
+  "mqttDetailFlags": "QoS / flags",
+  "mqttDetailChanged": "Last changed",
+  "mqttBytes": "{count} bytes",
+  "@mqttBytes": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "mqttTruncated": "… truncated, {count} bytes in total",
+  "@mqttTruncated": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "mqttSecondsAgo": "{value} s ago",
+  "@mqttSecondsAgo": {
+    "placeholders": {
+      "value": {
+        "type": "int"
+      }
+    }
+  },
+  "mqttMinutesAgo": "{value} min ago",
+  "@mqttMinutesAgo": {
+    "placeholders": {
+      "value": {
+        "type": "int"
+      }
+    }
+  },
+  "mqttHoursAgo": "{value} h ago",
+  "@mqttHoursAgo": {
+    "placeholders": {
+      "value": {
+        "type": "int"
+      }
+    }
+  },
+  "mqttCopyTopic": "Copy topic",
+  "mqttCopyPayload": "Copy payload",
+  "mqttCopied": "Copied",
+  "mqttUseForPublish": "Use for publish",
+  "mqttSubscribeSubtree": "Subscribe to {filter}",
+  "@mqttSubscribeSubtree": {
+    "placeholders": {
+      "filter": {
+        "type": "String"
+      }
+    }
   }
 }

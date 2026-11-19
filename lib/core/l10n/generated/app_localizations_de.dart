@@ -2093,4 +2093,154 @@ class AppLocalizationsDe extends AppLocalizations {
   String mqttComingSoonMilestone(String milestone) {
     return 'Dieser Bereich folgt mit $milestone.';
   }
+
+  @override
+  String get mqttTabTree => 'Baum';
+
+  @override
+  String get mqttTabDetails => 'Details';
+
+  @override
+  String get mqttTreeSearch => 'Topics filtern';
+
+  @override
+  String mqttTreeSearchTooltip(String shortcut) {
+    return 'Topics filtern ($shortcut)';
+  }
+
+  @override
+  String get mqttFilterText => 'Text';
+
+  @override
+  String get mqttFilterWildcard => 'Wildcard (+/#)';
+
+  @override
+  String get mqttFilterRegex => 'Regex';
+
+  @override
+  String get mqttTreeShowSys => '\$SYS anzeigen';
+
+  @override
+  String get mqttTreeOnlyChanged => 'Nur geänderte';
+
+  @override
+  String get mqttTreeOnlyChangedTooltip =>
+      'Topics ausblenden, deren Wert sich nie geändert hat';
+
+  @override
+  String get mqttTreeExpandAll => 'Alle aufklappen';
+
+  @override
+  String get mqttTreeCollapseAll => 'Alle zuklappen';
+
+  @override
+  String get mqttTreeClear => 'Baum leeren';
+
+  @override
+  String mqttTreeStats(int topics, int messages) {
+    return '$topics Topics · $messages Nachrichten';
+  }
+
+  @override
+  String get mqttTreeEmpty => 'Noch keine Topics empfangen.';
+
+  @override
+  String get mqttTreeNoMatch => 'Kein Topic passt zum Filter.';
+
+  @override
+  String mqttTreeFilterError(String error) {
+    return 'Ungültiger Filter: $error';
+  }
+
+  @override
+  String mqttNodeMessages(int count) {
+    return '$count Nachr.';
+  }
+
+  @override
+  String mqttNodeTopics(int count) {
+    return '$count Topics';
+  }
+
+  @override
+  String get mqttEmptyLevel => '(leer)';
+
+  @override
+  String get mqttRetainedBadge => 'Retained';
+
+  @override
+  String get mqttExpand => 'Aufklappen';
+
+  @override
+  String get mqttCollapse => 'Zuklappen';
+
+  @override
+  String get mqttDetailNone => 'Ein Topic im Baum auswählen.';
+
+  @override
+  String get mqttDetailBranch =>
+      'Auf dieser Ebene selbst kam noch keine Nachricht.';
+
+  @override
+  String get mqttDetailLast => 'Letzte Nachricht';
+
+  @override
+  String get mqttDetailReceived => 'Empfangen';
+
+  @override
+  String get mqttDetailMessages => 'Nachrichten';
+
+  @override
+  String get mqttDetailSubtopics => 'Unter-Topics';
+
+  @override
+  String get mqttDetailSize => 'Größe';
+
+  @override
+  String get mqttDetailFlags => 'QoS / Flags';
+
+  @override
+  String get mqttDetailChanged => 'Zuletzt geändert';
+
+  @override
+  String mqttBytes(int count) {
+    return '$count Bytes';
+  }
+
+  @override
+  String mqttTruncated(int count) {
+    return '… gekürzt, $count Bytes insgesamt';
+  }
+
+  @override
+  String mqttSecondsAgo(int value) {
+    return 'vor $value s';
+  }
+
+  @override
+  String mqttMinutesAgo(int value) {
+    return 'vor $value min';
+  }
+
+  @override
+  String mqttHoursAgo(int value) {
+    return 'vor $value h';
+  }
+
+  @override
+  String get mqttCopyTopic => 'Topic kopieren';
+
+  @override
+  String get mqttCopyPayload => 'Payload kopieren';
+
+  @override
+  String get mqttCopied => 'Kopiert';
+
+  @override
+  String get mqttUseForPublish => 'In Publish übernehmen';
+
+  @override
+  String mqttSubscribeSubtree(String filter) {
+    return '$filter abonnieren';
+  }
 }

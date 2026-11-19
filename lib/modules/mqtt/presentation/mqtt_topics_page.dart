@@ -6,76 +6,77 @@ import 'package:material_ui/material_ui.dart';
 import 'package:modbus_explorer/core/l10n/l10n.dart';
 import 'package:modbus_explorer/core/routing/app_destination.dart';
 import 'package:modbus_explorer/core/theme/app_theme.dart';
+import 'package:modbus_explorer/core/widgets/resizable_split.dart';
 import 'package:modbus_explorer/modules/mqtt/domain/mqtt_message.dart';
 import 'package:modbus_explorer/modules/mqtt/domain/payload_codec.dart';
 import 'package:modbus_explorer/modules/mqtt/presentation/mqtt_connection_controller.dart';
 import 'package:modbus_explorer/modules/mqtt/presentation/mqtt_message_log_controller.dart';
 import 'package:modbus_explorer/modules/mqtt/presentation/mqtt_publish_panel.dart';
 import 'package:modbus_explorer/modules/mqtt/presentation/mqtt_subscriptions_panel.dart';
+import 'package:modbus_explorer/modules/mqtt/presentation/mqtt_topic_detail.dart';
+import 'package:modbus_explorer/modules/mqtt/presentation/mqtt_topic_tree_view.dart';
 
-/// M9: received/sent messages next to subscriptions and publish. The
-/// topic tree replaces the plain list in M10.
+/// Topic tree | details | subscriptions + publish. Three resizable
+/// columns on wide windows, tree + tabs on medium ones, tabs on phones.
 class MqttTopicsPage extends ConsumerWidget {
   const new({super.key});
 
   static const wideLayout = 1000.0;
+  static const mediumLayout = 700.0;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = context.l10n;
-    void clearLog() =>
-        ref.read(mqttMessageLogControllerProvider.notifier).clear();
-
-    return CallbackShortcuts(
-      bindings: {
-        const SingleActivator(LogicalKeyboardKey.keyL, control: true): clearLog,
-        const SingleActivator(LogicalKeyboardKey.keyL, meta: true): clearLog,
-      },
-      child: Column(
-        children: [
-          const _NotConnectedBanner(),
-          Expanded(
-            child: LayoutBuilder(
-              builder: (context, constraints) {
-                if (constraints.maxWidth >= wideLayout) {
-                  return Row(
+    const side = _SidePanel();
+    return Column(
+      children: [
+        const _NotConnectedBanner(),
+        Expanded(
+          child: LayoutBuilder(
+            builder: (context, constraints) {
+              final width = constraints.maxWidth;
+              if (width >= wideLayout) {
+                return const ResizableSplit(
+                  initialFraction: 0.4,
+                  minFirst: 300,
+                  minSecond: 600,
+                  first: MqttTopicTreeView(),
+                  second: ResizableSplit(
+                    minFirst: 260,
+                    minSecond: 330,
+                    first: MqttTopicDetail(),
+                    second: side,
+                  ),
+                );
+              }
+              final tabs = [
+                if (width < mediumLayout) Tab(text: l10n.mqttTabTree),
+                Tab(text: l10n.mqttTabDetails),
+                Tab(text: l10n.mqttTabSubscriptions),
+                Tab(text: l10n.mqttTabPublish),
+              ];
+              final tabbed = DefaultTabController(
+                length: tabs.length,
+                child: Builder(
+                  builder: (context) => Column(
                     children: [
-                      const Expanded(child: MqttMessageList()),
-                      const VerticalDivider(width: 1),
-                      SizedBox(
-                        width: 400,
-                        child: ListView(
-                          padding: const EdgeInsets.all(12),
-                          children: const [
-                            MqttSubscriptionsPanel(),
-                            SizedBox(height: 12),
-                            MqttPublishPanel(),
-                          ],
-                        ),
-                      ),
-                    ],
-                  );
-                }
-                return DefaultTabController(
-                  length: 3,
-                  child: Column(
-                    children: [
-                      TabBar(
-                        tabs: [
-                          Tab(text: l10n.mqttTabMessages),
-                          Tab(text: l10n.mqttTabSubscriptions),
-                          Tab(text: l10n.mqttTabPublish),
-                        ],
-                      ),
-                      const Expanded(
+                      TabBar(tabs: tabs),
+                      Expanded(
                         child: TabBarView(
                           children: [
-                            MqttMessageList(),
-                            SingleChildScrollView(
+                            if (width < mediumLayout)
+                              MqttTopicTreeView(
+                                // Phones: a selection opens the details.
+                                onSelected: (_) =>
+                                    DefaultTabController.of(context)
+                                        .animateTo(1),
+                              ),
+                            const MqttTopicDetail(),
+                            const SingleChildScrollView(
                               padding: EdgeInsets.all(12),
                               child: MqttSubscriptionsPanel(),
                             ),
-                            SingleChildScrollView(
+                            const SingleChildScrollView(
                               padding: EdgeInsets.all(12),
                               child: MqttPublishPanel(),
                             ),
@@ -84,11 +85,58 @@ class MqttTopicsPage extends ConsumerWidget {
                       ),
                     ],
                   ),
-                );
-              },
-            ),
+                ),
+              );
+              if (width < mediumLayout) return tabbed;
+              return ResizableSplit(
+                minFirst: 320,
+                minSecond: 340,
+                first: const MqttTopicTreeView(),
+                second: tabbed,
+              );
+            },
           ),
-        ],
+        ),
+      ],
+    );
+  }
+}
+
+class _SidePanel extends StatelessWidget {
+  const new();
+
+  @override
+  Widget build(BuildContext context) => ListView(
+    padding: const EdgeInsets.all(12),
+    children: const [
+      MqttSubscriptionsPanel(),
+      SizedBox(height: 12),
+      MqttPublishPanel(),
+    ],
+  );
+}
+
+/// Chronological message list; the Monitor tab until M13 extends it.
+class MqttMonitorPage extends ConsumerWidget {
+  const new({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    void clearLog() =>
+        ref.read(mqttMessageLogControllerProvider.notifier).clear();
+    return CallbackShortcuts(
+      bindings: {
+        const SingleActivator(LogicalKeyboardKey.keyL, control: true): clearLog,
+        const SingleActivator(LogicalKeyboardKey.keyL, meta: true): clearLog,
+      },
+      child: const Focus(
+        autofocus: true,
+        child: Column(
+          children: [
+            _NotConnectedBanner(),
+            Expanded(child: MqttMessageList()),
+          ],
+        ),
       ),
     );
   }
