@@ -8,13 +8,14 @@ import 'package:modbus_explorer/core/l10n/l10n.dart';
 import 'package:modbus_explorer/core/theme/app_theme.dart';
 import 'package:modbus_explorer/core/widgets/snackbar.dart';
 import 'package:modbus_explorer/modules/mqtt/domain/mqtt_config.dart';
-import 'package:modbus_explorer/modules/mqtt/domain/payload_codec.dart';
 import 'package:modbus_explorer/modules/mqtt/presentation/mqtt_connection_controller.dart';
 import 'package:modbus_explorer/modules/mqtt/presentation/mqtt_publish_draft.dart';
 import 'package:modbus_explorer/modules/mqtt/presentation/mqtt_topic_tree_controller.dart';
+import 'package:modbus_explorer/modules/mqtt/presentation/payload_view.dart';
+import 'package:modbus_explorer/shared/interpretation/domain/value_formatter.dart';
 
-/// Selected topic: path, last message, counters. Payload interpretation
-/// (JSON tree, hex dump, binary matrix) is added in M11.
+/// Selected topic: path, counters, actions and the last message in all
+/// representations ([PayloadView]).
 class MqttTopicDetail extends ConsumerWidget {
   const new({super.key});
 
@@ -132,34 +133,14 @@ class MqttTopicDetail extends ConsumerWidget {
                 ),
               ),
               IconButton(
+                key: const Key('mqtt.detail.copyPayload'),
                 tooltip: l10n.mqttCopyPayload,
                 icon: const Icon(Icons.copy_all, size: 18),
                 onPressed: () => copy(_payloadText(last.payload)),
               ),
             ],
           ),
-          Container(
-            key: const Key('mqtt.detail.payload'),
-            width: double.infinity,
-            padding: const EdgeInsets.all(12),
-            decoration: BoxDecoration(
-              color: theme.colorScheme.surfaceContainerHighest,
-              borderRadius: BorderRadius.circular(8),
-            ),
-            child: SelectableText(
-              _payloadText(
-                last.payload.length > maxShownBytes
-                    ? Uint8List.sublistView(last.payload, 0, maxShownBytes)
-                    : last.payload,
-              ),
-              style: mono,
-            ),
-          ),
-          if (last.payload.length > maxShownBytes)
-            Text(
-              l10n.mqttTruncated(last.payload.length),
-              style: theme.textTheme.bodySmall,
-            ),
+          PayloadView(record: last, topic: node.path),
         ] else
           Padding(
             padding: const EdgeInsets.only(top: 12),

@@ -192,6 +192,14 @@ void main() {
         find.byKey(const Key('mqtt.tree.row.demo/plant/line1/temperature')),
       );
       await tester.pumpAndSettle();
+      // Every payload representation (phones jump to the details tab).
+      for (final tab in ['content', 'text', 'hex', 'binary', 'meta']) {
+        final finder = find.byKey(Key('payload.tab.$tab'));
+        await tester.ensureVisible(finder);
+        await tester.pumpAndSettle();
+        await tester.tap(finder);
+        await tester.pumpAndSettle();
+      }
       for (final tab in ['Baum', 'Details', 'Abos', 'Publish']) {
         final finder = find.widgetWithText(Tab, tab);
         if (finder.evaluate().isEmpty) continue;

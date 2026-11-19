@@ -1,6 +1,6 @@
 # ProtocollExplorer (package `modbus_explorer`)
 
-Flutter debugging tool with two modules: Modbus (done) and MQTT (M9–M10 done, M11–M14 open).
+Flutter debugging tool with two modules: Modbus (done) and MQTT (M9–M11 done, M12–M14 open).
 Read DECISIONS.md before changing behaviour; add an entry for every
 non-obvious decision (German, table row `| Dnnn | decision | reason |`).
 
@@ -17,7 +17,7 @@ non-obvious decision (German, table row `| Dnnn | decision | reason |`).
 - Riverpod 3 without codegen (`Notifier`, `AsyncNotifier`, `Provider`);
   check `ref.mounted` after awaits.
 - Structure: `core/` infra · `shared/` cross-module logic (interpretation
-  engine, profile store) · `features/` app-wide (settings, network scan) ·
+  engine incl. `InterpretationMatrix.fromBytes`, profile store) · `features/` app-wide (settings, network scan) ·
   `modules/modbus|mqtt/<feature>/{domain,data,presentation}`. `domain/` is
   pure Dart.
 - Strings in `lib/core/l10n/arb/app_{de,en}.arb` (edit JSON, then

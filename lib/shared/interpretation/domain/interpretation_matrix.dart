@@ -54,6 +54,15 @@ final class InterpretationMatrix {
     return InterpretationMatrix._(List.unmodifiable(registers), rows);
   }
 
+  /// Same matrix for raw bytes (e.g. an MQTT payload) instead of
+  /// registers. Letters keep their meaning: `A` is the first byte, `ABCD`
+  /// big endian, `DCBA` little endian. [registers] is empty; odd lengths
+  /// are fine (a type simply needs enough bytes).
+  factory fromBytes(Uint8List bytes, {List<DataType> types = defaultTypes}) =>
+      InterpretationMatrix._(const [], [
+        for (final type in types) MatrixRow(type, _cellsFor(bytes, type)),
+      ]);
+
   static const List<ByteOrderFamily> columns = ByteOrderFamily.values;
 
   static const List<DataType> defaultTypes = [

@@ -441,10 +441,15 @@ void main() {
       ),
       findsOneWidget,
     );
+    // JSON is detected; the text tab shows the raw payload.
+    expect(find.text('Detected: JSON'), findsOneWidget);
+    expect(find.byKey(const Key('payload.jsonTree')), findsOneWidget);
+    await tester.tap(find.byKey(const Key('payload.tab.text')));
+    await tester.pumpAndSettle();
     String payload() => tester
         .widget<SelectableText>(
           find.descendant(
-            of: find.byKey(const Key('mqtt.detail.payload')),
+            of: find.byKey(const Key('payload.decodedText')),
             matching: find.byType(SelectableText),
           ),
         )
@@ -455,12 +460,17 @@ void main() {
     await tester.pumpAndSettle();
     expect(payload(), isNot(before));
 
-    // Binary payloads are shown as hex.
+    // Binary payloads open in the binary interpretation (UINT32 counter).
     await tester.tap(
       find.byKey(const Key('mqtt.tree.row.demo/plant/line1/counter')),
     );
     await tester.pumpAndSettle();
-    expect(payload(), matches(RegExp(r'^([0-9A-F]{2} ){3}[0-9A-F]{2}$')));
+    expect(find.text('Detected: Binary'), findsOneWidget);
+    expect(find.byKey(const Key('payload.binary')), findsOneWidget);
+    expect(
+      tester.widget<Text>(find.byKey(const Key('payload.window'))).data,
+      matches(RegExp(r'^Bytes from offset: ([0-9A-F]{2} ){3}[0-9A-F]{2}$')),
+    );
 
     // Hand the topic to the publish panel.
     await tester.tap(find.byKey(const Key('mqtt.detail.usePublish')));

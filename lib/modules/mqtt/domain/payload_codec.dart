@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
+import 'package:modbus_explorer/shared/interpretation/domain/value_formatter.dart';
+
 /// How the user typed a payload.
 enum PayloadFormat { text, json, hex, base64 }
 
@@ -36,11 +38,6 @@ Uint8List encodePayload(String input, PayloadFormat format) {
   }
 }
 
-/// Bytes as `0A 1B …`.
-String formatHexBytes(Iterable<int> bytes) => bytes
-    .map((b) => b.toRadixString(16).padLeft(2, '0').toUpperCase())
-    .join(' ');
-
 /// Short single-line preview of a payload for lists.
 String payloadPreview(Uint8List payload, {int maxChars = 120}) {
   if (payload.isEmpty) return '';
@@ -49,10 +46,10 @@ String payloadPreview(Uint8List payload, {int maxChars = 120}) {
     text = utf8.decode(payload);
     // Control characters other than whitespace suggest binary data.
     if (RegExp('[\u0000-\u0008\u000E-\u001F]').hasMatch(text)) {
-      text = formatHexBytes(payload.take(maxChars ~/ 3));
+      text = formatHexBytes(payload.take(maxChars ~/ 3).toList());
     }
   } on FormatException {
-    text = formatHexBytes(payload.take(maxChars ~/ 3));
+    text = formatHexBytes(payload.take(maxChars ~/ 3).toList());
   }
   text = text.replaceAll(RegExp(r'\s+'), ' ');
   return text.length > maxChars ? '${text.substring(0, maxChars)}…' : text;

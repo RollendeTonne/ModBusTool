@@ -2230,4 +2230,177 @@ class AppLocalizationsEn extends AppLocalizations {
   String mqttSubscribeSubtree(String filter) {
     return 'Subscribe to $filter';
   }
+
+  @override
+  String matrixNeedsBytes(int count) {
+    return 'Needs $count bytes';
+  }
+
+  @override
+  String payloadDetected(String kind) {
+    return 'Detected: $kind';
+  }
+
+  @override
+  String get payloadKindEmpty => 'empty';
+
+  @override
+  String get payloadKindJson => 'JSON';
+
+  @override
+  String get payloadKindJsonBroken => 'JSON (invalid)';
+
+  @override
+  String get payloadKindXml => 'XML';
+
+  @override
+  String get payloadKindXmlBroken => 'XML (invalid)';
+
+  @override
+  String get payloadKindText => 'Text (UTF-8)';
+
+  @override
+  String get payloadKindBase64 => 'Base64';
+
+  @override
+  String get payloadKindBinary => 'Binary';
+
+  @override
+  String get payloadTabContent => 'Content';
+
+  @override
+  String get payloadTabText => 'Text';
+
+  @override
+  String get payloadTabHex => 'Hex';
+
+  @override
+  String get payloadTabBinary => 'Binary';
+
+  @override
+  String get payloadTabMeta => 'Metadata';
+
+  @override
+  String get payloadJsonTree => 'Tree';
+
+  @override
+  String get payloadJsonPretty => 'Formatted';
+
+  @override
+  String get payloadJsonRaw => 'Raw';
+
+  @override
+  String payloadPathCopied(String path) {
+    return '$path copied';
+  }
+
+  @override
+  String get payloadCopyPathHint => 'Tap copies the JSON path';
+
+  @override
+  String payloadSyntaxError(int line, int column, String message) {
+    return 'Syntax error in line $line, column $column: $message';
+  }
+
+  @override
+  String payloadMoreItems(int count) {
+    return '… $count more';
+  }
+
+  @override
+  String get payloadEmpty => 'Empty payload (0 bytes).';
+
+  @override
+  String get payloadBinaryHint => 'Binary data – see Hex and Binary.';
+
+  @override
+  String payloadBase64Decoded(int count) {
+    return 'Base64 decoded ($count bytes)';
+  }
+
+  @override
+  String get payloadInterpretDecoded => 'Interpret decoded bytes';
+
+  @override
+  String get payloadEncoding => 'Encoding';
+
+  @override
+  String get payloadShowMore => 'Show more';
+
+  @override
+  String payloadHexLines(int shown, int total) {
+    return '$shown of $total lines';
+  }
+
+  @override
+  String get payloadOffset => 'Offset (byte)';
+
+  @override
+  String payloadOffsetHint(int max) {
+    return '0 … $max';
+  }
+
+  @override
+  String payloadWindow(String bytes) {
+    return 'Bytes from offset: $bytes';
+  }
+
+  @override
+  String get payloadSource => 'Source';
+
+  @override
+  String get payloadSourcePayload => 'Payload';
+
+  @override
+  String get payloadSourceBase64 => 'Base64 decoded';
+
+  @override
+  String get payloadEightBit => '8 bit';
+
+  @override
+  String get payloadBits => 'Bits (MSB first)';
+
+  @override
+  String get payloadNoBytes => 'No bytes from this offset.';
+
+  @override
+  String payloadValueCopied(String value) {
+    return '$value copied';
+  }
+
+  @override
+  String get payloadMetaNoV5 =>
+      'No MQTT 5 properties (MQTT 3.1.1 or not set by the sender).';
+
+  @override
+  String get payloadMetaContentType => 'Content type';
+
+  @override
+  String get payloadMetaFormat => 'Payload format';
+
+  @override
+  String get payloadMetaFormatUtf8 => 'UTF-8 text (declared by the sender)';
+
+  @override
+  String get payloadMetaExpiry => 'Message expiry';
+
+  @override
+  String get payloadMetaAlias => 'Topic alias';
+
+  @override
+  String get payloadMetaResponse => 'Response topic';
+
+  @override
+  String get payloadMetaCorrelation => 'Correlation data';
+
+  @override
+  String get payloadMetaUserProps => 'User properties';
+
+  @override
+  String get payloadMetaSubIds => 'Subscription identifiers';
+
+  @override
+  String payloadMetaSeconds(int value) {
+    return '$value s';
+  }
 }

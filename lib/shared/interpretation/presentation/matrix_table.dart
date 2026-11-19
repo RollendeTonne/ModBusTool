@@ -28,6 +28,7 @@ class InterpretationMatrixTable extends StatelessWidget {
     this.scaling = Scaling.identity,
     this.highlightPlausible = true,
     this.allowAddToMap = true,
+    this.countInBytes = false,
     super.key,
   });
 
@@ -38,6 +39,10 @@ class InterpretationMatrixTable extends StatelessWidget {
   /// Without a register address (hex calculator) only copying makes sense.
   final bool allowAddToMap;
   final MatrixCellCallback onCellAction;
+
+  /// Byte input (MQTT payloads): missing data is explained in bytes, not
+  /// registers.
+  final bool countInBytes;
 
   static const _typeWidth = 104.0;
   static const _cellWidth = 156.0;
@@ -74,7 +79,7 @@ class InterpretationMatrixTable extends StatelessWidget {
               children: [
                 _HeaderCell(row.type.technicalName, style: headerStyle.mono),
                 for (final (i, cell) in row.cells.indexed)
-                  _cell(row, InterpretationMatrix.columns[i], cell),
+                  _cell(context, row, InterpretationMatrix.columns[i], cell),
               ],
             ),
         ],
@@ -84,8 +89,19 @@ class InterpretationMatrixTable extends StatelessWidget {
 }
 
 extension on InterpretationMatrixTable {
-  Widget _cell(MatrixRow row, ByteOrderFamily column, MatrixCell? cell) {
-    if (cell == null) return _EmptyCell(registers: row.type.registerCount);
+  Widget _cell(
+    BuildContext context,
+    MatrixRow row,
+    ByteOrderFamily column,
+    MatrixCell? cell,
+  ) {
+    if (cell == null) {
+      return _EmptyCell(
+        message: countInBytes
+            ? context.l10n.matrixNeedsBytes(row.type.byteWidth)
+            : context.l10n.matrixNeedsRegisters(row.type.registerCount),
+      );
+    }
     return _ValueCell(
       // Family, not pattern: 16-bit columns repeat AB/BA.
       key: Key('matrix.${row.type.name}.${column.name}'),
@@ -112,15 +128,15 @@ class _HeaderCell extends StatelessWidget {
 }
 
 class _EmptyCell extends StatelessWidget {
-  const new({required this.registers});
+  const new({required this.message});
 
-  final int registers;
+  final String message;
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return Tooltip(
-      message: context.l10n.matrixNeedsRegisters(registers),
+      message: message,
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
         child: Text(

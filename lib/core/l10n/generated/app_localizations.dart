@@ -4015,6 +4015,306 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Subscribe to {filter}'**
   String mqttSubscribeSubtree(String filter);
+
+  /// No description provided for @matrixNeedsBytes.
+  ///
+  /// In en, this message translates to:
+  /// **'Needs {count} bytes'**
+  String matrixNeedsBytes(int count);
+
+  /// No description provided for @payloadDetected.
+  ///
+  /// In en, this message translates to:
+  /// **'Detected: {kind}'**
+  String payloadDetected(String kind);
+
+  /// No description provided for @payloadKindEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'empty'**
+  String get payloadKindEmpty;
+
+  /// No description provided for @payloadKindJson.
+  ///
+  /// In en, this message translates to:
+  /// **'JSON'**
+  String get payloadKindJson;
+
+  /// No description provided for @payloadKindJsonBroken.
+  ///
+  /// In en, this message translates to:
+  /// **'JSON (invalid)'**
+  String get payloadKindJsonBroken;
+
+  /// No description provided for @payloadKindXml.
+  ///
+  /// In en, this message translates to:
+  /// **'XML'**
+  String get payloadKindXml;
+
+  /// No description provided for @payloadKindXmlBroken.
+  ///
+  /// In en, this message translates to:
+  /// **'XML (invalid)'**
+  String get payloadKindXmlBroken;
+
+  /// No description provided for @payloadKindText.
+  ///
+  /// In en, this message translates to:
+  /// **'Text (UTF-8)'**
+  String get payloadKindText;
+
+  /// No description provided for @payloadKindBase64.
+  ///
+  /// In en, this message translates to:
+  /// **'Base64'**
+  String get payloadKindBase64;
+
+  /// No description provided for @payloadKindBinary.
+  ///
+  /// In en, this message translates to:
+  /// **'Binary'**
+  String get payloadKindBinary;
+
+  /// No description provided for @payloadTabContent.
+  ///
+  /// In en, this message translates to:
+  /// **'Content'**
+  String get payloadTabContent;
+
+  /// No description provided for @payloadTabText.
+  ///
+  /// In en, this message translates to:
+  /// **'Text'**
+  String get payloadTabText;
+
+  /// No description provided for @payloadTabHex.
+  ///
+  /// In en, this message translates to:
+  /// **'Hex'**
+  String get payloadTabHex;
+
+  /// No description provided for @payloadTabBinary.
+  ///
+  /// In en, this message translates to:
+  /// **'Binary'**
+  String get payloadTabBinary;
+
+  /// No description provided for @payloadTabMeta.
+  ///
+  /// In en, this message translates to:
+  /// **'Metadata'**
+  String get payloadTabMeta;
+
+  /// No description provided for @payloadJsonTree.
+  ///
+  /// In en, this message translates to:
+  /// **'Tree'**
+  String get payloadJsonTree;
+
+  /// No description provided for @payloadJsonPretty.
+  ///
+  /// In en, this message translates to:
+  /// **'Formatted'**
+  String get payloadJsonPretty;
+
+  /// No description provided for @payloadJsonRaw.
+  ///
+  /// In en, this message translates to:
+  /// **'Raw'**
+  String get payloadJsonRaw;
+
+  /// No description provided for @payloadPathCopied.
+  ///
+  /// In en, this message translates to:
+  /// **'{path} copied'**
+  String payloadPathCopied(String path);
+
+  /// No description provided for @payloadCopyPathHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap copies the JSON path'**
+  String get payloadCopyPathHint;
+
+  /// No description provided for @payloadSyntaxError.
+  ///
+  /// In en, this message translates to:
+  /// **'Syntax error in line {line}, column {column}: {message}'**
+  String payloadSyntaxError(int line, int column, String message);
+
+  /// No description provided for @payloadMoreItems.
+  ///
+  /// In en, this message translates to:
+  /// **'… {count} more'**
+  String payloadMoreItems(int count);
+
+  /// No description provided for @payloadEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Empty payload (0 bytes).'**
+  String get payloadEmpty;
+
+  /// No description provided for @payloadBinaryHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Binary data – see Hex and Binary.'**
+  String get payloadBinaryHint;
+
+  /// No description provided for @payloadBase64Decoded.
+  ///
+  /// In en, this message translates to:
+  /// **'Base64 decoded ({count} bytes)'**
+  String payloadBase64Decoded(int count);
+
+  /// No description provided for @payloadInterpretDecoded.
+  ///
+  /// In en, this message translates to:
+  /// **'Interpret decoded bytes'**
+  String get payloadInterpretDecoded;
+
+  /// No description provided for @payloadEncoding.
+  ///
+  /// In en, this message translates to:
+  /// **'Encoding'**
+  String get payloadEncoding;
+
+  /// No description provided for @payloadShowMore.
+  ///
+  /// In en, this message translates to:
+  /// **'Show more'**
+  String get payloadShowMore;
+
+  /// No description provided for @payloadHexLines.
+  ///
+  /// In en, this message translates to:
+  /// **'{shown} of {total} lines'**
+  String payloadHexLines(int shown, int total);
+
+  /// No description provided for @payloadOffset.
+  ///
+  /// In en, this message translates to:
+  /// **'Offset (byte)'**
+  String get payloadOffset;
+
+  /// No description provided for @payloadOffsetHint.
+  ///
+  /// In en, this message translates to:
+  /// **'0 … {max}'**
+  String payloadOffsetHint(int max);
+
+  /// No description provided for @payloadWindow.
+  ///
+  /// In en, this message translates to:
+  /// **'Bytes from offset: {bytes}'**
+  String payloadWindow(String bytes);
+
+  /// No description provided for @payloadSource.
+  ///
+  /// In en, this message translates to:
+  /// **'Source'**
+  String get payloadSource;
+
+  /// No description provided for @payloadSourcePayload.
+  ///
+  /// In en, this message translates to:
+  /// **'Payload'**
+  String get payloadSourcePayload;
+
+  /// No description provided for @payloadSourceBase64.
+  ///
+  /// In en, this message translates to:
+  /// **'Base64 decoded'**
+  String get payloadSourceBase64;
+
+  /// No description provided for @payloadEightBit.
+  ///
+  /// In en, this message translates to:
+  /// **'8 bit'**
+  String get payloadEightBit;
+
+  /// No description provided for @payloadBits.
+  ///
+  /// In en, this message translates to:
+  /// **'Bits (MSB first)'**
+  String get payloadBits;
+
+  /// No description provided for @payloadNoBytes.
+  ///
+  /// In en, this message translates to:
+  /// **'No bytes from this offset.'**
+  String get payloadNoBytes;
+
+  /// No description provided for @payloadValueCopied.
+  ///
+  /// In en, this message translates to:
+  /// **'{value} copied'**
+  String payloadValueCopied(String value);
+
+  /// No description provided for @payloadMetaNoV5.
+  ///
+  /// In en, this message translates to:
+  /// **'No MQTT 5 properties (MQTT 3.1.1 or not set by the sender).'**
+  String get payloadMetaNoV5;
+
+  /// No description provided for @payloadMetaContentType.
+  ///
+  /// In en, this message translates to:
+  /// **'Content type'**
+  String get payloadMetaContentType;
+
+  /// No description provided for @payloadMetaFormat.
+  ///
+  /// In en, this message translates to:
+  /// **'Payload format'**
+  String get payloadMetaFormat;
+
+  /// No description provided for @payloadMetaFormatUtf8.
+  ///
+  /// In en, this message translates to:
+  /// **'UTF-8 text (declared by the sender)'**
+  String get payloadMetaFormatUtf8;
+
+  /// No description provided for @payloadMetaExpiry.
+  ///
+  /// In en, this message translates to:
+  /// **'Message expiry'**
+  String get payloadMetaExpiry;
+
+  /// No description provided for @payloadMetaAlias.
+  ///
+  /// In en, this message translates to:
+  /// **'Topic alias'**
+  String get payloadMetaAlias;
+
+  /// No description provided for @payloadMetaResponse.
+  ///
+  /// In en, this message translates to:
+  /// **'Response topic'**
+  String get payloadMetaResponse;
+
+  /// No description provided for @payloadMetaCorrelation.
+  ///
+  /// In en, this message translates to:
+  /// **'Correlation data'**
+  String get payloadMetaCorrelation;
+
+  /// No description provided for @payloadMetaUserProps.
+  ///
+  /// In en, this message translates to:
+  /// **'User properties'**
+  String get payloadMetaUserProps;
+
+  /// No description provided for @payloadMetaSubIds.
+  ///
+  /// In en, this message translates to:
+  /// **'Subscription identifiers'**
+  String get payloadMetaSubIds;
+
+  /// No description provided for @payloadMetaSeconds.
+  ///
+  /// In en, this message translates to:
+  /// **'{value} s'**
+  String payloadMetaSeconds(int value);
 }
 
 class _AppLocalizationsDelegate

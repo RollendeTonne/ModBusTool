@@ -1410,5 +1410,141 @@
         "type": "String"
       }
     }
+  },
+  "matrixNeedsBytes": "Needs {count} bytes",
+  "@matrixNeedsBytes": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "payloadDetected": "Detected: {kind}",
+  "@payloadDetected": {
+    "placeholders": {
+      "kind": {
+        "type": "String"
+      }
+    }
+  },
+  "payloadKindEmpty": "empty",
+  "payloadKindJson": "JSON",
+  "payloadKindJsonBroken": "JSON (invalid)",
+  "payloadKindXml": "XML",
+  "payloadKindXmlBroken": "XML (invalid)",
+  "payloadKindText": "Text (UTF-8)",
+  "payloadKindBase64": "Base64",
+  "payloadKindBinary": "Binary",
+  "payloadTabContent": "Content",
+  "payloadTabText": "Text",
+  "payloadTabHex": "Hex",
+  "payloadTabBinary": "Binary",
+  "payloadTabMeta": "Metadata",
+  "payloadJsonTree": "Tree",
+  "payloadJsonPretty": "Formatted",
+  "payloadJsonRaw": "Raw",
+  "payloadPathCopied": "{path} copied",
+  "@payloadPathCopied": {
+    "placeholders": {
+      "path": {
+        "type": "String"
+      }
+    }
+  },
+  "payloadCopyPathHint": "Tap copies the JSON path",
+  "payloadSyntaxError": "Syntax error in line {line}, column {column}: {message}",
+  "@payloadSyntaxError": {
+    "placeholders": {
+      "line": {
+        "type": "int"
+      },
+      "column": {
+        "type": "int"
+      },
+      "message": {
+        "type": "String"
+      }
+    }
+  },
+  "payloadMoreItems": "… {count} more",
+  "@payloadMoreItems": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "payloadEmpty": "Empty payload (0 bytes).",
+  "payloadBinaryHint": "Binary data – see Hex and Binary.",
+  "payloadBase64Decoded": "Base64 decoded ({count} bytes)",
+  "@payloadBase64Decoded": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "payloadInterpretDecoded": "Interpret decoded bytes",
+  "payloadEncoding": "Encoding",
+  "payloadShowMore": "Show more",
+  "payloadHexLines": "{shown} of {total} lines",
+  "@payloadHexLines": {
+    "placeholders": {
+      "shown": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "payloadOffset": "Offset (byte)",
+  "payloadOffsetHint": "0 … {max}",
+  "@payloadOffsetHint": {
+    "placeholders": {
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "payloadWindow": "Bytes from offset: {bytes}",
+  "@payloadWindow": {
+    "placeholders": {
+      "bytes": {
+        "type": "String"
+      }
+    }
+  },
+  "payloadSource": "Source",
+  "payloadSourcePayload": "Payload",
+  "payloadSourceBase64": "Base64 decoded",
+  "payloadEightBit": "8 bit",
+  "payloadBits": "Bits (MSB first)",
+  "payloadNoBytes": "No bytes from this offset.",
+  "payloadValueCopied": "{value} copied",
+  "@payloadValueCopied": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "payloadMetaNoV5": "No MQTT 5 properties (MQTT 3.1.1 or not set by the sender).",
+  "payloadMetaContentType": "Content type",
+  "payloadMetaFormat": "Payload format",
+  "payloadMetaFormatUtf8": "UTF-8 text (declared by the sender)",
+  "payloadMetaExpiry": "Message expiry",
+  "payloadMetaAlias": "Topic alias",
+  "payloadMetaResponse": "Response topic",
+  "payloadMetaCorrelation": "Correlation data",
+  "payloadMetaUserProps": "User properties",
+  "payloadMetaSubIds": "Subscription identifiers",
+  "payloadMetaSeconds": "{value} s",
+  "@payloadMetaSeconds": {
+    "placeholders": {
+      "value": {
+        "type": "int"
+      }
+    }
   }
 }
