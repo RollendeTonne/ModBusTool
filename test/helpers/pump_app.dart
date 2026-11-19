@@ -6,8 +6,8 @@ import 'package:modbus_explorer/app.dart';
 import 'package:modbus_explorer/core/routing/app_router.dart';
 import 'package:modbus_explorer/core/storage/document_store.dart';
 import 'package:modbus_explorer/core/storage/key_value_store.dart';
-import 'package:modbus_explorer/features/modbus/data/modbus_providers.dart';
-import 'package:modbus_explorer/features/simulator/data/simulator_bank.dart';
+import 'package:modbus_explorer/modules/modbus/protocol/data/modbus_providers.dart';
+import 'package:modbus_explorer/modules/modbus/simulator/data/simulator_bank.dart';
 
 import 'fake_serial.dart';
 

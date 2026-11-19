@@ -1,8 +1,8 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:modbus_explorer/features/modbus/domain/addressing_mode.dart';
 import 'package:modbus_explorer/features/settings/data/settings_repository.dart';
 import 'package:modbus_explorer/features/settings/domain/app_settings.dart';
+import 'package:modbus_explorer/modules/modbus/protocol/domain/addressing_mode.dart';
 
 class SettingsController extends Notifier<AppSettings> {
   @override

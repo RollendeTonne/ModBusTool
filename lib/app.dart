@@ -3,10 +3,10 @@ import 'package:material_ui/material_ui.dart';
 import 'package:modbus_explorer/core/l10n/l10n.dart';
 import 'package:modbus_explorer/core/routing/app_router.dart';
 import 'package:modbus_explorer/core/theme/app_theme.dart';
-import 'package:modbus_explorer/features/monitor/presentation/communication_log_controller.dart';
 import 'package:modbus_explorer/features/settings/domain/app_settings.dart';
 import 'package:modbus_explorer/features/settings/presentation/settings_controller.dart';
-import 'package:modbus_explorer/features/tools/presentation/trend_controller.dart';
+import 'package:modbus_explorer/modules/modbus/monitor/presentation/communication_log_controller.dart';
+import 'package:modbus_explorer/modules/modbus/tools/presentation/trend_controller.dart';
 
 class ModbusExplorerApp extends ConsumerWidget {
   const new({super.key});

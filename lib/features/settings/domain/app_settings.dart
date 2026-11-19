@@ -1,5 +1,5 @@
 import 'package:flutter/widgets.dart';
-import 'package:modbus_explorer/features/modbus/domain/addressing_mode.dart';
+import 'package:modbus_explorer/modules/modbus/protocol/domain/addressing_mode.dart';
 
 enum AppThemePreference { system, light, dark }
 

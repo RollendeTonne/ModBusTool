@@ -1,7 +1,7 @@
-import 'package:modbus_explorer/features/connection/domain/serial_settings.dart';
-import 'package:modbus_explorer/features/modbus/data/channel/byte_channel.dart';
-import 'package:modbus_explorer/features/modbus/data/channel/serial_port_service.dart';
-import 'package:modbus_explorer/features/modbus/domain/modbus_errors.dart';
+import 'package:modbus_explorer/modules/modbus/connection/domain/serial_settings.dart';
+import 'package:modbus_explorer/modules/modbus/protocol/data/channel/byte_channel.dart';
+import 'package:modbus_explorer/modules/modbus/protocol/data/channel/serial_port_service.dart';
+import 'package:modbus_explorer/modules/modbus/protocol/domain/modbus_errors.dart';
 
 /// Lists fixed ports; opening always fails like an unplugged adapter.
 final class FakeSerialPortService implements SerialPortService {

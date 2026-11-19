@@ -1,9 +1,9 @@
 import 'dart:io';
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:modbus_explorer/features/interpretation/data/register_map_codec.dart';
-import 'package:modbus_explorer/features/interpretation/domain/register_map_entry.dart';
 import 'package:modbus_explorer/features/settings/presentation/settings_page.dart';
+import 'package:modbus_explorer/modules/modbus/interpretation/data/register_map_codec.dart';
+import 'package:modbus_explorer/modules/modbus/interpretation/domain/register_map_entry.dart';
 
 /// Keeps the documented formats honest: the README examples must import.
 void main() {

@@ -1,16 +1,16 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
-import 'package:modbus_explorer/features/connection/domain/connection_config.dart';
-import 'package:modbus_explorer/features/modbus/data/channel/serial_port_service.dart';
-import 'package:modbus_explorer/features/modbus/data/channel/serial_port_service_desktop.dart';
-import 'package:modbus_explorer/features/modbus/data/client/connection_factory.dart';
 import 'package:modbus_explorer/features/network_scan/data/network_probes.dart';
 import 'package:modbus_explorer/features/network_scan/data/network_scanner.dart';
 import 'package:modbus_explorer/features/network_scan/domain/ipv4.dart';
-import 'package:modbus_explorer/features/simulator/data/simulator_bank.dart';
-import 'package:modbus_explorer/features/simulator/data/simulator_tcp_server.dart';
-import 'package:modbus_explorer/features/simulator/domain/demo_devices.dart';
+import 'package:modbus_explorer/modules/modbus/connection/domain/connection_config.dart';
+import 'package:modbus_explorer/modules/modbus/protocol/data/channel/serial_port_service.dart';
+import 'package:modbus_explorer/modules/modbus/protocol/data/channel/serial_port_service_desktop.dart';
+import 'package:modbus_explorer/modules/modbus/protocol/data/client/connection_factory.dart';
+import 'package:modbus_explorer/modules/modbus/simulator/data/simulator_bank.dart';
+import 'package:modbus_explorer/modules/modbus/simulator/data/simulator_tcp_server.dart';
+import 'package:modbus_explorer/modules/modbus/simulator/domain/demo_devices.dart';
 import 'package:path_provider/path_provider.dart';
 
 /// Runs inside the real desktop app (sandbox, native plugins):

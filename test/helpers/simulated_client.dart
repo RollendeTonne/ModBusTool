@@ -1,9 +1,9 @@
-import 'package:modbus_explorer/features/connection/domain/connection_config.dart';
-import 'package:modbus_explorer/features/modbus/data/channel/byte_channel.dart';
-import 'package:modbus_explorer/features/modbus/data/client/modbus_client.dart';
-import 'package:modbus_explorer/features/modbus/data/codec/framing.dart';
-import 'package:modbus_explorer/features/simulator/data/simulator_bank.dart';
-import 'package:modbus_explorer/features/simulator/data/simulator_endpoint.dart';
+import 'package:modbus_explorer/modules/modbus/connection/domain/connection_config.dart';
+import 'package:modbus_explorer/modules/modbus/protocol/data/channel/byte_channel.dart';
+import 'package:modbus_explorer/modules/modbus/protocol/data/client/modbus_client.dart';
+import 'package:modbus_explorer/modules/modbus/protocol/data/codec/framing.dart';
+import 'package:modbus_explorer/modules/modbus/simulator/data/simulator_bank.dart';
+import 'package:modbus_explorer/modules/modbus/simulator/data/simulator_endpoint.dart';
 
 /// Client wired to an in-process simulator, for transport tests.
 final class SimulatedSetup {

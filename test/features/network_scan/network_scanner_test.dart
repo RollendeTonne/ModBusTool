@@ -5,8 +5,8 @@ import 'package:modbus_explorer/features/network_scan/data/network_probes.dart';
 import 'package:modbus_explorer/features/network_scan/data/network_scanner.dart';
 import 'package:modbus_explorer/features/network_scan/domain/ipv4.dart';
 import 'package:modbus_explorer/features/network_scan/domain/scan_models.dart';
-import 'package:modbus_explorer/features/simulator/data/simulator_bank.dart';
-import 'package:modbus_explorer/features/simulator/data/simulator_tcp_server.dart';
+import 'package:modbus_explorer/modules/modbus/simulator/data/simulator_bank.dart';
+import 'package:modbus_explorer/modules/modbus/simulator/data/simulator_tcp_server.dart';
 
 const timeout = Duration(milliseconds: 300);
 final localhost = Ipv4.parse('127.0.0.1');

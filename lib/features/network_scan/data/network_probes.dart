@@ -2,16 +2,16 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/foundation.dart';
-import 'package:modbus_explorer/features/connection/domain/connection_config.dart';
-import 'package:modbus_explorer/features/modbus/data/channel/socket_channel.dart';
-import 'package:modbus_explorer/features/modbus/data/client/modbus_client.dart';
-import 'package:modbus_explorer/features/modbus/data/codec/mbap_codec.dart';
-import 'package:modbus_explorer/features/modbus/domain/modbus_errors.dart';
-import 'package:modbus_explorer/features/modbus/domain/modbus_request.dart';
-import 'package:modbus_explorer/features/modbus/domain/modbus_response.dart';
 import 'package:modbus_explorer/features/network_scan/domain/arp_parser.dart';
 import 'package:modbus_explorer/features/network_scan/domain/ipv4.dart';
 import 'package:modbus_explorer/features/network_scan/domain/scan_models.dart';
+import 'package:modbus_explorer/modules/modbus/connection/domain/connection_config.dart';
+import 'package:modbus_explorer/modules/modbus/protocol/data/channel/socket_channel.dart';
+import 'package:modbus_explorer/modules/modbus/protocol/data/client/modbus_client.dart';
+import 'package:modbus_explorer/modules/modbus/protocol/data/codec/mbap_codec.dart';
+import 'package:modbus_explorer/modules/modbus/protocol/domain/modbus_errors.dart';
+import 'package:modbus_explorer/modules/modbus/protocol/domain/modbus_request.dart';
+import 'package:modbus_explorer/modules/modbus/protocol/domain/modbus_response.dart';
 
 /// "Connection refused" error codes: macOS/BSD, Linux, Windows.
 const _refusedCodes = {61, 111, 10061};

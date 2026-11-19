@@ -11,13 +11,6 @@ import 'package:modbus_explorer/core/theme/app_colors.dart';
 import 'package:modbus_explorer/core/theme/app_theme.dart';
 import 'package:modbus_explorer/core/widgets/error_panel.dart';
 import 'package:modbus_explorer/core/widgets/snackbar.dart';
-import 'package:modbus_explorer/features/connection/domain/connection_config.dart';
-import 'package:modbus_explorer/features/connection/domain/connection_profile.dart';
-import 'package:modbus_explorer/features/connection/presentation/connection_controller.dart';
-import 'package:modbus_explorer/features/connection/presentation/modbus_error_text.dart';
-import 'package:modbus_explorer/features/connection/presentation/profiles_controller.dart';
-import 'package:modbus_explorer/features/interpretation/domain/matrix_export.dart';
-import 'package:modbus_explorer/features/interpretation/domain/value_formatter.dart';
 import 'package:modbus_explorer/features/network_scan/data/network_scanner.dart';
 import 'package:modbus_explorer/features/network_scan/domain/active_network.dart';
 import 'package:modbus_explorer/features/network_scan/domain/ipv4.dart';
@@ -25,6 +18,13 @@ import 'package:modbus_explorer/features/network_scan/domain/known_ports.dart';
 import 'package:modbus_explorer/features/network_scan/domain/port_action.dart';
 import 'package:modbus_explorer/features/network_scan/domain/scan_models.dart';
 import 'package:modbus_explorer/features/network_scan/presentation/network_scan_controller.dart';
+import 'package:modbus_explorer/modules/modbus/connection/domain/connection_config.dart';
+import 'package:modbus_explorer/modules/modbus/connection/domain/connection_profile.dart';
+import 'package:modbus_explorer/modules/modbus/connection/presentation/connection_controller.dart';
+import 'package:modbus_explorer/modules/modbus/connection/presentation/modbus_error_text.dart';
+import 'package:modbus_explorer/modules/modbus/connection/presentation/profiles_controller.dart';
+import 'package:modbus_explorer/shared/interpretation/domain/matrix_export.dart';
+import 'package:modbus_explorer/shared/interpretation/domain/value_formatter.dart';
 
 class NetworkScanView extends ConsumerStatefulWidget {
   const new({super.key});

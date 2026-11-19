@@ -4,19 +4,19 @@
 import 'dart:io';
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:modbus_explorer/features/connection/domain/connection_config.dart';
-import 'package:modbus_explorer/features/interpretation/domain/data_type.dart';
-import 'package:modbus_explorer/features/interpretation/domain/interpretation_matrix.dart';
-import 'package:modbus_explorer/features/interpretation/domain/plausibility.dart';
-import 'package:modbus_explorer/features/interpretation/domain/value_formatter.dart';
-import 'package:modbus_explorer/features/modbus/data/channel/socket_channel.dart';
-import 'package:modbus_explorer/features/modbus/data/client/modbus_client.dart';
-import 'package:modbus_explorer/features/modbus/data/codec/mbap_codec.dart';
-import 'package:modbus_explorer/features/modbus/domain/modbus_errors.dart';
-import 'package:modbus_explorer/features/modbus/domain/modbus_request.dart';
 import 'package:modbus_explorer/features/network_scan/data/network_scanner.dart';
 import 'package:modbus_explorer/features/network_scan/domain/ipv4.dart';
 import 'package:modbus_explorer/features/network_scan/domain/known_ports.dart';
+import 'package:modbus_explorer/modules/modbus/connection/domain/connection_config.dart';
+import 'package:modbus_explorer/modules/modbus/protocol/data/channel/socket_channel.dart';
+import 'package:modbus_explorer/modules/modbus/protocol/data/client/modbus_client.dart';
+import 'package:modbus_explorer/modules/modbus/protocol/data/codec/mbap_codec.dart';
+import 'package:modbus_explorer/modules/modbus/protocol/domain/modbus_errors.dart';
+import 'package:modbus_explorer/modules/modbus/protocol/domain/modbus_request.dart';
+import 'package:modbus_explorer/shared/interpretation/domain/data_type.dart';
+import 'package:modbus_explorer/shared/interpretation/domain/interpretation_matrix.dart';
+import 'package:modbus_explorer/shared/interpretation/domain/plausibility.dart';
+import 'package:modbus_explorer/shared/interpretation/domain/value_formatter.dart';
 
 final String host = Platform.environment['MODBUS_HOST'] ?? '';
 

@@ -3,9 +3,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:modbus_explorer/core/l10n/l10n.dart';
 import 'package:modbus_explorer/core/theme/app_theme.dart';
-import 'package:modbus_explorer/features/modbus/domain/addressing_mode.dart';
 import 'package:modbus_explorer/features/settings/domain/app_settings.dart';
 import 'package:modbus_explorer/features/settings/presentation/settings_controller.dart';
+import 'package:modbus_explorer/modules/modbus/protocol/domain/addressing_mode.dart';
 
 class SettingsPage extends ConsumerWidget {
   const new({super.key});
