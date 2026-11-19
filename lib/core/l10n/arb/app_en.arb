@@ -1,6 +1,6 @@
 {
   "@@locale": "en",
-  "appTitle": "Modbus Explorer",
+  "appTitle": "Protocol Explorer",
   "navConnection": "Connection",
   "navRegisters": "Registers",
   "navMonitor": "Monitor",
@@ -842,7 +842,7 @@
   "shortcutRange": "Select a range in the table",
   "shortcutShiftClick": "Shift + click",
   "settingsAbout": "About",
-  "aboutText": "Modbus Explorer {version} – debugging tool for Modbus TCP and RTU. Data stays on this device.",
+  "aboutText": "Protocol Explorer {version} – debugging tool for Modbus TCP/RTU and MQTT. Data stays on this device.",
   "@aboutText": {
     "placeholders": {
       "version": {
@@ -1026,5 +1026,10 @@
         "type": "String"
       }
     }
-  }
+  },
+  "navTopics": "Topics",
+  "moduleModbus": "Modbus",
+  "moduleMqtt": "MQTT",
+  "moduleSwitchTooltip": "Switch module (Ctrl/⌘ + Shift + M)",
+  "mqttComingSoon": "The MQTT module is under construction.\nConnection and publish/subscribe follow in M9."
 }

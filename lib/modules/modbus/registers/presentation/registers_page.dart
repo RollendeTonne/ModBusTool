@@ -291,7 +291,7 @@ class _NotConnectedBanner extends ConsumerWidget {
               style: TextStyle(color: theme.colorScheme.onSecondaryContainer),
             ),
             OutlinedButton(
-              onPressed: () => context.go(AppDestination.connection.path),
+              onPressed: () => context.go(AppDestination.modbusConnection.path),
               child: Text(l10n.actionOpenConnections),
             ),
             FilledButton.tonal(

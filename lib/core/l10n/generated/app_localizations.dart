@@ -101,7 +101,7 @@ abstract class AppLocalizations {
   /// No description provided for @appTitle.
   ///
   /// In en, this message translates to:
-  /// **'Modbus Explorer'**
+  /// **'Protocol Explorer'**
   String get appTitle;
 
   /// No description provided for @navConnection.
@@ -2585,7 +2585,7 @@ abstract class AppLocalizations {
   /// No description provided for @aboutText.
   ///
   /// In en, this message translates to:
-  /// **'Modbus Explorer {version} – debugging tool for Modbus TCP and RTU. Data stays on this device.'**
+  /// **'Protocol Explorer {version} – debugging tool for Modbus TCP/RTU and MQTT. Data stays on this device.'**
   String aboutText(String version);
 
   /// No description provided for @toolsNetwork.
@@ -2851,6 +2851,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No program found for {target} – address copied'**
   String netPortNoApp(String target);
+
+  /// No description provided for @navTopics.
+  ///
+  /// In en, this message translates to:
+  /// **'Topics'**
+  String get navTopics;
+
+  /// No description provided for @moduleModbus.
+  ///
+  /// In en, this message translates to:
+  /// **'Modbus'**
+  String get moduleModbus;
+
+  /// No description provided for @moduleMqtt.
+  ///
+  /// In en, this message translates to:
+  /// **'MQTT'**
+  String get moduleMqtt;
+
+  /// No description provided for @moduleSwitchTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Switch module (Ctrl/⌘ + Shift + M)'**
+  String get moduleSwitchTooltip;
+
+  /// No description provided for @mqttComingSoon.
+  ///
+  /// In en, this message translates to:
+  /// **'The MQTT module is under construction.\nConnection and publish/subscribe follow in M9.'**
+  String get mqttComingSoon;
 }
 
 class _AppLocalizationsDelegate

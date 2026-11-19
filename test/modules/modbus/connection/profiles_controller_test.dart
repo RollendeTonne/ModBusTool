@@ -6,6 +6,7 @@ import 'package:modbus_explorer/modules/modbus/connection/data/profile_repositor
 import 'package:modbus_explorer/modules/modbus/connection/domain/connection_config.dart';
 import 'package:modbus_explorer/modules/modbus/connection/domain/connection_profile.dart';
 import 'package:modbus_explorer/modules/modbus/connection/presentation/profiles_controller.dart';
+import 'package:modbus_explorer/shared/profiles/profile_store.dart';
 
 import '../../../helpers/container.dart';
 
@@ -25,13 +26,13 @@ void main() {
     addTearDown(container.dispose);
     final profiles = await container.read(profilesControllerProvider.future);
     expect(profiles.single.config, isA<SimulatorConnectionConfig>());
-    expect(documents.documents[ProfileRepository.documentName], isNotNull);
+    expect(documents.documents[ProfileStore.documentName], isNotNull);
   });
 
   test('an intentionally empty list is not re-seeded', () async {
     final container = createTestContainer(
       documents: InMemoryDocumentStore({
-        ProfileRepository.documentName: jsonEncode({
+        ProfileStore.documentName: jsonEncode({
           'version': 1,
           'profiles': <Object>[],
         }),
@@ -43,7 +44,7 @@ void main() {
 
   test('save, duplicate, mark used and delete keep the list sorted', () async {
     final documents = InMemoryDocumentStore({
-      ProfileRepository.documentName: jsonEncode({
+      ProfileStore.documentName: jsonEncode({
         'version': 1,
         'profiles': <Object>[],
       }),
@@ -80,7 +81,7 @@ void main() {
     await controller.delete('a');
     expect(names(), ['beta', 'beta (copy)']);
 
-    final reloaded = await ProfileRepository(documents).load();
+    final reloaded = await ProfileRepository(ProfileStore(documents)).load();
     expect(reloaded!.map((p) => p.name), ['beta', 'beta (copy)']);
   });
 

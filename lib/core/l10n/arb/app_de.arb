@@ -1,6 +1,6 @@
 {
   "@@locale": "de",
-  "appTitle": "Modbus Explorer",
+  "appTitle": "Protocol Explorer",
   "navConnection": "Verbindung",
   "navRegisters": "Register",
   "navMonitor": "Monitor",
@@ -414,7 +414,7 @@
   "shortcutRange": "Bereich in der Tabelle auswählen",
   "shortcutShiftClick": "Umschalt + Klick",
   "settingsAbout": "Über",
-  "aboutText": "Modbus Explorer {version} – Debugging-Werkzeug für Modbus TCP und RTU. Alle Daten bleiben auf diesem Gerät.",
+  "aboutText": "Protocol Explorer {version} – Debugging-Werkzeug für Modbus TCP/RTU und MQTT. Alle Daten bleiben auf diesem Gerät.",
   "toolsNetwork": "Netzwerk",
   "netScanHint": "Findet Geräte durch Verbindungsversuche auf die gewählten TCP-Ports (kein Ping nötig). Nur Netze scannen, für die du berechtigt bist.",
   "netScanNoMac": "MAC-Adressen sind auf dieser Plattform nicht verfügbar (das System gibt die ARP-Tabelle nicht an Apps heraus).",
@@ -458,5 +458,10 @@
   "netPortConnectModbus": "Per Modbus TCP verbinden (Port {port})",
   "netPortCopy": "Kein passendes Programm bekannt – {target} kopieren",
   "netPortCopied": "{target} kopiert",
-  "netPortNoApp": "Kein Programm für {target} gefunden – Adresse kopiert"
+  "netPortNoApp": "Kein Programm für {target} gefunden – Adresse kopiert",
+  "navTopics": "Topics",
+  "moduleModbus": "Modbus",
+  "moduleMqtt": "MQTT",
+  "moduleSwitchTooltip": "Modul wechseln (Strg/⌘ + Umschalt + M)",
+  "mqttComingSoon": "Das MQTT-Modul entsteht gerade.\nVerbindung und Publish/Subscribe folgen mit M9."
 }

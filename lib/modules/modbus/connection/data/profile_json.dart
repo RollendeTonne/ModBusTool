@@ -1,10 +1,12 @@
 import 'package:modbus_explorer/modules/modbus/connection/domain/connection_config.dart';
 import 'package:modbus_explorer/modules/modbus/connection/domain/connection_profile.dart';
 import 'package:modbus_explorer/modules/modbus/connection/domain/serial_settings.dart';
+import 'package:modbus_explorer/shared/profiles/profile_store.dart';
+import 'package:modbus_explorer/shared/profiles/protocol_module.dart';
 
 /// Versioned on-disk format; bump [profilesSchemaVersion] on breaking
 /// changes and migrate in [profilesFromJson].
-const profilesSchemaVersion = 1;
+const profilesSchemaVersion = 2;
 
 Map<String, Object?> profilesToJson(List<ConnectionProfile> profiles) => {
   'version': profilesSchemaVersion,
@@ -17,6 +19,11 @@ List<ConnectionProfile> profilesFromJson(Object? json) {
   if (json is! Map || json['profiles'] is! List) return const [];
   final result = <ConnectionProfile>[];
   for (final entry in json['profiles'] as List) {
+    // Exports may contain other modules' profiles (schema 2).
+    if (entry is Map<String, Object?> &&
+        ProfileStore.moduleOf(entry) != ProtocolModule.modbus) {
+      continue;
+    }
     final profile = _tryParse(entry);
     if (profile != null) result.add(profile);
   }
@@ -34,6 +41,7 @@ ConnectionProfile? _tryParse(Object? entry) {
 Map<String, Object?> profileToJson(ConnectionProfile p) {
   final config = p.config;
   return {
+    'module': ProtocolModule.modbus.name,
     'id': p.id,
     'name': p.name,
     'createdAt': p.createdAt.toUtc().toIso8601String(),

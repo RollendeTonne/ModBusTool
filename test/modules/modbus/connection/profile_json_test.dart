@@ -7,6 +7,7 @@ import 'package:modbus_explorer/modules/modbus/connection/data/profile_repositor
 import 'package:modbus_explorer/modules/modbus/connection/domain/connection_config.dart';
 import 'package:modbus_explorer/modules/modbus/connection/domain/connection_profile.dart';
 import 'package:modbus_explorer/modules/modbus/connection/domain/serial_settings.dart';
+import 'package:modbus_explorer/shared/profiles/profile_store.dart';
 
 final created = DateTime.utc(2026, 1, 2, 3, 4, 5);
 
@@ -105,16 +106,18 @@ void main() {
   group('ProfileRepository', () {
     test('null on first start, list after saving', () async {
       final store = InMemoryDocumentStore();
-      final repository = ProfileRepository(store);
+      final repository = ProfileRepository(ProfileStore(store));
       expect(await repository.load(), isNull);
       await repository.save(samples);
       expect(await repository.load(), samples);
-      expect(store.documents[ProfileRepository.documentName], contains('\n  '));
+      expect(store.documents[ProfileStore.documentName], contains('\n  '));
     });
 
     test('corrupt file yields an empty list instead of crashing', () async {
       final repository = ProfileRepository(
-        InMemoryDocumentStore({ProfileRepository.documentName: '{oops'}),
+        ProfileStore(
+          InMemoryDocumentStore({ProfileStore.documentName: '{oops'}),
+        ),
       );
       expect(await repository.load(), isEmpty);
     });

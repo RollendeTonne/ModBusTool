@@ -10,7 +10,7 @@ class AppLocalizationsEn extends AppLocalizations {
   AppLocalizationsEn([String locale = 'en']) : super(locale);
 
   @override
-  String get appTitle => 'Modbus Explorer';
+  String get appTitle => 'Protocol Explorer';
 
   @override
   String get navConnection => 'Connection';
@@ -1410,7 +1410,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String aboutText(String version) {
-    return 'Modbus Explorer $version – debugging tool for Modbus TCP and RTU. Data stays on this device.';
+    return 'Protocol Explorer $version – debugging tool for Modbus TCP/RTU and MQTT. Data stays on this device.';
   }
 
   @override
@@ -1583,4 +1583,20 @@ class AppLocalizationsEn extends AppLocalizations {
   String netPortNoApp(String target) {
     return 'No program found for $target – address copied';
   }
+
+  @override
+  String get navTopics => 'Topics';
+
+  @override
+  String get moduleModbus => 'Modbus';
+
+  @override
+  String get moduleMqtt => 'MQTT';
+
+  @override
+  String get moduleSwitchTooltip => 'Switch module (Ctrl/⌘ + Shift + M)';
+
+  @override
+  String get mqttComingSoon =>
+      'The MQTT module is under construction.\nConnection and publish/subscribe follow in M9.';
 }

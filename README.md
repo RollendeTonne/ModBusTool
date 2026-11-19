@@ -1,4 +1,8 @@
-# Modbus Explorer
+# Protocol Explorer (Arbeitstitel, vormals Modbus Explorer)
+
+> Die App wächst zu einem Debugging-Werkzeug mit zwei Modulen: **Modbus**
+> (fertig) und **MQTT** (im Aufbau, Meilensteine M9–M14). Oben in der App
+> wechselt ein Umschalter **Modbus | MQTT** zwischen den Modulen.
 
 Plattformübergreifendes Debugging-Werkzeug für **Modbus TCP**, **Modbus RTU**
 (seriell) und **RTU über TCP**, gebaut mit Flutter. Kernidee: Rohe
@@ -172,7 +176,7 @@ dart run flutter_launcher_icons              # Plattform-Icons
 
 | Ebene | Befehl | Inhalt |
 |---|---|---|
-| Unit | `flutter test test/features/…` | CRC16, MBAP/RTU-Framing, PDU-Codec, alle Datentyp-/Byte-Order-Konvertierungen (Referenzwerte unabhängig berechnet), Encoder, Adressen, Exceptions, Client mit Simulator (Timeouts, Retries, CRC, verspätete Antworten), Register-Map, Scanner, Statistik |
+| Unit | `flutter test test/shared test/modules …` | CRC16, MBAP/RTU-Framing, PDU-Codec, alle Datentyp-/Byte-Order-Konvertierungen (Referenzwerte unabhängig berechnet), Encoder, Adressen, Exceptions, Client mit Simulator (Timeouts, Retries, CRC, verspätete Antworten), Register-Map, Scanner, Statistik |
 | Widget | `flutter test` | Interpretations-Matrix, alle Seiten und Abläufe gegen den Simulator, Import/Export, Tastaturkürzel |
 | Layout | `test/layout_smoke_test.dart` | alle Seiten auf Deutsch in Handy-, Tablet- und Desktop-Größe (Überläufe lassen den Test scheitern) |
 | Barrierefreiheit | `test/core/contrast_test.dart` | Textkontraste ≥ 4,5:1 in beiden Themes |
@@ -183,25 +187,32 @@ dart run flutter_launcher_icons              # Plattform-Icons
 
 ## Architektur
 
-Feature-first, je Feature `domain/` (reines Dart, ohne Flutter), `data/` und
-`presentation/` (Riverpod 3).
+Module und Features, je Feature `domain/` (reines Dart, ohne Flutter),
+`data/` und `presentation/` (Riverpod 3).
 
 ```
 lib/
-  core/            Theme, Lokalisierung (ARB), Routing (go_router), Plattform-
-                   Capabilities, Speicher (Key-Value, JSON-Dokumente), Dateien,
-                   gemeinsame Widgets
-  features/
-    connection/    Profile, Verbindungszustand, Editor
-    modbus/        Protokoll: Requests/Responses, Fehler, Adressen (domain);
-                   Kanäle, Framing, Codec, Client (data)
-    interpretation/ Byte-Orders, Decoder/Encoder, Plausibilität, Matrix,
-                   Register-Map
-    registers/     Rohwert-Tabelle, Lesen/Pollen/Schreiben
-    monitor/       Telegramm-Log, Statistik, Frame-Details
-    tools/         Hex-Rechner, Scanner, Trend
-    simulator/     Demo-Geräte, Endpunkt mit Fehlerinjektion, TCP-Server
+  core/            Theme, Lokalisierung (ARB), Routing (go_router, Modul-
+                   Umschalter), Plattform-Capabilities, Speicher (Key-Value,
+                   JSON-Dokumente), Dateien, gemeinsame Widgets
+  shared/          modulübergreifend
+    interpretation/ Konvertierungs-Engine: Datentypen × Byte-Orders,
+                   Decoder/Encoder, Plausibilität, Matrix (arbeitet auf Bytes)
+    profiles/      Profil-Dokument für alle Module (Feld `module`)
+  features/        app-weit
     settings/
+    network_scan/  IP-Scanner (findet Modbus- und MQTT-Geräte)
+  modules/
+    modbus/
+      connection/  Profile, Verbindungszustand, Editor
+      protocol/    Requests/Responses, Fehler, Adressen (domain);
+                   Kanäle, Framing, Codec, Client (data)
+      interpretation/ Register-Map, Interpretations-Panel
+      registers/   Rohwert-Tabelle, Lesen/Pollen/Schreiben
+      monitor/     Telegramm-Log, Statistik, Frame-Details
+      tools/       Hex-Rechner, Scanner, Trend
+      simulator/   Demo-Geräte, Endpunkt mit Fehlerinjektion, TCP-Server
+    mqtt/          im Aufbau
 ```
 
 **Transport in drei Schichten:**
@@ -235,7 +246,9 @@ beliebige Muster ab.
 Alles bleibt lokal. Gespeichert im App-Support-Verzeichnis
 (macOS: `~/Library/Application Support/de.example.modbusExplorer/`):
 
-- `connection_profiles.json` – Verbindungsprofile (versioniert)
+- `connection_profiles.json` – Verbindungsprofile aller Module (versioniert,
+  Schema 2: Feld `module` je Eintrag; Schema-1-Dateien werden als Modbus
+  gelesen)
 - `register_maps.json` – Register-Maps pro Profil (versioniert)
 - Einstellungen über `shared_preferences`
 
@@ -288,7 +301,8 @@ Profil lassen sich Latenz sowie verlorene und verfälschte Antworten simulieren.
 
 | Kürzel (macOS: ⌘ statt Strg) | Aktion |
 |---|---|
-| Strg + 1 … 5 | Bereich wechseln |
+| Strg + Umschalt + M | Modul wechseln (Modbus ↔ MQTT) |
+| Strg + 1 … 5 | Bereich des aktiven Moduls wechseln |
 | Strg + R / F5 | einmal lesen (Register oder Register-Map) |
 | Strg + P | Polling starten/stoppen |
 | Strg + Enter | Dialog bestätigen / Profil speichern |

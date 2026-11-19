@@ -8,7 +8,11 @@ import 'package:modbus_explorer/modules/modbus/connection/domain/connection_stat
 import 'package:modbus_explorer/modules/modbus/connection/presentation/connection_status_provider.dart';
 
 class ConnectionStatusChip extends ConsumerWidget {
-  const new({super.key});
+  const new({this.compact = false, super.key});
+
+  /// Icon only (phones, next to the module switcher); the label stays in
+  /// the tooltip and for screen readers.
+  final bool compact;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -46,12 +50,18 @@ class ConnectionStatusChip extends ConsumerWidget {
       label: l10n.connectionStatusLabel(label),
       button: true,
       excludeSemantics: true,
-      child: ActionChip(
-        avatar: Icon(icon, size: 18, color: color),
-        label: Text(label),
-        side: BorderSide(color: color),
-        onPressed: () => context.go(AppDestination.connection.path),
-      ),
+      child: compact
+          ? IconButton(
+              tooltip: label,
+              icon: Icon(icon, color: color),
+              onPressed: () => context.go(AppDestination.modbusConnection.path),
+            )
+          : ActionChip(
+              avatar: Icon(icon, size: 18, color: color),
+              label: Text(label),
+              side: BorderSide(color: color),
+              onPressed: () => context.go(AppDestination.modbusConnection.path),
+            ),
     );
   }
 }
