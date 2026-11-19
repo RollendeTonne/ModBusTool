@@ -105,3 +105,19 @@ Kurzprotokoll der Architektur- und Produktentscheidungen. Neueste unten.
 | D72 | Slave-Scan: jede Antwort, **auch eine Exception**, zählt als „Gerät vorhanden“. Unit 0 (Broadcast) wird übersprungen. Ohne Wiederholungen, Timeout einstellbar (Standard 100 ms) | Ein Gerät, das die Testadresse nicht kennt, ist trotzdem da. Ein voller Scan (247 IDs) dauert höchstens ~25 s. Hinweis in der UI: Viele TCP-Geräte antworten auf jede Unit-ID. |
 | D73 | Register-Scan liest zuerst Blöcke (Standard 10) und bei Fehlern einzeln weiter. Exception 02 gilt als „nicht vorhanden“, andere Exceptions werden als Treffer gemeldet | Dichte Bereiche brauchen wenige Requests, Lücken werden trotzdem genau gefunden. |
 | D74 | Trend (fl_chart) zeigt numerische Register-Map-Einträge (max. 4, je 600 Punkte, skaliert) und wird beim Lesen oder Pollen der Map gefüllt | Wiederverwendung von Labels und Skalierung der Map, keine zweite Konfiguration. |
+
+## M7 – Feinschliff, Import/Export, Plattformen, Doku
+
+| # | Entscheidung | Begründung |
+|---|---|---|
+| D75 | Dateien über `file_selector` (offizielles Plugin) auf dem Desktop. Android/iOS haben keinen „Speichern unter“-Dialog, dort exportiert der **Teilen-Dialog** (`share_plus`). Öffnen nutzt überall `file_selector`. Alles hinter `FileExchange`, in Tests ein Fake | Ein Codepfad pro Plattformtyp; testbar ohne Plugins. |
+| D76 | CSV-Dateien mit **UTF-8-BOM**, beim Import wird es entfernt | Excel erkennt sonst die Kodierung nicht und zeigt Umlaute in Labels falsch an. |
+| D77 | Register-Map-Import: Format nach Dateiendung, Dialog „N gelesen, M übersprungen → Hinzufügen / Map ersetzen“. Importierte Einträge und Profile bekommen **neue IDs** | Zweimal dieselbe Datei importieren erzeugt keine Konflikte. Register-Maps bleiben am ursprünglichen Profil. |
+| D78 | Verbindungsprofile lassen sich als JSON exportieren und importieren (über die Spezifikation hinaus) | Profile im Team weitergeben; der Codec existierte bereits. |
+| D79 | Tastaturkürzel: Strg/⌘+1–5 Bereich, Strg/⌘+R/F5 Lesen, Strg/⌘+P Polling, Strg/⌘+Enter Dialog bestätigen. In der Map-Ansicht wirken Lesen und Polling auf die Map. Übersicht in den Einstellungen | Schnelle Bedienung am Desktop, auffindbar ohne Doku. |
+| D80 | Keine separate Sitzungsaufzeichnung | Das Log (5000 Telegramme) als Text/CSV speichern deckt den Bedarf. Optionaler Punkt der Spezifikation. |
+| D81 | Kontraste per Test geprüft (WCAG AA 4,5:1). Das Grau für unsinnige Werte war im hellen Theme zu hell (3,3:1) und ist jetzt dunkler | Der frühere Kommentar „≥ 4,5:1“ war ungeprüft und falsch. |
+| D82 | Fenster: macOS und Linux 1360×860 mit Mindestgröße 720×560, Windows 1360×860 ohne Mindestgröße | Platz für Tabelle und Interpretation nebeneinander. Die Mindestgröße unter Windows bräuchte Änderungen im Win32-Runner, die hier nicht gebaut werden können. |
+| D83 | Android: INTERNET-Berechtigung (fehlt sonst in Release-Builds), USB-Host optional, Intent-Filter mit Vendor-IDs von FTDI, WCH, Silicon Labs und Prolific. iOS: `NSLocalNetworkUsageDescription` | Ohne diese Einträge scheitern TCP im Android-Release bzw. LAN-Zugriff unter iOS 14+ stillschweigend. |
+| D84 | App-Icon per Skript erzeugt (`tool/make_icon.py`, Pillow über `uvx`, keine globale Installation) und mit `flutter_launcher_icons` verteilt. Der adaptive Android-Vordergrund liegt diagonal in der 66-%-Sicherheitszone | Reproduzierbar; keine Grafikdatei aus unbekannter Quelle. |
+| D85 | Tests prüfen, dass das CSV-Beispiel der README importierbar ist und die angezeigte Version zur `pubspec.yaml` passt | Doku und App laufen nicht auseinander. |

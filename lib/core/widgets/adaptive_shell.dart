@@ -1,3 +1,4 @@
+import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:modbus_explorer/core/l10n/l10n.dart';
@@ -29,8 +30,9 @@ class AdaptiveShell extends StatelessWidget {
       actions: const [ConnectionStatusChip(), SizedBox(width: 12)],
     );
 
+    final Widget scaffold;
     if (width < Breakpoints.medium) {
-      return Scaffold(
+      scaffold = Scaffold(
         appBar: appBar,
         body: navigationShell,
         bottomNavigationBar: NavigationBar(
@@ -46,8 +48,32 @@ class AdaptiveShell extends StatelessWidget {
           ],
         ),
       );
+    } else {
+      scaffold = _railScaffold(context, appBar, width);
     }
 
+    // Ctrl/⌘ + 1…5 switches between the areas.
+    const digits = [
+      LogicalKeyboardKey.digit1,
+      LogicalKeyboardKey.digit2,
+      LogicalKeyboardKey.digit3,
+      LogicalKeyboardKey.digit4,
+      LogicalKeyboardKey.digit5,
+    ];
+    return CallbackShortcuts(
+      bindings: {
+        for (final (i, key) in digits.indexed) ...{
+          SingleActivator(key, control: true): () => _onSelect(i),
+          SingleActivator(key, meta: true): () => _onSelect(i),
+        },
+      },
+      child: Focus(autofocus: true, child: scaffold),
+    );
+  }
+
+  Widget _railScaffold(BuildContext context, AppBar appBar, double width) {
+    final l10n = context.l10n;
+    const destinations = AppDestination.values;
     final extended = width >= Breakpoints.expanded;
     return Scaffold(
       appBar: appBar,

@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:material_ui/material_ui.dart';
+import 'package:modbus_explorer/core/files/file_exchange.dart';
 import 'package:modbus_explorer/core/l10n/l10n.dart';
 import 'package:modbus_explorer/core/theme/app_colors.dart';
 import 'package:modbus_explorer/core/theme/app_theme.dart';
@@ -18,6 +19,7 @@ import 'package:modbus_explorer/features/interpretation/domain/value_formatter.d
 import 'package:modbus_explorer/features/interpretation/presentation/map_entry_dialog.dart';
 import 'package:modbus_explorer/features/interpretation/presentation/map_values_controller.dart';
 import 'package:modbus_explorer/features/interpretation/presentation/register_map_controller.dart';
+import 'package:modbus_explorer/features/interpretation/presentation/register_map_transfer.dart';
 import 'package:modbus_explorer/features/interpretation/presentation/value_format_text.dart';
 import 'package:modbus_explorer/features/modbus/domain/addressing_mode.dart';
 import 'package:modbus_explorer/features/modbus/domain/modbus_address.dart';
@@ -164,6 +166,41 @@ class _RegisterMapSliverState extends ConsumerState<RegisterMapSliver> {
             onPressed: profileId == null ? null : _addEntry,
             icon: const Icon(Icons.add),
             label: Text(l10n.actionAddEntry),
+          ),
+          PopupMenuButton<String>(
+            key: const Key('map.transfer'),
+            enabled: profileId != null,
+            icon: const Icon(Icons.import_export),
+            onSelected: (action) => switch (action) {
+              'import' => importRegisterMap(context, ref),
+              'json' => exportRegisterMap(context, ref, ExchangeFileType.json),
+              _ => exportRegisterMap(context, ref, ExchangeFileType.csv),
+            },
+            itemBuilder: (_) => [
+              PopupMenuItem(
+                value: 'import',
+                child: ListTile(
+                  leading: const Icon(Icons.file_open_outlined),
+                  title: Text(l10n.actionImport),
+                ),
+              ),
+              PopupMenuItem(
+                value: 'json',
+                enabled: entries.isNotEmpty,
+                child: ListTile(
+                  leading: const Icon(Icons.data_object),
+                  title: Text(l10n.actionExportJson),
+                ),
+              ),
+              PopupMenuItem(
+                value: 'csv',
+                enabled: entries.isNotEmpty,
+                child: ListTile(
+                  leading: const Icon(Icons.table_view_outlined),
+                  title: Text(l10n.actionExportCsv),
+                ),
+              ),
+            ],
           ),
         ],
       ),

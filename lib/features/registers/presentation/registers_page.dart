@@ -15,6 +15,7 @@ import 'package:modbus_explorer/features/connection/presentation/connection_cont
 import 'package:modbus_explorer/features/connection/presentation/modbus_error_text.dart';
 import 'package:modbus_explorer/features/connection/presentation/profiles_controller.dart';
 import 'package:modbus_explorer/features/interpretation/presentation/interpretation_panel.dart';
+import 'package:modbus_explorer/features/interpretation/presentation/map_values_controller.dart';
 import 'package:modbus_explorer/features/interpretation/presentation/register_map_controller.dart';
 import 'package:modbus_explorer/features/interpretation/presentation/register_map_view.dart';
 import 'package:modbus_explorer/features/registers/presentation/register_table.dart';
@@ -36,8 +37,24 @@ class RegistersPage extends ConsumerWidget {
     final connected = ref.watch(activeClientProvider) != null;
     final snapshot = state.snapshot;
 
+    final isMapView = state.view == RegistersView.map;
+    final mapValues = ref.read(mapValuesControllerProvider.notifier);
+
+    // In the map view the shortcuts act on the register map.
     void read() {
-      if (connected && !state.isPolling) unawaited(controller.read());
+      if (!connected) return;
+      if (isMapView) {
+        if (!ref.read(mapValuesControllerProvider).isPolling) {
+          unawaited(mapValues.read());
+        }
+      } else if (!state.isPolling) {
+        unawaited(controller.read());
+      }
+    }
+
+    void togglePolling() {
+      if (!connected && !state.isPolling) return;
+      isMapView ? mapValues.togglePolling() : controller.togglePolling();
     }
 
     return CallbackShortcuts(
@@ -45,6 +62,10 @@ class RegistersPage extends ConsumerWidget {
         const SingleActivator(LogicalKeyboardKey.keyR, control: true): read,
         const SingleActivator(LogicalKeyboardKey.keyR, meta: true): read,
         const SingleActivator(LogicalKeyboardKey.f5): read,
+        const SingleActivator(LogicalKeyboardKey.keyP, control: true):
+            togglePolling,
+        const SingleActivator(LogicalKeyboardKey.keyP, meta: true):
+            togglePolling,
       },
       child: Focus(
         autofocus: true,

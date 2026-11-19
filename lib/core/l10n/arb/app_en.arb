@@ -756,5 +756,99 @@
         "type": "int"
       }
     }
+  },
+  "actionImport": "Import…",
+  "actionExportJson": "Export as JSON…",
+  "actionExportCsv": "Export as CSV…",
+  "actionSaveText": "Save as text file…",
+  "actionSaveCsv": "Save as CSV file…",
+  "exportSaved": "Saved: {name}",
+  "@exportSaved": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "exportFailed": "Export failed: {error}",
+  "@exportFailed": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "importTitle": "Import register map",
+  "importSummary": "{count} entries read from {file}.",
+  "@importSummary": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "file": {
+        "type": "String"
+      }
+    }
+  },
+  "importSkipped": "{count} entries could not be read and will be skipped.",
+  "@importSkipped": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "importAdd": "Add",
+  "importReplace": "Replace map",
+  "importNothing": "{file} contains no readable entries.",
+  "@importNothing": {
+    "placeholders": {
+      "file": {
+        "type": "String"
+      }
+    }
+  },
+  "importDone": "{count} entries imported",
+  "@importDone": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "importFailed": "Import failed: {error}",
+  "@importFailed": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "actionExportProfiles": "Export profiles…",
+  "actionImportProfiles": "Import profiles…",
+  "profilesImported": "{count} profiles imported",
+  "@profilesImported": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "settingsShortcuts": "Keyboard shortcuts",
+  "shortcutNavigate": "Switch area",
+  "shortcutRead": "Read once (registers or register map)",
+  "shortcutPoll": "Start/stop polling",
+  "shortcutSubmit": "Confirm dialog / save",
+  "shortcutClose": "Close dialog",
+  "shortcutRange": "Select a range in the table",
+  "shortcutShiftClick": "Shift + click",
+  "settingsAbout": "About",
+  "aboutText": "Modbus Explorer {version} – debugging tool for Modbus TCP and RTU. Data stays on this device.",
+  "@aboutText": {
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
   }
 }

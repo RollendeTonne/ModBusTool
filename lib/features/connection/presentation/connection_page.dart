@@ -11,6 +11,7 @@ import 'package:modbus_explorer/features/connection/presentation/connection_cont
 import 'package:modbus_explorer/features/connection/presentation/connection_kind_ui.dart';
 import 'package:modbus_explorer/features/connection/presentation/connection_status_card.dart';
 import 'package:modbus_explorer/features/connection/presentation/profile_editor.dart';
+import 'package:modbus_explorer/features/connection/presentation/profile_transfer.dart';
 import 'package:modbus_explorer/features/connection/presentation/profiles_controller.dart';
 import 'package:modbus_explorer/features/simulator/presentation/simulator_server_card.dart';
 
@@ -98,6 +99,29 @@ class _ProfilesSliver extends ConsumerWidget {
             onPressed: () => _createProfile(context, ref),
             icon: const Icon(Icons.add),
             label: Text(l10n.profileNew),
+          ),
+          PopupMenuButton<String>(
+            key: const Key('profiles.transfer'),
+            icon: const Icon(Icons.import_export),
+            onSelected: (action) => action == 'import'
+                ? importProfiles(context, ref)
+                : exportProfiles(context, ref),
+            itemBuilder: (_) => [
+              PopupMenuItem(
+                value: 'import',
+                child: ListTile(
+                  leading: const Icon(Icons.file_open_outlined),
+                  title: Text(l10n.actionImportProfiles),
+                ),
+              ),
+              PopupMenuItem(
+                value: 'export',
+                child: ListTile(
+                  leading: const Icon(Icons.save_outlined),
+                  title: Text(l10n.actionExportProfiles),
+                ),
+              ),
+            ],
           ),
         ],
       ),

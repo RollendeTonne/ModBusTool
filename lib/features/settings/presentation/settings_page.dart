@@ -1,6 +1,8 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:modbus_explorer/core/l10n/l10n.dart';
+import 'package:modbus_explorer/core/theme/app_theme.dart';
 import 'package:modbus_explorer/features/modbus/domain/addressing_mode.dart';
 import 'package:modbus_explorer/features/settings/domain/app_settings.dart';
 import 'package:modbus_explorer/features/settings/presentation/settings_controller.dart';
@@ -103,9 +105,56 @@ class SettingsPage extends ConsumerWidget {
               value: settings.highlightPlausible,
               onChanged: (v) => controller.setHighlightPlausible(enabled: v),
             ),
+            const SizedBox(height: 16),
+            _SectionHeader(l10n.settingsShortcuts),
+            const _ShortcutTable(),
+            const SizedBox(height: 16),
+            _SectionHeader(l10n.settingsAbout),
+            Text(l10n.aboutText(appVersion)),
           ],
         ),
       ),
+    );
+  }
+}
+
+/// Keep in sync with `version:` in pubspec.yaml.
+const appVersion = '1.0.0';
+
+class _ShortcutTable extends StatelessWidget {
+  const new();
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = context.l10n;
+    final theme = Theme.of(context);
+    final mod = defaultTargetPlatform == TargetPlatform.macOS ? '⌘' : 'Ctrl';
+    final rows = [
+      ('$mod + 1…5', l10n.shortcutNavigate),
+      ('$mod + R / F5', l10n.shortcutRead),
+      ('$mod + P', l10n.shortcutPoll),
+      ('$mod + Enter', l10n.shortcutSubmit),
+      ('Esc', l10n.shortcutClose),
+      (l10n.shortcutShiftClick, l10n.shortcutRange),
+    ];
+    return Table(
+      key: const Key('settings.shortcuts'),
+      columnWidths: const {0: IntrinsicColumnWidth()},
+      children: [
+        for (final (keys, action) in rows)
+          TableRow(
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(right: 24, bottom: 8),
+                child: Text(keys, style: theme.textTheme.bodyMedium!.mono),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 8),
+                child: Text(action),
+              ),
+            ],
+          ),
+      ],
     );
   }
 }

@@ -21,7 +21,7 @@ class AppColors extends ThemeExtension<AppColors> {
   static const light = AppColors(
     changed: Color(0xFFFFE08A),
     onChanged: Color(0xFF3D2E00),
-    implausible: Color(0xFF8A8A8A),
+    implausible: Color(0xFF666666),
     plausible: Color(0xFF1B6E2E),
     tx: Color(0xFF1155AA),
     rx: Color(0xFF7A3E9D),

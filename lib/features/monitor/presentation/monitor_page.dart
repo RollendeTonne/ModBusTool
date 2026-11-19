@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_ui/material_ui.dart';
+import 'package:modbus_explorer/core/files/file_exchange.dart';
 import 'package:modbus_explorer/core/l10n/l10n.dart';
 import 'package:modbus_explorer/core/theme/app_colors.dart';
 import 'package:modbus_explorer/core/theme/app_theme.dart';
@@ -44,6 +45,20 @@ class _MonitorPageState extends ConsumerState<MonitorPage> {
     if (mounted) {
       ScaffoldMessenger.of(context)
           .showReplacing(context.l10n.monitorCopied(count));
+    }
+  }
+
+  Future<void> _save(String content, ExchangeFileType type) async {
+    final l10n = context.l10n;
+    final messenger = ScaffoldMessenger.of(context);
+    final name = timestampedFileName('modbus-log', type.extension);
+    try {
+      final saved = await ref
+          .read(fileExchangeProvider)
+          .saveText(suggestedName: name, content: content, type: type);
+      if (saved) messenger.showReplacing(l10n.exportSaved(name));
+    } on Object catch (e) {
+      messenger.showReplacing(l10n.exportFailed('$e'));
     }
   }
 
@@ -135,32 +150,51 @@ class _MonitorPageState extends ConsumerState<MonitorPage> {
             tooltip: l10n.monitorCopyText,
             icon: const Icon(Icons.ios_share),
             enabled: visible.isNotEmpty,
-            onSelected: (format) {
+            onSelected: (action) {
               final ordered = visible.reversed.toList();
+              final csv = action == 'copyCsv' || action == 'saveCsv';
+              final content = csv
+                  ? framesToCsv(ordered, latencyOf: latencyOf)
+                  : ordered
+                        .map((f) => frameToLine(f, latency: latencyOf(f)))
+                        .join('\n');
               unawaited(
-                _copy(
-                  format == 'csv'
-                      ? framesToCsv(ordered, latencyOf: latencyOf)
-                      : ordered
-                            .map((f) => frameToLine(f, latency: latencyOf(f)))
-                            .join('\n'),
-                  ordered.length,
-                ),
+                action.startsWith('save')
+                    ? _save(
+                        content,
+                        csv ? ExchangeFileType.csv : ExchangeFileType.text,
+                      )
+                    : _copy(content, ordered.length),
               );
             },
             itemBuilder: (_) => [
               PopupMenuItem(
-                value: 'text',
+                value: 'copyText',
                 child: ListTile(
                   leading: const Icon(Icons.notes),
                   title: Text(l10n.monitorCopyText),
                 ),
               ),
               PopupMenuItem(
-                value: 'csv',
+                value: 'copyCsv',
                 child: ListTile(
                   leading: const Icon(Icons.table_view_outlined),
                   title: Text(l10n.monitorCopyCsv),
+                ),
+              ),
+              const PopupMenuDivider(),
+              PopupMenuItem(
+                value: 'saveText',
+                child: ListTile(
+                  leading: const Icon(Icons.save_outlined),
+                  title: Text(l10n.actionSaveText),
+                ),
+              ),
+              PopupMenuItem(
+                value: 'saveCsv',
+                child: ListTile(
+                  leading: const Icon(Icons.save_alt),
+                  title: Text(l10n.actionSaveCsv),
                 ),
               ),
             ],

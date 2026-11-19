@@ -1314,4 +1314,106 @@ class AppLocalizationsEn extends AppLocalizations {
   String trendMaxReached(int max) {
     return 'At most $max values can be plotted.';
   }
+
+  @override
+  String get actionImport => 'Import…';
+
+  @override
+  String get actionExportJson => 'Export as JSON…';
+
+  @override
+  String get actionExportCsv => 'Export as CSV…';
+
+  @override
+  String get actionSaveText => 'Save as text file…';
+
+  @override
+  String get actionSaveCsv => 'Save as CSV file…';
+
+  @override
+  String exportSaved(String name) {
+    return 'Saved: $name';
+  }
+
+  @override
+  String exportFailed(String error) {
+    return 'Export failed: $error';
+  }
+
+  @override
+  String get importTitle => 'Import register map';
+
+  @override
+  String importSummary(int count, String file) {
+    return '$count entries read from $file.';
+  }
+
+  @override
+  String importSkipped(int count) {
+    return '$count entries could not be read and will be skipped.';
+  }
+
+  @override
+  String get importAdd => 'Add';
+
+  @override
+  String get importReplace => 'Replace map';
+
+  @override
+  String importNothing(String file) {
+    return '$file contains no readable entries.';
+  }
+
+  @override
+  String importDone(int count) {
+    return '$count entries imported';
+  }
+
+  @override
+  String importFailed(String error) {
+    return 'Import failed: $error';
+  }
+
+  @override
+  String get actionExportProfiles => 'Export profiles…';
+
+  @override
+  String get actionImportProfiles => 'Import profiles…';
+
+  @override
+  String profilesImported(int count) {
+    return '$count profiles imported';
+  }
+
+  @override
+  String get settingsShortcuts => 'Keyboard shortcuts';
+
+  @override
+  String get shortcutNavigate => 'Switch area';
+
+  @override
+  String get shortcutRead => 'Read once (registers or register map)';
+
+  @override
+  String get shortcutPoll => 'Start/stop polling';
+
+  @override
+  String get shortcutSubmit => 'Confirm dialog / save';
+
+  @override
+  String get shortcutClose => 'Close dialog';
+
+  @override
+  String get shortcutRange => 'Select a range in the table';
+
+  @override
+  String get shortcutShiftClick => 'Shift + click';
+
+  @override
+  String get settingsAbout => 'About';
+
+  @override
+  String aboutText(String version) {
+    return 'Modbus Explorer $version – debugging tool for Modbus TCP and RTU. Data stays on this device.';
+  }
 }

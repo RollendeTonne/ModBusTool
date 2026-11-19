@@ -2425,6 +2425,174 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'At most {max} values can be plotted.'**
   String trendMaxReached(int max);
+
+  /// No description provided for @actionImport.
+  ///
+  /// In en, this message translates to:
+  /// **'Import…'**
+  String get actionImport;
+
+  /// No description provided for @actionExportJson.
+  ///
+  /// In en, this message translates to:
+  /// **'Export as JSON…'**
+  String get actionExportJson;
+
+  /// No description provided for @actionExportCsv.
+  ///
+  /// In en, this message translates to:
+  /// **'Export as CSV…'**
+  String get actionExportCsv;
+
+  /// No description provided for @actionSaveText.
+  ///
+  /// In en, this message translates to:
+  /// **'Save as text file…'**
+  String get actionSaveText;
+
+  /// No description provided for @actionSaveCsv.
+  ///
+  /// In en, this message translates to:
+  /// **'Save as CSV file…'**
+  String get actionSaveCsv;
+
+  /// No description provided for @exportSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved: {name}'**
+  String exportSaved(String name);
+
+  /// No description provided for @exportFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Export failed: {error}'**
+  String exportFailed(String error);
+
+  /// No description provided for @importTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Import register map'**
+  String get importTitle;
+
+  /// No description provided for @importSummary.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} entries read from {file}.'**
+  String importSummary(int count, String file);
+
+  /// No description provided for @importSkipped.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} entries could not be read and will be skipped.'**
+  String importSkipped(int count);
+
+  /// No description provided for @importAdd.
+  ///
+  /// In en, this message translates to:
+  /// **'Add'**
+  String get importAdd;
+
+  /// No description provided for @importReplace.
+  ///
+  /// In en, this message translates to:
+  /// **'Replace map'**
+  String get importReplace;
+
+  /// No description provided for @importNothing.
+  ///
+  /// In en, this message translates to:
+  /// **'{file} contains no readable entries.'**
+  String importNothing(String file);
+
+  /// No description provided for @importDone.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} entries imported'**
+  String importDone(int count);
+
+  /// No description provided for @importFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Import failed: {error}'**
+  String importFailed(String error);
+
+  /// No description provided for @actionExportProfiles.
+  ///
+  /// In en, this message translates to:
+  /// **'Export profiles…'**
+  String get actionExportProfiles;
+
+  /// No description provided for @actionImportProfiles.
+  ///
+  /// In en, this message translates to:
+  /// **'Import profiles…'**
+  String get actionImportProfiles;
+
+  /// No description provided for @profilesImported.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} profiles imported'**
+  String profilesImported(int count);
+
+  /// No description provided for @settingsShortcuts.
+  ///
+  /// In en, this message translates to:
+  /// **'Keyboard shortcuts'**
+  String get settingsShortcuts;
+
+  /// No description provided for @shortcutNavigate.
+  ///
+  /// In en, this message translates to:
+  /// **'Switch area'**
+  String get shortcutNavigate;
+
+  /// No description provided for @shortcutRead.
+  ///
+  /// In en, this message translates to:
+  /// **'Read once (registers or register map)'**
+  String get shortcutRead;
+
+  /// No description provided for @shortcutPoll.
+  ///
+  /// In en, this message translates to:
+  /// **'Start/stop polling'**
+  String get shortcutPoll;
+
+  /// No description provided for @shortcutSubmit.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm dialog / save'**
+  String get shortcutSubmit;
+
+  /// No description provided for @shortcutClose.
+  ///
+  /// In en, this message translates to:
+  /// **'Close dialog'**
+  String get shortcutClose;
+
+  /// No description provided for @shortcutRange.
+  ///
+  /// In en, this message translates to:
+  /// **'Select a range in the table'**
+  String get shortcutRange;
+
+  /// No description provided for @shortcutShiftClick.
+  ///
+  /// In en, this message translates to:
+  /// **'Shift + click'**
+  String get shortcutShiftClick;
+
+  /// No description provided for @settingsAbout.
+  ///
+  /// In en, this message translates to:
+  /// **'About'**
+  String get settingsAbout;
+
+  /// No description provided for @aboutText.
+  ///
+  /// In en, this message translates to:
+  /// **'Modbus Explorer {version} – debugging tool for Modbus TCP and RTU. Data stays on this device.'**
+  String aboutText(String version);
 }
 
 class _AppLocalizationsDelegate
