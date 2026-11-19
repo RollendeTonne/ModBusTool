@@ -935,5 +935,6 @@
     }
   },
   "netExport": "Export results…",
-  "netScanNoMacSandbox": "MAC addresses are not available: the macOS app sandbox blocks access to the ARP table."
+  "netScanNoMacSandbox": "MAC addresses are not available: the macOS app sandbox blocks access to the ARP table.",
+  "netArpEmptyHint": "No MAC addresses received: the system returned an empty ARP table. On macOS, allow local network access for Modbus Explorer (System Settings → Privacy & Security → Local Network) and scan again."
 }

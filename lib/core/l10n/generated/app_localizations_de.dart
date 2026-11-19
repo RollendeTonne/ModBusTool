@@ -1523,4 +1523,8 @@ class AppLocalizationsDe extends AppLocalizations {
   @override
   String get netScanNoMacSandbox =>
       'MAC-Adressen sind nicht verfügbar: Die macOS-App-Sandbox sperrt den Zugriff auf die ARP-Tabelle.';
+
+  @override
+  String get netArpEmptyHint =>
+      'Keine MAC-Adressen erhalten: Das System hat eine leere ARP-Tabelle geliefert. Unter macOS den Zugriff auf das lokale Netzwerk für Modbus Explorer erlauben (Systemeinstellungen → Datenschutz & Sicherheit → Lokales Netzwerk) und erneut scannen.';
 }

@@ -163,25 +163,46 @@ class _RequestPanelState extends ConsumerState<RequestPanel> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: SegmentedButton<RegisterTable>(
-                key: const Key('request.table'),
-                showSelectedIcon: false,
-                segments: [
-                  for (final table in RegisterTable.values)
-                    ButtonSegment(
-                      value: table,
-                      label: Text(
-                        '${table.label(l10n)} (${table.modiconPrefix}x)',
-                      ),
-                    ),
-                ],
-                selected: {query.table},
-                onSelectionChanged: state.isPolling
-                    ? null
-                    : (s) => _onTableChanged(s.single),
-              ),
+            LayoutBuilder(
+              builder: (context, constraints) {
+                String label(RegisterTable t) =>
+                    '${t.label(l10n)} (${t.modiconPrefix}x)';
+                // On phones the segments don't fit and the selected one
+                // could scroll out of view (seen on a real screen).
+                if (constraints.maxWidth < 560) {
+                  return DropdownButtonFormField<RegisterTable>(
+                    key: const Key('request.table'),
+                    isExpanded: true,
+                    initialValue: query.table,
+                    decoration: InputDecoration(labelText: l10n.fieldTable),
+                    items: [
+                      for (final table in RegisterTable.values)
+                        DropdownMenuItem(
+                          value: table,
+                          child: Text(label(table)),
+                        ),
+                    ],
+                    onChanged: state.isPolling
+                        ? null
+                        : (t) => _onTableChanged(t!),
+                  );
+                }
+                return SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: SegmentedButton<RegisterTable>(
+                    key: const Key('request.table'),
+                    showSelectedIcon: false,
+                    segments: [
+                      for (final table in RegisterTable.values)
+                        ButtonSegment(value: table, label: Text(label(table))),
+                    ],
+                    selected: {query.table},
+                    onSelectionChanged: state.isPolling
+                        ? null
+                        : (s) => _onTableChanged(s.single),
+                  ),
+                );
+              },
             ),
             const SizedBox(height: 12),
             Wrap(
@@ -204,6 +225,7 @@ class _RequestPanelState extends ConsumerState<RequestPanel> {
                             )
                           : formatHex(query.address),
                       helperStyle: theme.textTheme.bodySmall!.mono,
+                      helperMaxLines: 2,
                     ),
                     onChanged: _onAddressChanged,
                   ),
@@ -234,6 +256,7 @@ class _RequestPanelState extends ConsumerState<RequestPanel> {
                     decoration: InputDecoration(
                       labelText: l10n.fieldUnitIdOverride,
                       helperText: l10n.fieldUnitIdOverrideHint,
+                      helperMaxLines: 2,
                       errorText: _unitError,
                     ),
                     onChanged: _onUnitChanged,

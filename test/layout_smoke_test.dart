@@ -46,6 +46,17 @@ void main() {
 
       // Interpretation: side panel on wide screens, bottom sheet otherwise.
       final row = find.byKey(const Key('row.0'));
+      // The table is a lazy sliver below the request panel: build it first.
+      await tester.scrollUntilVisible(
+        row,
+        200,
+        scrollable: find
+            .descendant(
+              of: find.byType(CustomScrollView),
+              matching: find.byType(Scrollable),
+            )
+            .first,
+      );
       await tester.ensureVisible(row);
       await tester.pumpAndSettle();
       await tester.tap(row, warnIfMissed: false);

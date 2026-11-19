@@ -89,20 +89,25 @@ void main() {
       );
     });
 
-    test('valid BCD16 is judged like a wide integer', () {
-      expect(assessInt(1234, DataType.bcd16).level, Plausibility.plausible);
+    test('valid BCD is neutral (weak evidence)', () {
+      expect(assessInt(1234, DataType.bcd16).level, Plausibility.neutral);
+      expect(assessInt(41200000, DataType.bcd32).level, Plausibility.neutral);
     });
   });
 
   group('other values', () {
-    test('timestamps between 2000 and 2100 are plausible', () {
-      expect(
-        assessPlausibility(
-          TimestampValue(DateTime.utc(2024, 5)),
-          DataType.unixTime32,
-        ).level,
-        Plausibility.plausible,
-      );
+    test('only recent timestamps are plausible', () {
+      final now = DateTime.utc(2026, 11, 19);
+      Plausibility level(DateTime t) => assessPlausibility(
+        TimestampValue(t),
+        DataType.unixTime32,
+        now: now,
+      ).level;
+      expect(level(DateTime.utc(2024, 5)), Plausibility.plausible);
+      expect(level(DateTime.utc(2028, 6)), Plausibility.plausible);
+      // FLOAT32 10.0 (0x41200000) read as UNIX32 → 2004: in range, but old.
+      expect(level(DateTime.utc(2004, 8, 16)), Plausibility.neutral);
+      expect(level(DateTime.utc(2060)), Plausibility.neutral);
       expect(
         assessPlausibility(
           TimestampValue(DateTime.utc(1970, 1, 1, 0, 0, 5)),

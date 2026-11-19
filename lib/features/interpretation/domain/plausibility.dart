@@ -56,13 +56,20 @@ abstract final class PlausibilityThresholds {
   static const maxDecimals = 4;
   static final earliestPlausibleDate = DateTime.utc(2000);
   static final latestPlausibleDate = DateTime.utc(2100);
+
+  /// Only dates close to today count as plausible: floats between ~2 and
+  /// ~1000 read as UNIX32 always land in 2004–2014 and would otherwise be
+  /// highlighted (seen on a real device screen).
+  static const recentPast = Duration(days: 3653); // ~10 years
+  static const nearFuture = Duration(days: 731); // ~2 years
 }
 
 /// Classifies how likely [value] is the intended interpretation of [type].
 PlausibilityAssessment assessPlausibility(
   InterpretedValue value,
-  DataType type,
-) => switch (value) {
+  DataType type, {
+  DateTime? now,
+}) => switch (value) {
   BoolValue() => _neutral,
   InvalidValue() => const PlausibilityAssessment(
     Plausibility.implausible,
@@ -70,7 +77,7 @@ PlausibilityAssessment assessPlausibility(
   ),
   FloatValue() => _assessFloat(value),
   IntegerValue() => _assessInteger(value.value, type),
-  TimestampValue() => _assessTimestamp(value.value),
+  TimestampValue() => _assessTimestamp(value.value, now ?? DateTime.now()),
   TextValue() =>
     value.hasNonPrintable
         ? const PlausibilityAssessment(
@@ -127,6 +134,9 @@ bool _hasFewDecimals(FloatValue float) {
 PlausibilityAssessment _assessInteger(BigInt value, DataType type) {
   // Every 16-bit pattern is a reasonable integer; there is no signal.
   if (type.byteWidth <= 2 && type != DataType.bcd16) return _neutral;
+  // Valid BCD is weak evidence: every register whose hex digits are all
+  // 0–9 qualifies. Only invalid BCD (handled as InvalidValue) is a signal.
+  if (type == DataType.bcd16 || type == DataType.bcd32) return _neutral;
   if (value == BigInt.zero) return _neutral;
   final magnitude = value.abs();
   if (magnitude > BigInt.from(PlausibilityThresholds.maxSaneInteger)) {
@@ -141,15 +151,19 @@ PlausibilityAssessment _assessInteger(BigInt value, DataType type) {
   return _neutral;
 }
 
-PlausibilityAssessment _assessTimestamp(DateTime value) {
+PlausibilityAssessment _assessTimestamp(DateTime value, DateTime now) {
   if (value.millisecondsSinceEpoch == 0) return _neutral;
   final inRange =
       !value.isBefore(PlausibilityThresholds.earliestPlausibleDate) &&
       value.isBefore(PlausibilityThresholds.latestPlausibleDate);
-  return inRange
-      ? _plausible
-      : const PlausibilityAssessment(
-          Plausibility.implausible,
-          PlausibilityIssue.dateOutOfRange,
-        );
+  if (!inRange) {
+    return const PlausibilityAssessment(
+      Plausibility.implausible,
+      PlausibilityIssue.dateOutOfRange,
+    );
+  }
+  final recent =
+      value.isAfter(now.subtract(PlausibilityThresholds.recentPast)) &&
+      value.isBefore(now.add(PlausibilityThresholds.nearFuture));
+  return recent ? _plausible : _neutral;
 }

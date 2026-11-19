@@ -254,10 +254,9 @@ packages:
   flutter_libserialport:
     dependency: "direct main"
     description:
-      name: flutter_libserialport
-      sha256: f24b5fe6f1821d1c1b3bf2be737ca53f6b0ae78657032a790aa00abb810c8759
-      url: "https://pub.dev"
-    source: hosted
+      path: "third_party/flutter_libserialport"
+      relative: true
+    source: path
     version: "0.6.0"
   flutter_localizations:
     dependency: "direct main"
@@ -341,21 +340,21 @@ packages:
     source: hosted
     version: "0.20.3"
   jni:
-    dependency: transitive
+    dependency: "direct overridden"
     description:
       name: jni
-      sha256: "822c3f004742158b80b558773ebed29891f407058d5798992436a68bdf14ccda"
+      sha256: "2e91e6087291affd10b31b6c872f3e3ac7dc5d93b51b5ba485d930c8f08bde6c"
       url: "https://pub.dev"
     source: hosted
-    version: "1.2.0"
+    version: "1.1.2"
   jni_flutter:
-    dependency: transitive
+    dependency: "direct overridden"
     description:
       name: jni_flutter
-      sha256: "586594ad345b403bda8a794b0b8a9e34298238b86c2a7d7f15160b092fe9ef3d"
+      sha256: "0dd33d67797560f66e961a6053882d4df54bd345bf063b8fe7ea133f7ad8b191"
       url: "https://pub.dev"
     source: hosted
-    version: "1.1.0"
+    version: "1.0.4+1"
   jni_util:
     dependency: transitive
     description:
@@ -772,10 +771,9 @@ packages:
   usb_serial:
     dependency: "direct main"
     description:
-      name: usb_serial
-      sha256: a605a600e34e7f28d4e80851ca3999ef747e42e406138887b8a88b8c382a8b07
-      url: "https://pub.dev"
-    source: hosted
+      path: "third_party/usb_serial"
+      relative: true
+    source: path
     version: "0.5.2"
   uuid:
     dependency: transitive

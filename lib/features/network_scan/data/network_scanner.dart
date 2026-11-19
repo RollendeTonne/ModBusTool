@@ -64,6 +64,7 @@ final class NetworkScanner {
     required void Function(ScanPhase phase, int done, int total) onProgress,
     required void Function(HostResult host) onHost,
     required bool Function() isCancelled,
+    void Function(int entries)? onArpRead,
   }) async {
     final hosts = <Ipv4, HostResult>{};
     void update(HostResult host) {
@@ -101,6 +102,7 @@ final class NetworkScanner {
     if (config.readArp) {
       onProgress(ScanPhase.arp, 0, 1);
       final arp = await arpReader();
+      onArpRead?.call(arp.length);
       for (final MapEntry(key: address, value: mac) in arp.entries) {
         if (!config.range.contains(address)) continue;
         update(

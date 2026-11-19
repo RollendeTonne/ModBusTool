@@ -2761,6 +2761,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'MAC addresses are not available: the macOS app sandbox blocks access to the ARP table.'**
   String get netScanNoMacSandbox;
+
+  /// No description provided for @netArpEmptyHint.
+  ///
+  /// In en, this message translates to:
+  /// **'No MAC addresses received: the system returned an empty ARP table. On macOS, allow local network access for Modbus Explorer (System Settings → Privacy & Security → Local Network) and scan again.'**
+  String get netArpEmptyHint;
 }
 
 class _AppLocalizationsDelegate

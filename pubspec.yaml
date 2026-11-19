@@ -113,3 +113,15 @@ flutter_launcher_icons:
   windows:
     generate: true
     icon_size: 256
+
+# Local copies fixing broken Android builds, see third_party/*/MODIFIED.md.
+dependency_overrides:
+  flutter_libserialport:
+    path: third_party/flutter_libserialport
+  # jni 1.2.0 (retracted upstream) looks up classes by JNI signature, which
+  # crashes path_provider on Android release builds at start-up;
+  # jni_flutter 1.1.0 requires that version. Last stable pair:
+  jni: 1.1.2
+  jni_flutter: 1.0.4+1
+  usb_serial:
+    path: third_party/usb_serial

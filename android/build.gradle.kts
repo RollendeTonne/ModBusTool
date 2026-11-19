@@ -2,6 +2,8 @@ allprojects {
     repositories {
         google()
         mavenCentral()
+        // com.github.felHR85:UsbSerial (used by usb_serial for USB-OTG).
+        maven { url = uri("https://jitpack.io") }
     }
 }
 

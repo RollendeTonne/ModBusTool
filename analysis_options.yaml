@@ -5,6 +5,7 @@ analyzer:
     - build/**
     - lib/core/l10n/generated/**
     - "**/*.g.dart"
+    - third_party/**
     - android/**
     - ios/**
     - windows/**

@@ -443,5 +443,6 @@
   "netConnect": "Verbinden",
   "netProfileCreated": "Profil „{name}“ angelegt und verbunden",
   "netExport": "Ergebnisse exportieren…",
-  "netScanNoMacSandbox": "MAC-Adressen sind nicht verfügbar: Die macOS-App-Sandbox sperrt den Zugriff auf die ARP-Tabelle."
+  "netScanNoMacSandbox": "MAC-Adressen sind nicht verfügbar: Die macOS-App-Sandbox sperrt den Zugriff auf die ARP-Tabelle.",
+  "netArpEmptyHint": "Keine MAC-Adressen erhalten: Das System hat eine leere ARP-Tabelle geliefert. Unter macOS den Zugriff auf das lokale Netzwerk für Modbus Explorer erlauben (Systemeinstellungen → Datenschutz & Sicherheit → Lokales Netzwerk) und erneut scannen."
 }

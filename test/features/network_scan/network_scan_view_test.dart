@@ -203,4 +203,38 @@ void main() {
     await tester.pumpAndSettle();
     expect(find.textContaining('macOS app sandbox blocks'), findsOneWidget);
   });
+
+  testWidgets('empty ARP table with found hosts shows the permission hint', (
+    tester,
+  ) async {
+    await tester.pumpModbusApp(
+      size: const Size(1600, 1100),
+      overrides: [
+        networkScannerProvider.overrideWithValue(
+          NetworkScanner(
+            portProbe: (ip, port, _) async =>
+                '$ip' == '192.168.50.10' ? PortState.open : PortState.filtered,
+            modbusProbe: (_, _, _) async => null,
+            hostnameLookup: (_, _) async => null,
+            arpReader: () async => const {},
+            localAddresses: () async => const [],
+          ),
+        ),
+        localAddressesProvider.overrideWith((ref) async => const []),
+        platformCapabilitiesProvider.overrideWithValue(
+          PlatformCapabilities.forPlatform(TargetPlatform.macOS),
+        ),
+      ],
+    );
+    await tester.tapNavigation('Tools');
+    await tester.tap(find.text('Network'));
+    await tester.pumpAndSettle();
+    await tester.enterText(
+      find.byKey(const Key('network.range')),
+      '192.168.50.0/24',
+    );
+    await runScan(tester);
+    expect(find.byKey(const Key('network.arpEmpty')), findsOneWidget);
+    expect(find.textContaining('Local Network'), findsOneWidget);
+  });
 }

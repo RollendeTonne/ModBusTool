@@ -333,6 +333,15 @@ class _NetworkScanViewState extends ConsumerState<NetworkScanView> {
             },
           ),
         ],
+        if (state.arpEmpty && state.hosts.isNotEmpty && !state.isRunning)
+          Padding(
+            padding: const EdgeInsets.only(top: 12),
+            child: Text(
+              l10n.netArpEmptyHint,
+              key: const Key('network.arpEmpty'),
+              style: TextStyle(color: context.appColors.warning),
+            ),
+          ),
         if (state.hosts.isNotEmpty) ...[
           const SizedBox(height: 12),
           Row(

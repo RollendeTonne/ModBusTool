@@ -81,7 +81,7 @@ einspaltig), Tastaturkürzel, Screenreader-Beschriftungen, Kontraste nach WCAG A
 | macOS | ✓ | ✓ (libserialport) | gebaut und getestet, inkl. Integrationstests in der App |
 | Windows | ✓ | ✓ (libserialport) | Code vorbereitet, hier **nicht** gebaut |
 | Linux | ✓ | ✓ (libserialport) | Code vorbereitet, hier **nicht** gebaut |
-| Android | ✓ | ✓ USB-OTG (usb_serial) | Code und Manifest vorbereitet, hier **nicht** gebaut |
+| Android | ✓ | ✓ USB-OTG (usb_serial) | Release-APK gebaut, im Emulator gestartet und bedient (Verbinden, Lesen, Interpretation); nicht auf echtem Gerät |
 | iOS | ✓ | – (keine öffentliche API) | Code vorbereitet, hier **nicht** gebaut |
 | Web | – | – | nicht unterstützt (Browser können keine TCP-Sockets öffnen) |
 
@@ -114,8 +114,12 @@ flutter test
   Manager kann) sowie `automake` und `libtool` (`brew install automake libtool`).
 - `flutter run -d macos` bzw. `flutter build macos --release`
   → `build/macos/Build/Products/Release/Modbus Explorer.app` (ca. 50 MB).
-- Die Sandbox bleibt aktiv; Entitlements: Netzwerk (Client/Server), serielle
-  Geräte, vom Nutzer gewählte Dateien.
+- **Ohne App-Sandbox** (nötig für den Netzwerk-Scan; damit ist kein Vertrieb
+  über den Mac App Store möglich). Daten aus der früheren Sandbox-Version
+  werden beim ersten Start automatisch übernommen.
+- Beim ersten Netzwerkzugriff ins LAN fragt macOS nach der Freigabe für das
+  **lokale Netzwerk** (Systemeinstellungen → Datenschutz & Sicherheit →
+  Lokales Netzwerk). Ohne Freigabe bleiben u. a. die MAC-Adressen leer.
 - Die App ist nicht signiert: auf anderen Macs beim ersten Start
   Rechtsklick → Öffnen. Für eine Verteilung braucht es Developer-ID und Notarisierung.
 
@@ -134,8 +138,13 @@ flutter test
 
 ### Android
 - Android SDK inkl. **cmdline-tools**, Lizenzen akzeptieren
-  (`flutter doctor --android-licenses`).
-- `flutter build apk --release`.
+  (`flutter doctor --android-licenses`); JDK z. B. aus Android Studio.
+- `flutter build apk --release`
+  → `build/app/outputs/flutter-apk/app-release.apk` (ca. 59 MB, mit dem
+  Debug-Schlüssel signiert – für den Play Store einen eigenen Schlüssel einrichten).
+- Zwei Plugins liegen als angepasste Kopie unter `third_party/` (ihre
+  Android-Buildskripte sind mit aktuellem Android-Gradle-Plugin inkompatibel),
+  `jni`/`jni_flutter` sind gepinnt – siehe `pubspec.yaml` und DECISIONS.md D98–D99.
 - RTU über USB-OTG-Adapter (FTDI, CH34x, CP210x, PL2303, CDC). Beim Anstecken
   eines bekannten Adapters bietet Android die App an
   (`res/xml/device_filter.xml`); sonst fragt sie beim Verbinden nach der Erlaubnis.
@@ -161,7 +170,7 @@ dart run flutter_launcher_icons              # Plattform-Icons
 | Widget | `flutter test` | Interpretations-Matrix, alle Seiten und Abläufe gegen den Simulator, Import/Export, Tastaturkürzel |
 | Layout | `test/layout_smoke_test.dart` | alle Seiten auf Deutsch in Handy-, Tablet- und Desktop-Größe (Überläufe lassen den Test scheitern) |
 | Barrierefreiheit | `test/core/contrast_test.dart` | Textkontraste ≥ 4,5:1 in beiden Themes |
-| Integration | `flutter test integration_test -d macos --no-dds` | in der echten App: libserialport (FFI), TCP in der Sandbox, Dateipfade |
+| Integration | `flutter test integration_test -d macos --no-dds` | in der echten App: libserialport (FFI), TCP, Dateipfade, ARP-Zugriff (nur passiv) |
 
 `--no-dds` ist nötig, weil der Debug-Dienst in dieser Umgebung nicht startet.
 
@@ -217,7 +226,7 @@ beliebige Muster ab.
 ## Daten und Formate
 
 Alles bleibt lokal. Gespeichert im App-Support-Verzeichnis
-(macOS: `~/Library/Containers/de.example.modbusExplorer/Data/Library/Application Support/de.example.modbusExplorer/`):
+(macOS: `~/Library/Application Support/de.example.modbusExplorer/`):
 
 - `connection_profiles.json` – Verbindungsprofile (versioniert)
 - `register_maps.json` – Register-Maps pro Profil (versioniert)
@@ -291,9 +300,12 @@ Profil lassen sich Latenz sowie verlorene und verfälschte Antworten simulieren.
   TCP-Verbindungsversuch erkannt (auch eine Ablehnung zeigt einen lebenden
   Host) und, wo möglich, über die ARP-Tabelle. Geräte, die alle geprüften
   Ports stumm verwerfen und nicht im ARP-Cache stehen, bleiben unsichtbar.
-- MAC-Adressen im Netzwerk-Scan nur unter Windows, Linux und macOS **ohne**
-  App-Sandbox. Die Sandbox (Standard dieses Builds) sperrt den Zugriff auf die
-  ARP-Tabelle; Android 10+ und iOS ebenso. Die App zeigt dann einen Hinweis.
+- MAC-Adressen im Netzwerk-Scan nur auf dem Desktop; Android 10+ und iOS
+  sperren die ARP-Tabelle. Unter macOS liefert `arp` aus der App heraus in
+  dieser Umgebung trotz abgeschalteter Sandbox keine Einträge (im Terminal
+  schon); vermutete Ursache ist die fehlende Freigabe „Lokales Netzwerk“ –
+  das ließ sich hier nicht überprüfen. Bleibt die Tabelle leer, zeigt die App
+  einen Hinweis.
 - Subnetzmasken liefert Dart nicht; der Netzwerk-Scan schlägt /24 vor, der
   Bereich ist frei editierbar (max. 4096 Adressen).
 - Keine separate Sitzungsaufzeichnung; das Log (bis 5000 Telegramme) lässt

@@ -19,6 +19,7 @@ final class NetworkScanState {
     this.finishedAt,
     this.cancelled = false,
     this.error,
+    this.arpEmpty = false,
   });
 
   final bool isRunning;
@@ -33,6 +34,10 @@ final class NetworkScanState {
   final bool cancelled;
   final Object? error;
 
+  /// The ARP cache was read but returned nothing – on macOS typically
+  /// missing "Local Network" permission.
+  final bool arpEmpty;
+
   double? get progress => total == 0 ? null : done / total;
 
   NetworkScanState copyWith({
@@ -44,6 +49,7 @@ final class NetworkScanState {
     DateTime? finishedAt,
     bool? cancelled,
     Object? error,
+    bool? arpEmpty,
   }) => NetworkScanState(
     isRunning: isRunning ?? this.isRunning,
     phase: phase ?? this.phase,
@@ -54,6 +60,7 @@ final class NetworkScanState {
     finishedAt: finishedAt ?? this.finishedAt,
     cancelled: cancelled ?? this.cancelled,
     error: error ?? this.error,
+    arpEmpty: arpEmpty ?? this.arpEmpty,
   );
 }
 
@@ -100,6 +107,11 @@ final class NetworkScanController extends Notifier<NetworkScanState> {
               if (!_current(generation)) return;
               // Progress arrives per probe; batch it with host updates.
               _schedule(generation, phase: phase, done: done, total: total);
+            },
+            onArpRead: (entries) {
+              if (_current(generation)) {
+                state = state.copyWith(arpEmpty: entries == 0);
+              }
             },
             onHost: (host) {
               if (!_current(generation)) return;

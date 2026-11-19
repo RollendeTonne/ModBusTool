@@ -1516,4 +1516,8 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get netScanNoMacSandbox =>
       'MAC addresses are not available: the macOS app sandbox blocks access to the ARP table.';
+
+  @override
+  String get netArpEmptyHint =>
+      'No MAC addresses received: the system returned an empty ARP table. On macOS, allow local network access for Modbus Explorer (System Settings → Privacy & Security → Local Network) and scan again.';
 }

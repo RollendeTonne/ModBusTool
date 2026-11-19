@@ -114,9 +114,15 @@ class ConnectionStatusCard extends ConsumerWidget {
                       Text(title, style: theme.textTheme.titleMedium),
                       Text(
                         subtitle,
-                        style: theme.textTheme.bodySmall!.mono.copyWith(
-                          color: theme.colorScheme.onSurfaceVariant,
-                        ),
+                        // Monospace only for technical endpoint details,
+                        // not for the plain "choose a profile" hint.
+                        style:
+                            (state is Disconnected
+                                    ? theme.textTheme.bodySmall!
+                                    : theme.textTheme.bodySmall!.mono)
+                                .copyWith(
+                                  color: theme.colorScheme.onSurfaceVariant,
+                                ),
                       ),
                     ],
                   ),
