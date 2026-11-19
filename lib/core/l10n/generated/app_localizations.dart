@@ -2797,6 +2797,60 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Netmask unknown, assuming /24'**
   String get netActiveMaskUnknown;
+
+  /// No description provided for @netPortOpenBrowser.
+  ///
+  /// In en, this message translates to:
+  /// **'Open in browser: {target}'**
+  String netPortOpenBrowser(String target);
+
+  /// No description provided for @netPortOpenTerminal.
+  ///
+  /// In en, this message translates to:
+  /// **'Open in terminal: {target}'**
+  String netPortOpenTerminal(String target);
+
+  /// No description provided for @netPortOpenFiles.
+  ///
+  /// In en, this message translates to:
+  /// **'Open in file manager: {target}'**
+  String netPortOpenFiles(String target);
+
+  /// No description provided for @netPortOpenRemote.
+  ///
+  /// In en, this message translates to:
+  /// **'Open remote desktop: {target}'**
+  String netPortOpenRemote(String target);
+
+  /// No description provided for @netPortOpenOpcUa.
+  ///
+  /// In en, this message translates to:
+  /// **'Open in OPC UA client: {target}'**
+  String netPortOpenOpcUa(String target);
+
+  /// No description provided for @netPortConnectModbus.
+  ///
+  /// In en, this message translates to:
+  /// **'Connect via Modbus TCP (port {port})'**
+  String netPortConnectModbus(int port);
+
+  /// No description provided for @netPortCopy.
+  ///
+  /// In en, this message translates to:
+  /// **'No suitable program known – copy {target}'**
+  String netPortCopy(String target);
+
+  /// No description provided for @netPortCopied.
+  ///
+  /// In en, this message translates to:
+  /// **'{target} copied'**
+  String netPortCopied(String target);
+
+  /// No description provided for @netPortNoApp.
+  ///
+  /// In en, this message translates to:
+  /// **'No program found for {target} – address copied'**
+  String netPortNoApp(String target);
 }
 
 class _AppLocalizationsDelegate

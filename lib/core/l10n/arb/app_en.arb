@@ -954,5 +954,77 @@
         "type": "String"
       }
     }
+  },
+  "netPortOpenBrowser": "Open in browser: {target}",
+  "netPortOpenTerminal": "Open in terminal: {target}",
+  "netPortOpenFiles": "Open in file manager: {target}",
+  "netPortOpenRemote": "Open remote desktop: {target}",
+  "netPortOpenOpcUa": "Open in OPC UA client: {target}",
+  "netPortConnectModbus": "Connect via Modbus TCP (port {port})",
+  "netPortCopy": "No suitable program known – copy {target}",
+  "netPortCopied": "{target} copied",
+  "netPortNoApp": "No program found for {target} – address copied",
+  "@netPortOpenBrowser": {
+    "placeholders": {
+      "target": {
+        "type": "String"
+      }
+    }
+  },
+  "@netPortOpenTerminal": {
+    "placeholders": {
+      "target": {
+        "type": "String"
+      }
+    }
+  },
+  "@netPortOpenFiles": {
+    "placeholders": {
+      "target": {
+        "type": "String"
+      }
+    }
+  },
+  "@netPortOpenRemote": {
+    "placeholders": {
+      "target": {
+        "type": "String"
+      }
+    }
+  },
+  "@netPortOpenOpcUa": {
+    "placeholders": {
+      "target": {
+        "type": "String"
+      }
+    }
+  },
+  "@netPortConnectModbus": {
+    "placeholders": {
+      "port": {
+        "type": "int"
+      }
+    }
+  },
+  "@netPortCopy": {
+    "placeholders": {
+      "target": {
+        "type": "String"
+      }
+    }
+  },
+  "@netPortCopied": {
+    "placeholders": {
+      "target": {
+        "type": "String"
+      }
+    }
+  },
+  "@netPortNoApp": {
+    "placeholders": {
+      "target": {
+        "type": "String"
+      }
+    }
   }
 }

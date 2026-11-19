@@ -1,10 +1,12 @@
 import 'dart:async';
 
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:modbus_explorer/core/files/file_exchange.dart';
 import 'package:modbus_explorer/core/l10n/l10n.dart';
 import 'package:modbus_explorer/core/platform/platform_capabilities.dart';
+import 'package:modbus_explorer/core/platform/url_opener.dart';
 import 'package:modbus_explorer/core/theme/app_colors.dart';
 import 'package:modbus_explorer/core/theme/app_theme.dart';
 import 'package:modbus_explorer/core/widgets/error_panel.dart';
@@ -20,6 +22,7 @@ import 'package:modbus_explorer/features/network_scan/data/network_scanner.dart'
 import 'package:modbus_explorer/features/network_scan/domain/active_network.dart';
 import 'package:modbus_explorer/features/network_scan/domain/ipv4.dart';
 import 'package:modbus_explorer/features/network_scan/domain/known_ports.dart';
+import 'package:modbus_explorer/features/network_scan/domain/port_action.dart';
 import 'package:modbus_explorer/features/network_scan/domain/scan_models.dart';
 import 'package:modbus_explorer/features/network_scan/presentation/network_scan_controller.dart';
 
@@ -97,23 +100,47 @@ class _NetworkScanViewState extends ConsumerState<NetworkScanView> {
     );
   }
 
-  Future<void> _connect(HostResult host) async {
+  Future<void> _connect(HostResult host, {int? port}) async {
     final l10n = context.l10n;
     final messenger = ScaffoldMessenger.of(context);
-    final identity = host.modbus!;
+    final identity = host.modbus;
     final name = [
       host.hostname ?? '${host.address}',
-      if (identity.product != null) identity.product,
+      if (identity?.product != null) identity!.product,
     ].join(' · ');
     final profile = ConnectionProfile(
       id: ProfilesController.newProfileId(),
       name: name,
-      config: TcpConnectionConfig(host: '${host.address}', port: identity.port),
+      config: TcpConnectionConfig(
+        host: '${host.address}',
+        port: port ?? identity!.port,
+      ),
       createdAt: DateTime.now(),
     );
     await ref.read(profilesControllerProvider.notifier).save(profile);
     await ref.read(connectionControllerProvider.notifier).connect(profile);
     messenger.showReplacing(l10n.netProfileCreated(name));
+  }
+
+  Future<void> _onPortTap(HostResult host, PortAction action) async {
+    final l10n = context.l10n;
+    final messenger = ScaffoldMessenger.of(context);
+    Future<void> copy(String text, String message) async {
+      await Clipboard.setData(ClipboardData(text: text));
+      messenger.showReplacing(message);
+    }
+
+    switch (action) {
+      case ConnectModbusAction(:final port):
+        await _connect(host, port: port);
+      case CopyAddressAction(:final text):
+        await copy(text, l10n.netPortCopied(text));
+      case OpenUriAction(:final uri):
+        final opened = await ref.read(urlOpenerProvider)(uri);
+        if (!opened && mounted) {
+          await copy('$uri', l10n.netPortNoApp('$uri'));
+        }
+    }
   }
 
   Future<void> _export(List<HostResult> hosts) async {
@@ -440,6 +467,9 @@ class _NetworkScanViewState extends ConsumerState<NetworkScanView> {
             host: host,
             showMac: caps.supportsMacAddresses,
             onConnect: host.modbus == null ? null : () => _connect(host),
+            onPortTap: state.isRunning
+                ? null
+                : (action) => _onPortTap(host, action),
           ),
       ],
     );
@@ -451,12 +481,14 @@ class _HostTile extends StatelessWidget {
     required this.host,
     required this.showMac,
     required this.onConnect,
+    this.onPortTap,
     super.key,
   });
 
   final HostResult host;
   final bool showMac;
   final VoidCallback? onConnect;
+  final ValueChanged<PortAction>? onPortTap;
 
   @override
   Widget build(BuildContext context) {
@@ -513,7 +545,17 @@ class _HostTile extends StatelessWidget {
                       runSpacing: 6,
                       children: [
                         for (final port in host.openPorts)
-                          _PortChip(port: port, isModbus: modbus?.port == port),
+                          _PortChip(
+                            key: Key('network.port.${host.address}.$port'),
+                            port: port,
+                            isModbus: modbus?.port == port,
+                            action: portActionFor(
+                              host.address,
+                              port,
+                              isModbus: modbus?.port == port,
+                            ),
+                            onTap: onPortTap,
+                          ),
                       ],
                     ),
                   if (modbus != null) ...[
@@ -551,35 +593,88 @@ class _HostTile extends StatelessWidget {
 }
 
 class _PortChip extends StatelessWidget {
-  const new({required this.port, required this.isModbus});
+  const new({
+    required this.port,
+    required this.isModbus,
+    required this.action,
+    this.onTap,
+    super.key,
+  });
 
   final int port;
   final bool isModbus;
+  final PortAction action;
+  final ValueChanged<PortAction>? onTap;
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     final theme = Theme.of(context);
     final name = portName(port);
     // Port 502 stands out: it is what this tool is about.
     final highlight = isModbus || port == 502;
-    return Semantics(
-      label: 'Port $port${name == null ? '' : ' $name'}',
-      excludeSemantics: true,
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-        decoration: BoxDecoration(
+    final (icon, tooltip) = switch (action) {
+      ConnectModbusAction(:final port) => (
+        Icons.link,
+        l10n.netPortConnectModbus(port),
+      ),
+      CopyAddressAction(:final text) => (Icons.copy, l10n.netPortCopy(text)),
+      OpenUriAction(:final uri, :final kind) => switch (kind) {
+        PortAppKind.browser => (
+          Icons.open_in_browser,
+          l10n.netPortOpenBrowser('$uri'),
+        ),
+        PortAppKind.terminal => (
+          Icons.terminal,
+          l10n.netPortOpenTerminal('$uri'),
+        ),
+        PortAppKind.fileTransfer => (
+          Icons.folder_open,
+          l10n.netPortOpenFiles('$uri'),
+        ),
+        PortAppKind.remoteDesktop => (
+          Icons.desktop_windows_outlined,
+          l10n.netPortOpenRemote('$uri'),
+        ),
+        PortAppKind.opcUa => (Icons.open_in_new, l10n.netPortOpenOpcUa('$uri')),
+      },
+    };
+    final foreground = highlight
+        ? theme.colorScheme.onPrimaryContainer
+        : theme.colorScheme.onSurfaceVariant;
+    final tap = onTap;
+    return Tooltip(
+      message: tooltip,
+      child: Semantics(
+        label: 'Port $port${name == null ? '' : ' $name'}',
+        hint: tooltip,
+        button: true,
+        excludeSemantics: true,
+        child: Material(
           color: highlight
               ? theme.colorScheme.primaryContainer
               : theme.colorScheme.surfaceContainerHighest,
           borderRadius: BorderRadius.circular(8),
-        ),
-        child: Text(
-          name == null ? '$port' : '$port $name',
-          style: theme.textTheme.labelMedium!.mono.copyWith(
-            color: highlight
-                ? theme.colorScheme.onPrimaryContainer
-                : theme.colorScheme.onSurfaceVariant,
-            fontWeight: highlight ? FontWeight.w700 : null,
+          clipBehavior: Clip.antiAlias,
+          child: InkWell(
+            onTap: tap == null ? null : () => tap(action),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    name == null ? '$port' : '$port $name',
+                    style: theme.textTheme.labelMedium!.mono.copyWith(
+                      color: foreground,
+                      fontWeight: highlight ? FontWeight.w700 : null,
+                    ),
+                  ),
+                  const SizedBox(width: 4),
+                  Icon(icon, size: 14, color: foreground),
+                ],
+              ),
+            ),
           ),
         ),
       ),

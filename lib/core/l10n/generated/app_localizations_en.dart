@@ -1538,4 +1538,49 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get netActiveMaskUnknown => 'Netmask unknown, assuming /24';
+
+  @override
+  String netPortOpenBrowser(String target) {
+    return 'Open in browser: $target';
+  }
+
+  @override
+  String netPortOpenTerminal(String target) {
+    return 'Open in terminal: $target';
+  }
+
+  @override
+  String netPortOpenFiles(String target) {
+    return 'Open in file manager: $target';
+  }
+
+  @override
+  String netPortOpenRemote(String target) {
+    return 'Open remote desktop: $target';
+  }
+
+  @override
+  String netPortOpenOpcUa(String target) {
+    return 'Open in OPC UA client: $target';
+  }
+
+  @override
+  String netPortConnectModbus(int port) {
+    return 'Connect via Modbus TCP (port $port)';
+  }
+
+  @override
+  String netPortCopy(String target) {
+    return 'No suitable program known – copy $target';
+  }
+
+  @override
+  String netPortCopied(String target) {
+    return '$target copied';
+  }
+
+  @override
+  String netPortNoApp(String target) {
+    return 'No program found for $target – address copied';
+  }
 }

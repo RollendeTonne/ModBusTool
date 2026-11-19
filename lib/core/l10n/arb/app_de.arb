@@ -449,5 +449,14 @@
   "netUseActiveTooltip": "Bereich des gerade genutzten Netzwerks eintragen",
   "netActiveNone": "Kein aktives Netzwerk gefunden",
   "netActiveFound": "{iface}: {address} → {range}",
-  "netActiveMaskUnknown": "Netzmaske unbekannt, /24 angenommen"
+  "netActiveMaskUnknown": "Netzmaske unbekannt, /24 angenommen",
+  "netPortOpenBrowser": "Im Browser öffnen: {target}",
+  "netPortOpenTerminal": "Im Terminal öffnen: {target}",
+  "netPortOpenFiles": "Im Dateiprogramm öffnen: {target}",
+  "netPortOpenRemote": "Fernsteuerung öffnen: {target}",
+  "netPortOpenOpcUa": "Im OPC-UA-Client öffnen: {target}",
+  "netPortConnectModbus": "Per Modbus TCP verbinden (Port {port})",
+  "netPortCopy": "Kein passendes Programm bekannt – {target} kopieren",
+  "netPortCopied": "{target} kopiert",
+  "netPortNoApp": "Kein Programm für {target} gefunden – Adresse kopiert"
 }

@@ -67,6 +67,11 @@ hervorgehoben. So sieht man sofort, wie ein Gerät seine Werte ablegt.
   EtherNet/IP, 20000 DNP3, 1883 MQTT, HTTP/HTTPS, SSH). Offene Modbus-Ports
   werden mit einer echten Modbus-Anfrage geprüft (Hersteller/Produkt per
   Device Identification); ein Klick legt ein Profil an und verbindet.
+  **Offene Ports sind anklickbar** und öffnen das passende Programm:
+  HTTP/HTTPS (80, 8080, 443, 8443 …) im Standardbrowser, SSH/Telnet im
+  Terminal, FTP/SMB im Dateiprogramm, VNC (5900) in der Bildschirmfreigabe,
+  OPC UA (4840) in einem registrierten Client; Modbus-Ports verbinden in der
+  App. Ohne passendes Programm (z. B. S7, MQTT, RDP) wird `IP:Port` kopiert.
   Ergebnisse als CSV exportierbar.
 - Statistik: Anfragen, Fehlerquote, Ø/Min/Max-Latenz, Fehler nach Art und FC.
 - Trend-Graph für Werte der Register-Map.

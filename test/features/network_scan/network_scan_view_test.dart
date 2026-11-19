@@ -1,16 +1,25 @@
 import 'dart:io';
 
+import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:modbus_explorer/core/files/file_exchange.dart';
 import 'package:modbus_explorer/core/platform/platform_capabilities.dart';
+import 'package:modbus_explorer/core/platform/url_opener.dart';
+import 'package:modbus_explorer/features/connection/domain/connection_config.dart';
+import 'package:modbus_explorer/features/connection/presentation/profiles_controller.dart';
+import 'package:modbus_explorer/features/modbus/data/client/connection_factory.dart';
+import 'package:modbus_explorer/features/modbus/data/modbus_providers.dart';
 import 'package:modbus_explorer/features/network_scan/data/active_network_detector.dart';
 import 'package:modbus_explorer/features/network_scan/data/network_scanner.dart';
 import 'package:modbus_explorer/features/network_scan/domain/ipv4.dart';
 import 'package:modbus_explorer/features/network_scan/domain/scan_models.dart';
 import 'package:modbus_explorer/features/network_scan/presentation/network_scan_controller.dart';
+import 'package:modbus_explorer/features/simulator/data/simulator_bank.dart';
 
 import '../../helpers/fake_files.dart';
+import '../../helpers/fake_serial.dart';
 import '../../helpers/pump_app.dart';
 
 final scannedRanges = <String>[];
@@ -59,6 +68,10 @@ ActiveNetworkDetector fakeDetector() => ActiveNetworkDetector(
   ),
 );
 
+/// URIs handed to the OS; `openerResult` simulates "no program found".
+final openedUris = <Uri>[];
+bool openerResult = true;
+
 Future<FakeFileExchange> openNetworkTab(WidgetTester tester) async {
   final files = FakeFileExchange();
   await tester.pumpModbusApp(
@@ -66,6 +79,19 @@ Future<FakeFileExchange> openNetworkTab(WidgetTester tester) async {
     overrides: [
       networkScannerProvider.overrideWithValue(fakeScanner()),
       activeNetworkDetectorProvider.overrideWithValue(fakeDetector()),
+      // Connecting must not open real sockets in widget tests.
+      connectionFactoryProvider.overrideWithValue(
+        ModbusConnectionFactory(
+          serialPorts: const FakeSerialPortService(),
+          simulatorBank: SimulatorBank.demo,
+          tcpConnect: (host, port, _) async =>
+              throw SocketException('unreachable in tests', port: port),
+        ),
+      ),
+      urlOpenerProvider.overrideWithValue((uri) async {
+        openedUris.add(uri);
+        return openerResult;
+      }),
       localAddressesProvider.overrideWith(
         (ref) async => [
           (interface: 'en0', address: Ipv4.parse('192.168.50.5')),
@@ -92,6 +118,8 @@ Future<void> runScan(WidgetTester tester) async {
 
 void main() {
   setUp(() {
+    openedUris.clear();
+    openerResult = true;
     fakeIfconfig =
         'inet 192.168.50.5 netmask 0xffffff00 broadcast 192.168.50.255';
     fakeInterfaces = [(interface: 'en0', address: Ipv4.parse('192.168.50.5'))];
@@ -116,6 +144,55 @@ void main() {
     await tester.pumpAndSettle();
     expect(tester.widget<TextField>(range).controller!.text, '10.0.2.0/23');
     expect(find.text('en0: 10.0.3.89 → 10.0.2.0/23'), findsOneWidget);
+  });
+
+  testWidgets('open ports launch the matching program', (tester) async {
+    String? clipboard;
+    tester.binding.defaultBinaryMessenger.setMockMethodCallHandler(
+      SystemChannels.platform,
+      (call) async {
+        if (call.method == 'Clipboard.setData') {
+          clipboard = (call.arguments as Map)['text'] as String;
+        }
+        return null;
+      },
+    );
+    await openNetworkTab(tester);
+    await tester.enterText(
+      find.byKey(const Key('network.range')),
+      '192.168.50.0/24',
+    );
+    await runScan(tester);
+
+    // HTTP → browser.
+    await tester.tap(find.byKey(const Key('network.port.192.168.50.10.80')));
+    await tester.pumpAndSettle();
+    expect(openedUris, [Uri.parse('http://192.168.50.10')]);
+
+    // SSH without a registered program → address copied instead.
+    openerResult = false;
+    await tester.tap(find.byKey(const Key('network.port.192.168.50.20.22')));
+    await tester.pumpAndSettle();
+    expect(openedUris.last, Uri.parse('ssh://192.168.50.20'));
+    expect(clipboard, 'ssh://192.168.50.20');
+    expect(find.textContaining('No program found'), findsOneWidget);
+
+    // Modbus port → profile + connection inside the app.
+    await tester.tap(find.byKey(const Key('network.port.192.168.50.10.502')));
+    await tester.pump();
+    final container = ProviderScope.containerOf(
+      tester.element(find.byKey(const Key('network.view'))),
+    );
+    final profile = container
+        .read(profilesControllerProvider)
+        .value!
+        .singleWhere((p) => p.name == 'plc7.local · PLC-7');
+    expect(
+      profile.config,
+      isA<TcpConnectionConfig>()
+          .having((c) => c.host, 'host', '192.168.50.10')
+          .having((c) => c.port, 'port', 502),
+    );
   });
 
   testWidgets('active network button reports when nothing is found', (

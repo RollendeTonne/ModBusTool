@@ -1545,4 +1545,49 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get netActiveMaskUnknown => 'Netzmaske unbekannt, /24 angenommen';
+
+  @override
+  String netPortOpenBrowser(String target) {
+    return 'Im Browser öffnen: $target';
+  }
+
+  @override
+  String netPortOpenTerminal(String target) {
+    return 'Im Terminal öffnen: $target';
+  }
+
+  @override
+  String netPortOpenFiles(String target) {
+    return 'Im Dateiprogramm öffnen: $target';
+  }
+
+  @override
+  String netPortOpenRemote(String target) {
+    return 'Fernsteuerung öffnen: $target';
+  }
+
+  @override
+  String netPortOpenOpcUa(String target) {
+    return 'Im OPC-UA-Client öffnen: $target';
+  }
+
+  @override
+  String netPortConnectModbus(int port) {
+    return 'Per Modbus TCP verbinden (Port $port)';
+  }
+
+  @override
+  String netPortCopy(String target) {
+    return 'Kein passendes Programm bekannt – $target kopieren';
+  }
+
+  @override
+  String netPortCopied(String target) {
+    return '$target kopiert';
+  }
+
+  @override
+  String netPortNoApp(String target) {
+    return 'Kein Programm für $target gefunden – Adresse kopiert';
+  }
 }
