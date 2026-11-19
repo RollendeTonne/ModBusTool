@@ -148,4 +148,85 @@ class AppLocalizationsDe extends AppLocalizations {
   @override
   String get settingsHighlightPlausibleHint =>
       'Heuristische Markierung sinnvoll aussehender Werte in der Interpretations-Matrix.';
+
+  @override
+  String get exceptionIllegalFunctionTitle => '01 Unzulässige Funktion';
+
+  @override
+  String get exceptionIllegalFunctionExplanation =>
+      'Das Gerät unterstützt diesen Funktionscode nicht. Andere Funktion versuchen (z. B. FC04 statt FC03) oder Gerätehandbuch prüfen.';
+
+  @override
+  String get exceptionIllegalDataAddressTitle => '02 Unzulässige Adresse';
+
+  @override
+  String get exceptionIllegalDataAddressExplanation =>
+      'Der Adressbereich existiert im Gerät nicht. Startadresse, Anzahl und Adressierung (0- oder 1-basiert, um eins verschoben) prüfen.';
+
+  @override
+  String get exceptionIllegalDataValueTitle => '03 Unzulässiger Wert';
+
+  @override
+  String get exceptionIllegalDataValueExplanation =>
+      'Ein Wert in der Anfrage ist nicht erlaubt, z. B. zu viele Register auf einmal oder ein Wert außerhalb des zulässigen Bereichs.';
+
+  @override
+  String get exceptionServerDeviceFailureTitle => '04 Gerätefehler';
+
+  @override
+  String get exceptionServerDeviceFailureExplanation =>
+      'Im Gerät ist bei der Verarbeitung ein interner Fehler aufgetreten. Häufige Ursache: reservierte oder vorübergehend nicht verfügbare Register.';
+
+  @override
+  String get exceptionAcknowledgeTitle => '05 Bestätigt, in Bearbeitung';
+
+  @override
+  String get exceptionAcknowledgeExplanation =>
+      'Das Gerät hat die Anfrage angenommen, braucht aber länger. Später erneut abfragen.';
+
+  @override
+  String get exceptionServerDeviceBusyTitle => '06 Gerät beschäftigt';
+
+  @override
+  String get exceptionServerDeviceBusyExplanation =>
+      'Das Gerät arbeitet gerade einen längeren Befehl ab. Später wiederholen oder seltener pollen.';
+
+  @override
+  String get exceptionNegativeAcknowledgeTitle => '07 Nicht ausführbar';
+
+  @override
+  String get exceptionNegativeAcknowledgeExplanation =>
+      'Das Gerät kann die angeforderte Programmfunktion nicht ausführen (veralteter Code).';
+
+  @override
+  String get exceptionMemoryParityErrorTitle => '08 Speicher-Paritätsfehler';
+
+  @override
+  String get exceptionMemoryParityErrorExplanation =>
+      'Das Gerät hat einen Paritätsfehler im Speicher erkannt. Das Gerät muss evtl. gewartet werden.';
+
+  @override
+  String get exceptionGatewayPathUnavailableTitle =>
+      '0A Gateway-Pfad nicht verfügbar';
+
+  @override
+  String get exceptionGatewayPathUnavailableExplanation =>
+      'Das Gateway konnte die Anfrage nicht weiterleiten. Gateway-Konfiguration und Unit-ID prüfen.';
+
+  @override
+  String get exceptionGatewayTargetFailedTitle =>
+      '0B Zielgerät antwortet nicht';
+
+  @override
+  String get exceptionGatewayTargetFailedExplanation =>
+      'Das Gateway hat vom Gerät dahinter keine Antwort bekommen. Unit-ID, serielle Einstellungen und Verkabelung auf der seriellen Seite prüfen.';
+
+  @override
+  String exceptionUnknownTitle(String code) {
+    return 'Exception $code';
+  }
+
+  @override
+  String get exceptionUnknownExplanation =>
+      'Nicht standardisierter Exception-Code. Siehe Gerätehandbuch.';
 }

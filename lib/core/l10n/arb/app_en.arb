@@ -12,11 +12,19 @@
   "connectionStatusError": "Error",
   "connectionStatusLabel": "Connection status: {status}",
   "@connectionStatusLabel": {
-    "placeholders": { "status": { "type": "String" } }
+    "placeholders": {
+      "status": {
+        "type": "String"
+      }
+    }
   },
   "plannedFeatureMilestone": "Planned for milestone {milestone}",
   "@plannedFeatureMilestone": {
-    "placeholders": { "milestone": { "type": "String" } }
+    "placeholders": {
+      "milestone": {
+        "type": "String"
+      }
+    }
   },
   "connectionPageDescription": "Manage Modbus TCP, RTU and RTU-over-TCP connection profiles.",
   "registersPageDescription": "Read and write registers, view every interpretation and maintain the register map.",
@@ -47,5 +55,34 @@
   "settingsConfirmWrites": "Confirm write operations",
   "settingsConfirmWritesHint": "Ask before every write request is sent to the device.",
   "settingsHighlightPlausible": "Highlight plausible interpretations",
-  "settingsHighlightPlausibleHint": "Heuristic marking of values that look meaningful in the interpretation matrix."
+  "settingsHighlightPlausibleHint": "Heuristic marking of values that look meaningful in the interpretation matrix.",
+  "exceptionIllegalFunctionTitle": "01 Illegal function",
+  "exceptionIllegalFunctionExplanation": "The device does not support this function code. Try another function (e.g. FC04 instead of FC03) or check the device manual.",
+  "exceptionIllegalDataAddressTitle": "02 Illegal data address",
+  "exceptionIllegalDataAddressExplanation": "The address range does not exist on the device. Check the start address, the count and the addressing mode (0- vs. 1-based, off-by-one).",
+  "exceptionIllegalDataValueTitle": "03 Illegal data value",
+  "exceptionIllegalDataValueExplanation": "A value in the request is not allowed, e.g. too many registers at once or a value outside the permitted range.",
+  "exceptionServerDeviceFailureTitle": "04 Server device failure",
+  "exceptionServerDeviceFailureExplanation": "The device hit an internal error while processing the request. Often caused by reading registers that are reserved or temporarily unavailable.",
+  "exceptionAcknowledgeTitle": "05 Acknowledge",
+  "exceptionAcknowledgeExplanation": "The device accepted the request but needs more time to complete it. Poll again later.",
+  "exceptionServerDeviceBusyTitle": "06 Server device busy",
+  "exceptionServerDeviceBusyExplanation": "The device is busy with a long-running command. Retry later or poll less frequently.",
+  "exceptionNegativeAcknowledgeTitle": "07 Negative acknowledge",
+  "exceptionNegativeAcknowledgeExplanation": "The device cannot perform the requested program function (legacy code).",
+  "exceptionMemoryParityErrorTitle": "08 Memory parity error",
+  "exceptionMemoryParityErrorExplanation": "The device detected a parity error in its memory. The device may need servicing.",
+  "exceptionGatewayPathUnavailableTitle": "0A Gateway path unavailable",
+  "exceptionGatewayPathUnavailableExplanation": "The gateway could not route the request to the target. Check the gateway configuration and the unit ID.",
+  "exceptionGatewayTargetFailedTitle": "0B Gateway target failed to respond",
+  "exceptionGatewayTargetFailedExplanation": "The gateway got no answer from the device behind it. Check unit ID, serial settings and wiring on the serial side.",
+  "exceptionUnknownTitle": "Exception {code}",
+  "@exceptionUnknownTitle": {
+    "placeholders": {
+      "code": {
+        "type": "String"
+      }
+    }
+  },
+  "exceptionUnknownExplanation": "Non-standard exception code. See the device manual."
 }

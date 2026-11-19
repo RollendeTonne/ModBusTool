@@ -349,6 +349,138 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Heuristic marking of values that look meaningful in the interpretation matrix.'**
   String get settingsHighlightPlausibleHint;
+
+  /// No description provided for @exceptionIllegalFunctionTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'01 Illegal function'**
+  String get exceptionIllegalFunctionTitle;
+
+  /// No description provided for @exceptionIllegalFunctionExplanation.
+  ///
+  /// In en, this message translates to:
+  /// **'The device does not support this function code. Try another function (e.g. FC04 instead of FC03) or check the device manual.'**
+  String get exceptionIllegalFunctionExplanation;
+
+  /// No description provided for @exceptionIllegalDataAddressTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'02 Illegal data address'**
+  String get exceptionIllegalDataAddressTitle;
+
+  /// No description provided for @exceptionIllegalDataAddressExplanation.
+  ///
+  /// In en, this message translates to:
+  /// **'The address range does not exist on the device. Check the start address, the count and the addressing mode (0- vs. 1-based, off-by-one).'**
+  String get exceptionIllegalDataAddressExplanation;
+
+  /// No description provided for @exceptionIllegalDataValueTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'03 Illegal data value'**
+  String get exceptionIllegalDataValueTitle;
+
+  /// No description provided for @exceptionIllegalDataValueExplanation.
+  ///
+  /// In en, this message translates to:
+  /// **'A value in the request is not allowed, e.g. too many registers at once or a value outside the permitted range.'**
+  String get exceptionIllegalDataValueExplanation;
+
+  /// No description provided for @exceptionServerDeviceFailureTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'04 Server device failure'**
+  String get exceptionServerDeviceFailureTitle;
+
+  /// No description provided for @exceptionServerDeviceFailureExplanation.
+  ///
+  /// In en, this message translates to:
+  /// **'The device hit an internal error while processing the request. Often caused by reading registers that are reserved or temporarily unavailable.'**
+  String get exceptionServerDeviceFailureExplanation;
+
+  /// No description provided for @exceptionAcknowledgeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'05 Acknowledge'**
+  String get exceptionAcknowledgeTitle;
+
+  /// No description provided for @exceptionAcknowledgeExplanation.
+  ///
+  /// In en, this message translates to:
+  /// **'The device accepted the request but needs more time to complete it. Poll again later.'**
+  String get exceptionAcknowledgeExplanation;
+
+  /// No description provided for @exceptionServerDeviceBusyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'06 Server device busy'**
+  String get exceptionServerDeviceBusyTitle;
+
+  /// No description provided for @exceptionServerDeviceBusyExplanation.
+  ///
+  /// In en, this message translates to:
+  /// **'The device is busy with a long-running command. Retry later or poll less frequently.'**
+  String get exceptionServerDeviceBusyExplanation;
+
+  /// No description provided for @exceptionNegativeAcknowledgeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'07 Negative acknowledge'**
+  String get exceptionNegativeAcknowledgeTitle;
+
+  /// No description provided for @exceptionNegativeAcknowledgeExplanation.
+  ///
+  /// In en, this message translates to:
+  /// **'The device cannot perform the requested program function (legacy code).'**
+  String get exceptionNegativeAcknowledgeExplanation;
+
+  /// No description provided for @exceptionMemoryParityErrorTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'08 Memory parity error'**
+  String get exceptionMemoryParityErrorTitle;
+
+  /// No description provided for @exceptionMemoryParityErrorExplanation.
+  ///
+  /// In en, this message translates to:
+  /// **'The device detected a parity error in its memory. The device may need servicing.'**
+  String get exceptionMemoryParityErrorExplanation;
+
+  /// No description provided for @exceptionGatewayPathUnavailableTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'0A Gateway path unavailable'**
+  String get exceptionGatewayPathUnavailableTitle;
+
+  /// No description provided for @exceptionGatewayPathUnavailableExplanation.
+  ///
+  /// In en, this message translates to:
+  /// **'The gateway could not route the request to the target. Check the gateway configuration and the unit ID.'**
+  String get exceptionGatewayPathUnavailableExplanation;
+
+  /// No description provided for @exceptionGatewayTargetFailedTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'0B Gateway target failed to respond'**
+  String get exceptionGatewayTargetFailedTitle;
+
+  /// No description provided for @exceptionGatewayTargetFailedExplanation.
+  ///
+  /// In en, this message translates to:
+  /// **'The gateway got no answer from the device behind it. Check unit ID, serial settings and wiring on the serial side.'**
+  String get exceptionGatewayTargetFailedExplanation;
+
+  /// No description provided for @exceptionUnknownTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Exception {code}'**
+  String exceptionUnknownTitle(String code);
+
+  /// No description provided for @exceptionUnknownExplanation.
+  ///
+  /// In en, this message translates to:
+  /// **'Non-standard exception code. See the device manual.'**
+  String get exceptionUnknownExplanation;
 }
 
 class _AppLocalizationsDelegate
