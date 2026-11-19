@@ -4,7 +4,7 @@ Plattformübergreifendes Debugging-Werkzeug für Modbus TCP/RTU (Flutter). Rohe
 Registerwerte werden gleichzeitig in allen gängigen Datentypen und
 Byte-/Wortreihenfolgen interpretiert.
 
-> Status: **M4** – Verbindungsprofile, Lesen/Pollen und Schreiben in der Oberfläche, Modbus-Transport (TCP/RTU/RTU over TCP) und Simulator. Interpretations-Matrix folgt in M5.
+> Status: **M5** – Verbindungsprofile, Lesen/Pollen/Schreiben, Interpretations-Matrix (alle Datentypen × Byte-Reihenfolgen) und Register-Map. Monitor, Werkzeuge und Statistik folgen in M6.
 > Die vollständige Dokumentation folgt mit M7.
 
 ## Entwicklung
@@ -28,6 +28,14 @@ flutter test integration_test -d macos --no-dds
 3. **Schreiben:** Erst „Schreiben freigeben“ einschalten, dann das Stift-Symbol
    (Register), den Schalter (Coils) oder „Mehrere schreiben…“ benutzen.
    Jeder Schreibzugriff wird vorher bestätigt (abschaltbar in den Einstellungen).
+4. **Interpretieren:** Register in der Tabelle anklicken (Umschalt+Klick für
+   einen Bereich). Die Matrix zeigt alle Datentypen in allen Byte-Reihenfolgen;
+   plausible Werte sind hervorgehoben. Klick auf eine Zelle kopiert den Wert,
+   Rechtsklick bzw. langes Drücken öffnet „Zur Register-Map hinzufügen“.
+   Auf dem Handy öffnet ein Tipp auf eine Zeile die Interpretation als Bottom-Sheet.
+5. **Register-Map:** Umschalter „Register-Map“. Einträge mit Label, Einheit
+   und Skalierung anlegen, durchsuchen und mit „Alle lesen“ bzw. „Pollen“ live
+   anzeigen. Die Labels erscheinen auch in der Rohwert-Tabelle.
 
 ### macOS: CocoaPods
 

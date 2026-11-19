@@ -720,4 +720,236 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get rangeExceedsAddressSpace => 'Range exceeds address 65535';
+
+  @override
+  String get interpretationTitle => 'Interpretation';
+
+  @override
+  String interpretationSelection(String range, int count) {
+    return '$range · $count register(s)';
+  }
+
+  @override
+  String get interpretationHint =>
+      'Select a register in the table (Shift+click for a range).';
+
+  @override
+  String get interpretationBitTables =>
+      'Interpretations are available for input and holding registers.';
+
+  @override
+  String get interpretationNoData =>
+      'Read registers to see all interpretations.';
+
+  @override
+  String sectionRegister(String address) {
+    return 'Register $address';
+  }
+
+  @override
+  String get labelHighByte => 'High byte';
+
+  @override
+  String get labelLowByte => 'Low byte';
+
+  @override
+  String get labelAscii => 'ASCII';
+
+  @override
+  String get bitsReadOnlyHint => 'Enable writing to toggle bits.';
+
+  @override
+  String get sectionMatrix => 'All interpretations';
+
+  @override
+  String get columnType => 'Type';
+
+  @override
+  String matrixNeedsRegisters(int count) {
+    return 'Needs $count registers';
+  }
+
+  @override
+  String get matrixDuplicate => 'Same byte order as an earlier column';
+
+  @override
+  String get plausibilityNaN => 'Not a number (NaN)';
+
+  @override
+  String get plausibilityInfinite => 'Infinite';
+
+  @override
+  String get plausibilityDenormal =>
+      'Denormalized float – almost certainly the wrong byte order';
+
+  @override
+  String get plausibilityHuge => 'Implausibly large';
+
+  @override
+  String get plausibilityTiny => 'Implausibly small';
+
+  @override
+  String get plausibilityManyDigits =>
+      'Many significant digits – rather unlikely';
+
+  @override
+  String get plausibilityDate => 'Date outside 2000–2100';
+
+  @override
+  String get plausibilityNonPrintable => 'Contains non-printable characters';
+
+  @override
+  String get plausibilityInvalid => 'Invalid value';
+
+  @override
+  String get plausibilityPlausible => 'Looks plausible';
+
+  @override
+  String copiedValue(String value) {
+    return 'Copied: $value';
+  }
+
+  @override
+  String get copiedTable => 'Table copied';
+
+  @override
+  String get actionCopy => 'Copy';
+
+  @override
+  String get actionAddToMap => 'Add to register map…';
+
+  @override
+  String get actionCopyTable => 'Copy table';
+
+  @override
+  String get actionCopyCsv => 'Copy as CSV';
+
+  @override
+  String get sectionText => 'Text';
+
+  @override
+  String get textSwapBytes => 'Swap bytes (BA)';
+
+  @override
+  String get fieldEncoding => 'Encoding';
+
+  @override
+  String get sectionScaling => 'Scaling';
+
+  @override
+  String get fieldFactor => 'Factor';
+
+  @override
+  String get fieldOffset => 'Offset';
+
+  @override
+  String get fieldDecimals => 'Decimals';
+
+  @override
+  String get scalingHint => 'Shown value = raw × factor + offset';
+
+  @override
+  String get actionReset => 'Reset';
+
+  @override
+  String get viewRaw => 'Raw values';
+
+  @override
+  String viewMap(int count) {
+    return 'Register map ($count)';
+  }
+
+  @override
+  String get columnLabel => 'Label';
+
+  @override
+  String get mapEmpty =>
+      'No entries yet. Select registers, open the menu of a cell in the interpretation table and choose “Add to register map”, or add an entry manually.';
+
+  @override
+  String get mapNoProfile =>
+      'Create a connection profile first – register maps are stored per profile.';
+
+  @override
+  String get mapSearch => 'Search label or address';
+
+  @override
+  String get mapSortAddress => 'By address';
+
+  @override
+  String get mapSortLabel => 'By label';
+
+  @override
+  String get actionAddEntry => 'Add entry';
+
+  @override
+  String get actionReadMap => 'Read all';
+
+  @override
+  String get mapEntryNewTitle => 'New register map entry';
+
+  @override
+  String get mapEntryEditTitle => 'Edit entry';
+
+  @override
+  String get fieldLabel => 'Label';
+
+  @override
+  String get fieldUnit => 'Unit';
+
+  @override
+  String get fieldDescription => 'Description';
+
+  @override
+  String get fieldTable => 'Table';
+
+  @override
+  String get fieldAddress => 'Address';
+
+  @override
+  String get fieldType => 'Data type';
+
+  @override
+  String get fieldByteOrder => 'Byte order';
+
+  @override
+  String get fieldTextRegisters => 'Length (registers)';
+
+  @override
+  String get fieldBit => 'Bit (0–15)';
+
+  @override
+  String get typeText => 'Text';
+
+  @override
+  String get typeBit => 'Bit';
+
+  @override
+  String get mapEntryDeleteTitle => 'Delete entry?';
+
+  @override
+  String mapEntryDeleteBody(String label) {
+    return '\"$label\" will be removed from the register map.';
+  }
+
+  @override
+  String mapReadStatus(int count, String time) {
+    return '$count entries · $time';
+  }
+
+  @override
+  String mapEntryCount(int count) {
+    return '$count entries';
+  }
+
+  @override
+  String get actionInterpret => 'Interpret';
+
+  @override
+  String mapEntrySaved(String label) {
+    return 'Saved to register map: $label';
+  }
+
+  @override
+  String get mapUnnamed => '(unnamed)';
 }

@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:modbus_explorer/core/l10n/l10n.dart';
 import 'package:modbus_explorer/core/theme/app_theme.dart';
+import 'package:modbus_explorer/core/widgets/snackbar.dart';
 import 'package:modbus_explorer/features/connection/presentation/connection_controller.dart';
 import 'package:modbus_explorer/features/connection/presentation/modbus_error_text.dart';
 import 'package:modbus_explorer/features/interpretation/domain/register_breakdown.dart';
@@ -69,14 +70,12 @@ Future<void> performWrite(
 
   try {
     await ref.read(registersControllerProvider.notifier).write(request);
-    messenger.showSnackBar(SnackBar(content: Text(l10n.writeSuccess(summary))));
+    messenger.showReplacing(l10n.writeSuccess(summary));
   } on Object catch (e) {
     final text = describeError(l10n, e);
-    messenger.showSnackBar(
-      SnackBar(
-        duration: const Duration(seconds: 8),
-        content: Text('${text.title}\n${text.hint}'),
-      ),
+    messenger.showReplacing(
+      '${text.title}\n${text.hint}',
+      duration: const Duration(seconds: 8),
     );
   }
 }

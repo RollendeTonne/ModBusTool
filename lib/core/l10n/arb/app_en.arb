@@ -404,5 +404,143 @@
       }
     }
   },
-  "rangeExceedsAddressSpace": "Range exceeds address 65535"
+  "rangeExceedsAddressSpace": "Range exceeds address 65535",
+  "interpretationTitle": "Interpretation",
+  "interpretationSelection": "{range} · {count} register(s)",
+  "@interpretationSelection": {
+    "placeholders": {
+      "range": {
+        "type": "String"
+      },
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "interpretationHint": "Select a register in the table (Shift+click for a range).",
+  "interpretationBitTables": "Interpretations are available for input and holding registers.",
+  "interpretationNoData": "Read registers to see all interpretations.",
+  "sectionRegister": "Register {address}",
+  "@sectionRegister": {
+    "placeholders": {
+      "address": {
+        "type": "String"
+      }
+    }
+  },
+  "labelHighByte": "High byte",
+  "labelLowByte": "Low byte",
+  "labelAscii": "ASCII",
+  "bitsReadOnlyHint": "Enable writing to toggle bits.",
+  "sectionMatrix": "All interpretations",
+  "columnType": "Type",
+  "matrixNeedsRegisters": "Needs {count} registers",
+  "@matrixNeedsRegisters": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "matrixDuplicate": "Same byte order as an earlier column",
+  "plausibilityNaN": "Not a number (NaN)",
+  "plausibilityInfinite": "Infinite",
+  "plausibilityDenormal": "Denormalized float – almost certainly the wrong byte order",
+  "plausibilityHuge": "Implausibly large",
+  "plausibilityTiny": "Implausibly small",
+  "plausibilityManyDigits": "Many significant digits – rather unlikely",
+  "plausibilityDate": "Date outside 2000–2100",
+  "plausibilityNonPrintable": "Contains non-printable characters",
+  "plausibilityInvalid": "Invalid value",
+  "plausibilityPlausible": "Looks plausible",
+  "copiedValue": "Copied: {value}",
+  "@copiedValue": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "copiedTable": "Table copied",
+  "actionCopy": "Copy",
+  "actionAddToMap": "Add to register map…",
+  "actionCopyTable": "Copy table",
+  "actionCopyCsv": "Copy as CSV",
+  "sectionText": "Text",
+  "textSwapBytes": "Swap bytes (BA)",
+  "fieldEncoding": "Encoding",
+  "sectionScaling": "Scaling",
+  "fieldFactor": "Factor",
+  "fieldOffset": "Offset",
+  "fieldDecimals": "Decimals",
+  "scalingHint": "Shown value = raw × factor + offset",
+  "actionReset": "Reset",
+  "viewRaw": "Raw values",
+  "viewMap": "Register map ({count})",
+  "@viewMap": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "columnLabel": "Label",
+  "mapEmpty": "No entries yet. Select registers, open the menu of a cell in the interpretation table and choose “Add to register map”, or add an entry manually.",
+  "mapNoProfile": "Create a connection profile first – register maps are stored per profile.",
+  "mapSearch": "Search label or address",
+  "mapSortAddress": "By address",
+  "mapSortLabel": "By label",
+  "actionAddEntry": "Add entry",
+  "actionReadMap": "Read all",
+  "mapEntryNewTitle": "New register map entry",
+  "mapEntryEditTitle": "Edit entry",
+  "fieldLabel": "Label",
+  "fieldUnit": "Unit",
+  "fieldDescription": "Description",
+  "fieldTable": "Table",
+  "fieldAddress": "Address",
+  "fieldType": "Data type",
+  "fieldByteOrder": "Byte order",
+  "fieldTextRegisters": "Length (registers)",
+  "fieldBit": "Bit (0–15)",
+  "typeText": "Text",
+  "typeBit": "Bit",
+  "mapEntryDeleteTitle": "Delete entry?",
+  "mapEntryDeleteBody": "\"{label}\" will be removed from the register map.",
+  "@mapEntryDeleteBody": {
+    "placeholders": {
+      "label": {
+        "type": "String"
+      }
+    }
+  },
+  "mapReadStatus": "{count} entries · {time}",
+  "@mapReadStatus": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "mapEntryCount": "{count} entries",
+  "@mapEntryCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "actionInterpret": "Interpret",
+  "mapEntrySaved": "Saved to register map: {label}",
+  "@mapEntrySaved": {
+    "placeholders": {
+      "label": {
+        "type": "String"
+      }
+    }
+  },
+  "mapUnnamed": "(unnamed)"
 }

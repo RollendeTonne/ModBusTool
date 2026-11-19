@@ -1,10 +1,13 @@
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:modbus_explorer/core/l10n/l10n.dart';
 import 'package:modbus_explorer/core/theme/app_colors.dart';
 import 'package:modbus_explorer/core/theme/app_theme.dart';
 import 'package:modbus_explorer/features/interpretation/domain/register_breakdown.dart';
+import 'package:modbus_explorer/features/interpretation/domain/register_map_entry.dart';
 import 'package:modbus_explorer/features/interpretation/domain/value_formatter.dart';
+import 'package:modbus_explorer/features/interpretation/presentation/register_map_controller.dart';
 import 'package:modbus_explorer/features/modbus/domain/modbus_address.dart';
 import 'package:modbus_explorer/features/modbus/domain/modbus_request.dart';
 import 'package:modbus_explorer/features/modbus/domain/register_table.dart';
@@ -20,16 +23,25 @@ const _rowHeight = 40.0;
 const _addressWidth = 120.0;
 const _numberWidth = 90.0;
 const _binaryWidth = 190.0;
+const _labelWidth = 180.0;
+
+/// Below this width the interpretation opens as a bottom sheet instead of
+/// a side panel.
+const interpretationSplitWidth = 1100.0;
 
 /// Pinned column header plus virtualized rows, as slivers so the whole
 /// page (request panel included) scrolls on small screens.
 class RegisterTableSliver extends ConsumerWidget {
-  const new({required this.snapshot, super.key});
+  const new({required this.snapshot, this.onRowSelected, super.key});
 
   final RegisterSnapshot snapshot;
 
+  /// Called after a row was selected (e.g. to open the bottom sheet).
+  final ValueChanged<int>? onRowSelected;
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final entries = ref.watch(currentMapEntriesProvider);
     final mode = ref.watch(
       settingsControllerProvider.select((s) => s.addressingMode),
     );
@@ -38,12 +50,16 @@ class RegisterTableSliver extends ConsumerWidget {
     );
     final table = snapshot.table;
     final canWrite = writeUnlocked && table.isWritable;
+    final labels = _labelLookup(entries, snapshot);
 
     return SliverLayoutBuilder(
       builder: (context, constraints) {
         final width = constraints.crossAxisExtent;
-        final showSigned = width >= 480;
-        final showBinary = width >= 720;
+        // The label matters more than the signed/binary columns, which
+        // the interpretation panel shows anyway.
+        final showLabel = labels.isNotEmpty && width >= 560;
+        final showSigned = width >= (showLabel ? 740 : 480);
+        final showBinary = width >= (showLabel ? 920 : 720);
         return SliverMainAxisGroup(
           slivers: [
             SliverPersistentHeader(
@@ -52,6 +68,7 @@ class RegisterTableSliver extends ConsumerWidget {
                 table: table,
                 showSigned: showSigned,
                 showBinary: showBinary,
+                showLabel: showLabel,
               ),
             ),
             SliverFixedExtentList.builder(
@@ -69,6 +86,8 @@ class RegisterTableSliver extends ConsumerWidget {
                   showSigned: showSigned,
                   showBinary: showBinary,
                   canWrite: canWrite,
+                  label: showLabel ? labels[address] : null,
+                  onSelected: onRowSelected,
                 );
               },
             ),
@@ -77,6 +96,23 @@ class RegisterTableSliver extends ConsumerWidget {
       },
     );
   }
+
+  /// Address → label; follow-up registers of multi-register entries get a
+  /// continuation marker.
+  static Map<int, String> _labelLookup(
+    List<RegisterMapEntry> entries,
+    RegisterSnapshot snapshot,
+  ) {
+    final labels = <int, String>{};
+    for (final e in entries) {
+      if (e.table != snapshot.table || e.label.isEmpty) continue;
+      for (var a = e.address; a <= e.lastAddress; a++) {
+        if (a < snapshot.start || a > snapshot.end) continue;
+        labels.putIfAbsent(a, () => a == e.address ? e.label : '↳ ${e.label}');
+      }
+    }
+    return labels;
+  }
 }
 
 class _HeaderDelegate extends SliverPersistentHeaderDelegate {
@@ -84,6 +120,7 @@ class _HeaderDelegate extends SliverPersistentHeaderDelegate {
     required this.table,
     required this.showSigned,
     required this.showBinary,
+    required this.showLabel,
   });
 
   static const _height = 36.0;
@@ -91,6 +128,7 @@ class _HeaderDelegate extends SliverPersistentHeaderDelegate {
   final RegisterTable table;
   final bool showSigned;
   final bool showBinary;
+  final bool showLabel;
 
   @override
   double get minExtent => _height;
@@ -102,7 +140,8 @@ class _HeaderDelegate extends SliverPersistentHeaderDelegate {
   bool shouldRebuild(_HeaderDelegate old) =>
       old.table != table ||
       old.showSigned != showSigned ||
-      old.showBinary != showBinary;
+      old.showBinary != showBinary ||
+      old.showLabel != showLabel;
 
   @override
   Widget build(
@@ -129,6 +168,8 @@ class _HeaderDelegate extends SliverPersistentHeaderDelegate {
         child: Row(
           children: [
             SizedBox(width: _addressWidth, child: Text(l10n.columnAddress)),
+            if (showLabel)
+              SizedBox(width: _labelWidth, child: Text(l10n.columnLabel)),
             if (table.isBitTable)
               Expanded(child: Text(l10n.columnValue))
             else ...[
@@ -157,6 +198,8 @@ class _RegisterRow extends ConsumerWidget {
     required this.showSigned,
     required this.showBinary,
     required this.canWrite,
+    this.label,
+    this.onSelected,
   });
 
   final RegisterTable table;
@@ -167,6 +210,8 @@ class _RegisterRow extends ConsumerWidget {
   final bool showSigned;
   final bool showBinary;
   final bool canWrite;
+  final String? label;
+  final ValueChanged<int>? onSelected;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -174,6 +219,9 @@ class _RegisterRow extends ConsumerWidget {
     final theme = Theme.of(context);
     final mono = theme.textTheme.bodyMedium!.mono;
     final changedColor = context.appColors.changed;
+    final selected = ref.watch(
+      registersControllerProvider.select((s) => s.isSelected(address)),
+    );
 
     final Widget content;
     final String semanticValue;
@@ -215,21 +263,21 @@ class _RegisterRow extends ConsumerWidget {
         children: [
           SizedBox(
             width: _numberWidth,
-            child: SelectableText(r.hex, style: mono),
+            child: Text(r.hex, style: mono),
           ),
           SizedBox(
             width: _numberWidth,
-            child: SelectableText('${r.unsigned}', style: mono),
+            child: Text('${r.unsigned}', style: mono),
           ),
           if (showSigned)
             SizedBox(
               width: _numberWidth,
-              child: SelectableText('${r.signed}', style: mono),
+              child: Text('${r.signed}', style: mono),
             ),
           if (showBinary)
             SizedBox(
               width: _binaryWidth,
-              child: SelectableText(r.binary, style: mono),
+              child: Text(r.binary, style: mono),
             ),
           const Spacer(),
           if (table == RegisterTable.holdingRegisters)
@@ -269,16 +317,46 @@ class _RegisterRow extends ConsumerWidget {
                 ],
               ),
             ),
+            if (label != null)
+              SizedBox(
+                width: _labelWidth,
+                child: Text(
+                  label!,
+                  overflow: TextOverflow.ellipsis,
+                  style: theme.textTheme.bodySmall?.copyWith(
+                    color: label!.startsWith('↳')
+                        ? theme.colorScheme.onSurfaceVariant
+                        : null,
+                  ),
+                ),
+              ),
             Expanded(child: content),
           ],
         ),
       ),
     );
 
-    return _ChangeHighlight(
-      changedAt: changedAt,
-      color: changedColor,
-      child: row,
+    return Material(
+      color: selected
+          ? theme.colorScheme.secondaryContainer
+          : Colors.transparent,
+      child: InkWell(
+        key: Key('row.$address'),
+        onTap: () {
+          ref
+              .read(registersControllerProvider.notifier)
+              .select(
+                address,
+                extend: HardwareKeyboard.instance.isShiftPressed,
+              );
+          onSelected?.call(address);
+        },
+        child: _ChangeHighlight(
+          changedAt: changedAt,
+          color: changedColor,
+          child: row,
+        ),
+      ),
     );
   }
 

@@ -73,3 +73,20 @@ Kurzprotokoll der Architektur- und Produktentscheidungen. Neueste unten.
 | D50 | Tastenkürzel: Strg/⌘+R oder F5 = Lesen, Strg/⌘+Enter = Dialog absenden bzw. Profil speichern | Desktop-Bedienung wie gefordert, Rest in M7. |
 | D51 | Einzelregister optional als **FC16** senden | Manche Geräte unterstützen kein FC06. |
 | D52 | Integrationstests in der echten Desktop-App: `flutter test integration_test -d macos --no-dds` | Prüft FFI (libserialport), Sandbox-Netzwerk und Dateipfade. `--no-dds` ist nötig, weil der Debug-Dienst hier nicht startet. |
+
+## M5 – Interpretations-Matrix und Register-Map
+
+| # | Entscheidung | Begründung |
+|---|---|---|
+| D53 | Die Matrix beginnt am **ersten markierten Register** und nimmt die folgenden Register dazu, bis 32/64-Bit-Typen gefüllt sind (mindestens 4, sofern gelesen). Text nutzt genau die Markierung | Ein Klick auf ein Register genügt, um alle Breiten zu sehen. Für Strings bestimmt die Markierung die Länge. |
+| D54 | Skalierung in der Interpretationsansicht gilt sitzungsweit für alle numerischen Zellen. Jeder Map-Eintrag hat zusätzlich seine **eigene** Skalierung (Faktor, Offset, Nachkommastellen) | Beim Erkunden reicht ein globaler Faktor. „Pro Interpretation“ wird über die gespeicherten Einträge erfüllt. |
+| D55 | Plausibilitäts-Darstellung: plausibel = fett, grün hinterlegt (abschaltbar); unplausibel = grau-kursiv; doppelte 16-Bit-Spalten abgeschwächt. Der Tooltip nennt Muster, umgeordnete Bytes und den Grund | Status wird nicht nur über Farbe vermittelt. Screenreader bekommen Wert und Grund als Label. |
+| D56 | Bedienung der Zellen: Tippen kopiert den Wert; Rechtsklick oder langes Drücken öffnet das Menü „Kopieren / Zur Register-Map hinzufügen“. Kopieren der ganzen Matrix als TSV (für Tabellenkalkulationen) oder CSV | Schnell für den häufigsten Fall. Das Kontextmenü funktioniert auch auf Touch-Geräten. |
+| D57 | Register-Map **pro Verbindungsprofil** in `register_maps.json`. Formate: Zahl (Datentyp + Byte-Reihenfolge), Text (Länge, Byte-Tausch, Kodierung), Bit (Coil/Diskreter Eingang oder einzelnes Bit eines Registers) | Maps gehören zu einem Gerät. Einzelne Bits in Statuswörtern sind in der Praxis häufig. |
+| D58 | Map lesen: Bereiche mit Lücken ≤ 8 werden zu Blöcken zusammengefasst (Grenzen 125 Register / 2000 Bits). Ein fehlerhafter Block (z. B. Exception 02) markiert nur seine eigenen Einträge als fehlerhaft | Wenige Requests, und ein falsch eingetragenes Register legt nicht die ganze Ansicht lahm. |
+| D59 | CSV: Trennzeichen `;`, Dezimalpunkt im Export, Komma wird beim Import akzeptiert, Adressen 0-basiert. Der Codec (JSON/CSV) ist fertig und getestet; die Dateiauswahl für Import/Export kommt in M7 | `;` öffnet sich in deutschem Excel korrekt. 0-basierte Adressen machen Dateien unabhängig von der Anzeigeeinstellung. |
+| D60 | Layout: ab 1100 px Breite und 600 px Höhe stehen Rohwerte und Interpretation nebeneinander, getrennt durch einen **eigenen** ziehbaren Teiler (Maus, Touch, Pfeiltasten, Screenreader-Slider). Darunter öffnet ein Tipp auf eine Zeile ein Bottom-Sheet | Kein zusätzliches Package für ~100 Zeilen Code. Auf dem Handy bleibt die Tabelle voll lesbar. |
+| D61 | Ist eine Map vorhanden, hat die Label-Spalte in der Rohwert-Tabelle Vorrang vor den Spalten Signed und Binär | Die Interpretationsansicht zeigt Signed/Binär ohnehin. Labels helfen bei der Orientierung mehr. |
+| D62 | Werte in der Rohwert-Tabelle sind normaler Text, nicht markierbar. Ein Tipp wählt die Zeile aus, Umschalt+Tipp einen Bereich | Markierbarer Text hat Taps abgefangen, die Zeilenauswahl funktionierte dann nicht. Kopieren geht über die Interpretation. |
+| D63 | Snackbars ersetzen die aktuelle Meldung, statt sich anzustellen | Nach mehreren schnellen Kopieraktionen kamen Meldungen sonst sekundenlang verspätet. |
+| D64 | **Bit-Ansicht** in der Interpretationsansicht: 16 Bits des markierten Registers als Chips. Bei freigegebenem Schreiben schaltet ein Klick das Bit (FC06, mit Bestätigung) | Erfüllt „Bits als anklickbare Toggles für Write“ ohne eigene dritte Ansicht. |

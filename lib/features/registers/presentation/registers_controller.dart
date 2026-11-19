@@ -65,6 +65,8 @@ final class RegisterQuery {
   int get hashCode => Object.hash(table, address, count, unitId);
 }
 
+enum RegistersView { raw, map }
+
 @immutable
 final class RegistersState {
   const new({
@@ -77,6 +79,9 @@ final class RegistersState {
     this.readCount = 0,
     this.errorCount = 0,
     this.writeUnlocked = false,
+    this.selectionStart,
+    this.selectionEnd,
+    this.view = RegistersView.raw,
   });
 
   final RegisterQuery query;
@@ -91,6 +96,17 @@ final class RegistersState {
   /// Session-level write protection; writes are blocked until unlocked.
   final bool writeUnlocked;
 
+  /// Selected protocol address range (inclusive) for interpretation.
+  final int? selectionStart;
+  final int? selectionEnd;
+  final RegistersView view;
+
+  bool isSelected(int address) {
+    final start = selectionStart;
+    if (start == null) return false;
+    return address >= start && address <= (selectionEnd ?? start);
+  }
+
   RegistersState copyWith({
     RegisterQuery? query,
     RegisterSnapshot? Function()? snapshot,
@@ -101,6 +117,8 @@ final class RegistersState {
     int? readCount,
     int? errorCount,
     bool? writeUnlocked,
+    (int?, int?)? selection,
+    RegistersView? view,
   }) => RegistersState(
     query: query ?? this.query,
     snapshot: snapshot != null ? snapshot() : this.snapshot,
@@ -111,6 +129,9 @@ final class RegistersState {
     readCount: readCount ?? this.readCount,
     errorCount: errorCount ?? this.errorCount,
     writeUnlocked: writeUnlocked ?? this.writeUnlocked,
+    selectionStart: selection != null ? selection.$1 : selectionStart,
+    selectionEnd: selection != null ? selection.$2 : selectionEnd,
+    view: view ?? this.view,
   );
 }
 
@@ -134,8 +155,28 @@ final class RegistersController extends Notifier<RegistersState> {
 
   void setQuery(RegisterQuery query) {
     final clamped = query.copyWith(count: query.count.clamp(1, query.maxCount));
-    state = state.copyWith(query: clamped);
+    final tableChanged = clamped.table != state.query.table;
+    state = state.copyWith(
+      query: clamped,
+      selection: tableChanged ? (null, null) : null,
+    );
   }
+
+  /// Selects [address]; with [extend] the range from the current anchor.
+  void select(int address, {bool extend = false}) {
+    final anchor = state.selectionStart;
+    if (extend && anchor != null) {
+      state = state.copyWith(
+        selection: address < anchor ? (address, anchor) : (anchor, address),
+      );
+    } else {
+      state = state.copyWith(selection: (address, address));
+    }
+  }
+
+  void clearSelection() => state = state.copyWith(selection: (null, null));
+
+  void setView(RegistersView view) => state = state.copyWith(view: view);
 
   void setPollInterval(Duration interval) => state = state.copyWith(
     pollInterval: interval < minPollInterval ? minPollInterval : interval,

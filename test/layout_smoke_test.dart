@@ -44,6 +44,35 @@ void main() {
       await tester.tap(find.byKey(const Key('request.writeUnlock')));
       await tester.pumpAndSettle();
 
+      // Interpretation: side panel on wide screens, bottom sheet otherwise.
+      final row = find.byKey(const Key('row.0'));
+      await tester.ensureVisible(row);
+      await tester.pumpAndSettle();
+      await tester.tap(row, warnIfMissed: false);
+      await tester.pumpAndSettle();
+      final panel = find.byKey(const Key('interpretation.panel'));
+      expect(panel, findsOneWidget);
+      // Render the lower cards of the (lazy) panel too.
+      await tester.drag(panel, const Offset(0, -2000));
+      await tester.pumpAndSettle();
+      if (size.width < 1100) {
+        Navigator.of(tester.element(panel)).pop(); // close the bottom sheet
+        await tester.pumpAndSettle();
+      }
+
+      // Register map view and its entry dialog.
+      final mapView = find.text('Register-Map (0)');
+      await tester.ensureVisible(mapView);
+      await tester.pumpAndSettle();
+      await tester.tap(mapView);
+      await tester.pumpAndSettle();
+      final add = find.byKey(const Key('map.add'));
+      await tester.ensureVisible(add);
+      await tester.tap(add);
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Abbrechen'));
+      await tester.pumpAndSettle();
+
       // Profile editor for every connection kind.
       await go('Verbindung');
       await tester.scrollUntilVisible(

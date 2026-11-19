@@ -14,7 +14,10 @@ abstract final class ValueFormatter {
     Scaling scaling = Scaling.identity,
   }) {
     final numeric = value.numericValue;
-    if (!scaling.isIdentity && numeric != null && numeric.isFinite) {
+    if (value is! BoolValue &&
+        !scaling.isIdentity &&
+        numeric != null &&
+        numeric.isFinite) {
       return formatScaled(scaling.apply(numeric), scaling.decimals);
     }
     return switch (value) {
@@ -30,6 +33,7 @@ abstract final class ValueFormatter {
               isControlCharacter(r) ? nonPrintableReplacement.codeUnitAt(0) : r,
         ),
       ),
+      BoolValue(:final value) => value ? 'ON' : 'OFF',
       InvalidValue() => invalidPlaceholder,
     };
   }

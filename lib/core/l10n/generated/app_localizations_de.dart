@@ -724,4 +724,238 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get rangeExceedsAddressSpace => 'Bereich überschreitet Adresse 65535';
+
+  @override
+  String get interpretationTitle => 'Interpretation';
+
+  @override
+  String interpretationSelection(String range, int count) {
+    return '$range · $count Register';
+  }
+
+  @override
+  String get interpretationHint =>
+      'Register in der Tabelle auswählen (Umschalt+Klick für einen Bereich).';
+
+  @override
+  String get interpretationBitTables =>
+      'Interpretationen gibt es für Input- und Holding-Register.';
+
+  @override
+  String get interpretationNoData =>
+      'Register lesen, um alle Interpretationen zu sehen.';
+
+  @override
+  String sectionRegister(String address) {
+    return 'Register $address';
+  }
+
+  @override
+  String get labelHighByte => 'High-Byte';
+
+  @override
+  String get labelLowByte => 'Low-Byte';
+
+  @override
+  String get labelAscii => 'ASCII';
+
+  @override
+  String get bitsReadOnlyHint =>
+      'Zum Umschalten der Bits das Schreiben freigeben.';
+
+  @override
+  String get sectionMatrix => 'Alle Interpretationen';
+
+  @override
+  String get columnType => 'Typ';
+
+  @override
+  String matrixNeedsRegisters(int count) {
+    return 'Benötigt $count Register';
+  }
+
+  @override
+  String get matrixDuplicate =>
+      'Gleiche Byte-Reihenfolge wie eine vorherige Spalte';
+
+  @override
+  String get plausibilityNaN => 'Keine Zahl (NaN)';
+
+  @override
+  String get plausibilityInfinite => 'Unendlich';
+
+  @override
+  String get plausibilityDenormal =>
+      'Denormalisierte Zahl – fast sicher falsche Byte-Reihenfolge';
+
+  @override
+  String get plausibilityHuge => 'Unplausibel groß';
+
+  @override
+  String get plausibilityTiny => 'Unplausibel klein';
+
+  @override
+  String get plausibilityManyDigits =>
+      'Viele signifikante Stellen – eher unwahrscheinlich';
+
+  @override
+  String get plausibilityDate => 'Datum außerhalb 2000–2100';
+
+  @override
+  String get plausibilityNonPrintable => 'Enthält nicht druckbare Zeichen';
+
+  @override
+  String get plausibilityInvalid => 'Ungültiger Wert';
+
+  @override
+  String get plausibilityPlausible => 'Wirkt plausibel';
+
+  @override
+  String copiedValue(String value) {
+    return 'Kopiert: $value';
+  }
+
+  @override
+  String get copiedTable => 'Tabelle kopiert';
+
+  @override
+  String get actionCopy => 'Kopieren';
+
+  @override
+  String get actionAddToMap => 'Zur Register-Map hinzufügen…';
+
+  @override
+  String get actionCopyTable => 'Tabelle kopieren';
+
+  @override
+  String get actionCopyCsv => 'Als CSV kopieren';
+
+  @override
+  String get sectionText => 'Text';
+
+  @override
+  String get textSwapBytes => 'Bytes tauschen (BA)';
+
+  @override
+  String get fieldEncoding => 'Kodierung';
+
+  @override
+  String get sectionScaling => 'Skalierung';
+
+  @override
+  String get fieldFactor => 'Faktor';
+
+  @override
+  String get fieldOffset => 'Offset';
+
+  @override
+  String get fieldDecimals => 'Nachkommastellen';
+
+  @override
+  String get scalingHint => 'Angezeigter Wert = Rohwert × Faktor + Offset';
+
+  @override
+  String get actionReset => 'Zurücksetzen';
+
+  @override
+  String get viewRaw => 'Rohwerte';
+
+  @override
+  String viewMap(int count) {
+    return 'Register-Map ($count)';
+  }
+
+  @override
+  String get columnLabel => 'Label';
+
+  @override
+  String get mapEmpty =>
+      'Noch keine Einträge. Register auswählen, in der Interpretationstabelle das Menü einer Zelle öffnen und „Zur Register-Map hinzufügen“ wählen – oder einen Eintrag von Hand anlegen.';
+
+  @override
+  String get mapNoProfile =>
+      'Zuerst ein Verbindungsprofil anlegen – Register-Maps werden pro Profil gespeichert.';
+
+  @override
+  String get mapSearch => 'Label oder Adresse suchen';
+
+  @override
+  String get mapSortAddress => 'Nach Adresse';
+
+  @override
+  String get mapSortLabel => 'Nach Label';
+
+  @override
+  String get actionAddEntry => 'Eintrag hinzufügen';
+
+  @override
+  String get actionReadMap => 'Alle lesen';
+
+  @override
+  String get mapEntryNewTitle => 'Neuer Eintrag';
+
+  @override
+  String get mapEntryEditTitle => 'Eintrag bearbeiten';
+
+  @override
+  String get fieldLabel => 'Label';
+
+  @override
+  String get fieldUnit => 'Einheit';
+
+  @override
+  String get fieldDescription => 'Beschreibung';
+
+  @override
+  String get fieldTable => 'Tabelle';
+
+  @override
+  String get fieldAddress => 'Adresse';
+
+  @override
+  String get fieldType => 'Datentyp';
+
+  @override
+  String get fieldByteOrder => 'Byte-Reihenfolge';
+
+  @override
+  String get fieldTextRegisters => 'Länge (Register)';
+
+  @override
+  String get fieldBit => 'Bit (0–15)';
+
+  @override
+  String get typeText => 'Text';
+
+  @override
+  String get typeBit => 'Bit';
+
+  @override
+  String get mapEntryDeleteTitle => 'Eintrag löschen?';
+
+  @override
+  String mapEntryDeleteBody(String label) {
+    return '„$label“ wird aus der Register-Map entfernt.';
+  }
+
+  @override
+  String mapReadStatus(int count, String time) {
+    return '$count Einträge · $time';
+  }
+
+  @override
+  String mapEntryCount(int count) {
+    return '$count Einträge';
+  }
+
+  @override
+  String get actionInterpret => 'Interpretieren';
+
+  @override
+  String mapEntrySaved(String label) {
+    return 'In Register-Map gespeichert: $label';
+  }
+
+  @override
+  String get mapUnnamed => '(ohne Namen)';
 }

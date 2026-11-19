@@ -63,6 +63,7 @@ PlausibilityAssessment assessPlausibility(
   InterpretedValue value,
   DataType type,
 ) => switch (value) {
+  BoolValue() => _neutral,
   InvalidValue() => const PlausibilityAssessment(
     Plausibility.implausible,
     PlausibilityIssue.invalid,

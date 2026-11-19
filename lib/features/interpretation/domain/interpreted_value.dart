@@ -105,6 +105,25 @@ final class TextValue extends InterpretedValue {
   String toString() => 'TextValue("$text")';
 }
 
+/// A single coil, discrete input or bit of a register.
+final class BoolValue extends InterpretedValue {
+  const new(this.value);
+
+  final bool value;
+
+  @override
+  double get numericValue => value ? 1 : 0;
+
+  @override
+  bool operator ==(Object other) => other is BoolValue && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => 'BoolValue($value)';
+}
+
 final class InvalidValue extends InterpretedValue {
   const new(this.reason);
 

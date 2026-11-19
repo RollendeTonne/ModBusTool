@@ -1345,6 +1345,420 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Range exceeds address 65535'**
   String get rangeExceedsAddressSpace;
+
+  /// No description provided for @interpretationTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Interpretation'**
+  String get interpretationTitle;
+
+  /// No description provided for @interpretationSelection.
+  ///
+  /// In en, this message translates to:
+  /// **'{range} · {count} register(s)'**
+  String interpretationSelection(String range, int count);
+
+  /// No description provided for @interpretationHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Select a register in the table (Shift+click for a range).'**
+  String get interpretationHint;
+
+  /// No description provided for @interpretationBitTables.
+  ///
+  /// In en, this message translates to:
+  /// **'Interpretations are available for input and holding registers.'**
+  String get interpretationBitTables;
+
+  /// No description provided for @interpretationNoData.
+  ///
+  /// In en, this message translates to:
+  /// **'Read registers to see all interpretations.'**
+  String get interpretationNoData;
+
+  /// No description provided for @sectionRegister.
+  ///
+  /// In en, this message translates to:
+  /// **'Register {address}'**
+  String sectionRegister(String address);
+
+  /// No description provided for @labelHighByte.
+  ///
+  /// In en, this message translates to:
+  /// **'High byte'**
+  String get labelHighByte;
+
+  /// No description provided for @labelLowByte.
+  ///
+  /// In en, this message translates to:
+  /// **'Low byte'**
+  String get labelLowByte;
+
+  /// No description provided for @labelAscii.
+  ///
+  /// In en, this message translates to:
+  /// **'ASCII'**
+  String get labelAscii;
+
+  /// No description provided for @bitsReadOnlyHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Enable writing to toggle bits.'**
+  String get bitsReadOnlyHint;
+
+  /// No description provided for @sectionMatrix.
+  ///
+  /// In en, this message translates to:
+  /// **'All interpretations'**
+  String get sectionMatrix;
+
+  /// No description provided for @columnType.
+  ///
+  /// In en, this message translates to:
+  /// **'Type'**
+  String get columnType;
+
+  /// No description provided for @matrixNeedsRegisters.
+  ///
+  /// In en, this message translates to:
+  /// **'Needs {count} registers'**
+  String matrixNeedsRegisters(int count);
+
+  /// No description provided for @matrixDuplicate.
+  ///
+  /// In en, this message translates to:
+  /// **'Same byte order as an earlier column'**
+  String get matrixDuplicate;
+
+  /// No description provided for @plausibilityNaN.
+  ///
+  /// In en, this message translates to:
+  /// **'Not a number (NaN)'**
+  String get plausibilityNaN;
+
+  /// No description provided for @plausibilityInfinite.
+  ///
+  /// In en, this message translates to:
+  /// **'Infinite'**
+  String get plausibilityInfinite;
+
+  /// No description provided for @plausibilityDenormal.
+  ///
+  /// In en, this message translates to:
+  /// **'Denormalized float – almost certainly the wrong byte order'**
+  String get plausibilityDenormal;
+
+  /// No description provided for @plausibilityHuge.
+  ///
+  /// In en, this message translates to:
+  /// **'Implausibly large'**
+  String get plausibilityHuge;
+
+  /// No description provided for @plausibilityTiny.
+  ///
+  /// In en, this message translates to:
+  /// **'Implausibly small'**
+  String get plausibilityTiny;
+
+  /// No description provided for @plausibilityManyDigits.
+  ///
+  /// In en, this message translates to:
+  /// **'Many significant digits – rather unlikely'**
+  String get plausibilityManyDigits;
+
+  /// No description provided for @plausibilityDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Date outside 2000–2100'**
+  String get plausibilityDate;
+
+  /// No description provided for @plausibilityNonPrintable.
+  ///
+  /// In en, this message translates to:
+  /// **'Contains non-printable characters'**
+  String get plausibilityNonPrintable;
+
+  /// No description provided for @plausibilityInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid value'**
+  String get plausibilityInvalid;
+
+  /// No description provided for @plausibilityPlausible.
+  ///
+  /// In en, this message translates to:
+  /// **'Looks plausible'**
+  String get plausibilityPlausible;
+
+  /// No description provided for @copiedValue.
+  ///
+  /// In en, this message translates to:
+  /// **'Copied: {value}'**
+  String copiedValue(String value);
+
+  /// No description provided for @copiedTable.
+  ///
+  /// In en, this message translates to:
+  /// **'Table copied'**
+  String get copiedTable;
+
+  /// No description provided for @actionCopy.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy'**
+  String get actionCopy;
+
+  /// No description provided for @actionAddToMap.
+  ///
+  /// In en, this message translates to:
+  /// **'Add to register map…'**
+  String get actionAddToMap;
+
+  /// No description provided for @actionCopyTable.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy table'**
+  String get actionCopyTable;
+
+  /// No description provided for @actionCopyCsv.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy as CSV'**
+  String get actionCopyCsv;
+
+  /// No description provided for @sectionText.
+  ///
+  /// In en, this message translates to:
+  /// **'Text'**
+  String get sectionText;
+
+  /// No description provided for @textSwapBytes.
+  ///
+  /// In en, this message translates to:
+  /// **'Swap bytes (BA)'**
+  String get textSwapBytes;
+
+  /// No description provided for @fieldEncoding.
+  ///
+  /// In en, this message translates to:
+  /// **'Encoding'**
+  String get fieldEncoding;
+
+  /// No description provided for @sectionScaling.
+  ///
+  /// In en, this message translates to:
+  /// **'Scaling'**
+  String get sectionScaling;
+
+  /// No description provided for @fieldFactor.
+  ///
+  /// In en, this message translates to:
+  /// **'Factor'**
+  String get fieldFactor;
+
+  /// No description provided for @fieldOffset.
+  ///
+  /// In en, this message translates to:
+  /// **'Offset'**
+  String get fieldOffset;
+
+  /// No description provided for @fieldDecimals.
+  ///
+  /// In en, this message translates to:
+  /// **'Decimals'**
+  String get fieldDecimals;
+
+  /// No description provided for @scalingHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Shown value = raw × factor + offset'**
+  String get scalingHint;
+
+  /// No description provided for @actionReset.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset'**
+  String get actionReset;
+
+  /// No description provided for @viewRaw.
+  ///
+  /// In en, this message translates to:
+  /// **'Raw values'**
+  String get viewRaw;
+
+  /// No description provided for @viewMap.
+  ///
+  /// In en, this message translates to:
+  /// **'Register map ({count})'**
+  String viewMap(int count);
+
+  /// No description provided for @columnLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Label'**
+  String get columnLabel;
+
+  /// No description provided for @mapEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No entries yet. Select registers, open the menu of a cell in the interpretation table and choose “Add to register map”, or add an entry manually.'**
+  String get mapEmpty;
+
+  /// No description provided for @mapNoProfile.
+  ///
+  /// In en, this message translates to:
+  /// **'Create a connection profile first – register maps are stored per profile.'**
+  String get mapNoProfile;
+
+  /// No description provided for @mapSearch.
+  ///
+  /// In en, this message translates to:
+  /// **'Search label or address'**
+  String get mapSearch;
+
+  /// No description provided for @mapSortAddress.
+  ///
+  /// In en, this message translates to:
+  /// **'By address'**
+  String get mapSortAddress;
+
+  /// No description provided for @mapSortLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'By label'**
+  String get mapSortLabel;
+
+  /// No description provided for @actionAddEntry.
+  ///
+  /// In en, this message translates to:
+  /// **'Add entry'**
+  String get actionAddEntry;
+
+  /// No description provided for @actionReadMap.
+  ///
+  /// In en, this message translates to:
+  /// **'Read all'**
+  String get actionReadMap;
+
+  /// No description provided for @mapEntryNewTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'New register map entry'**
+  String get mapEntryNewTitle;
+
+  /// No description provided for @mapEntryEditTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit entry'**
+  String get mapEntryEditTitle;
+
+  /// No description provided for @fieldLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Label'**
+  String get fieldLabel;
+
+  /// No description provided for @fieldUnit.
+  ///
+  /// In en, this message translates to:
+  /// **'Unit'**
+  String get fieldUnit;
+
+  /// No description provided for @fieldDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Description'**
+  String get fieldDescription;
+
+  /// No description provided for @fieldTable.
+  ///
+  /// In en, this message translates to:
+  /// **'Table'**
+  String get fieldTable;
+
+  /// No description provided for @fieldAddress.
+  ///
+  /// In en, this message translates to:
+  /// **'Address'**
+  String get fieldAddress;
+
+  /// No description provided for @fieldType.
+  ///
+  /// In en, this message translates to:
+  /// **'Data type'**
+  String get fieldType;
+
+  /// No description provided for @fieldByteOrder.
+  ///
+  /// In en, this message translates to:
+  /// **'Byte order'**
+  String get fieldByteOrder;
+
+  /// No description provided for @fieldTextRegisters.
+  ///
+  /// In en, this message translates to:
+  /// **'Length (registers)'**
+  String get fieldTextRegisters;
+
+  /// No description provided for @fieldBit.
+  ///
+  /// In en, this message translates to:
+  /// **'Bit (0–15)'**
+  String get fieldBit;
+
+  /// No description provided for @typeText.
+  ///
+  /// In en, this message translates to:
+  /// **'Text'**
+  String get typeText;
+
+  /// No description provided for @typeBit.
+  ///
+  /// In en, this message translates to:
+  /// **'Bit'**
+  String get typeBit;
+
+  /// No description provided for @mapEntryDeleteTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete entry?'**
+  String get mapEntryDeleteTitle;
+
+  /// No description provided for @mapEntryDeleteBody.
+  ///
+  /// In en, this message translates to:
+  /// **'\"{label}\" will be removed from the register map.'**
+  String mapEntryDeleteBody(String label);
+
+  /// No description provided for @mapReadStatus.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} entries · {time}'**
+  String mapReadStatus(int count, String time);
+
+  /// No description provided for @mapEntryCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} entries'**
+  String mapEntryCount(int count);
+
+  /// No description provided for @actionInterpret.
+  ///
+  /// In en, this message translates to:
+  /// **'Interpret'**
+  String get actionInterpret;
+
+  /// No description provided for @mapEntrySaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved to register map: {label}'**
+  String mapEntrySaved(String label);
+
+  /// No description provided for @mapUnnamed.
+  ///
+  /// In en, this message translates to:
+  /// **'(unnamed)'**
+  String get mapUnnamed;
 }
 
 class _AppLocalizationsDelegate
