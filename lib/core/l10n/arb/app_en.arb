@@ -26,17 +26,8 @@
       }
     }
   },
-  "connectionPageDescription": "Manage Modbus TCP, RTU and RTU-over-TCP connection profiles.",
-  "registersPageDescription": "Read and write registers, view every interpretation and maintain the register map.",
   "monitorPageDescription": "Live log of all frames with hex dump and frame decoding.",
   "toolsPageDescription": "Hex calculator, slave/register scanner and statistics.",
-  "availableTransports": "Available on this platform",
-  "transportTcp": "Modbus TCP",
-  "transportRtu": "Modbus RTU (serial)",
-  "transportRtuOverTcp": "Modbus RTU over TCP",
-  "transportUnavailableHint": "Serial ports are not available on this platform.",
-  "available": "available",
-  "unavailable": "not available",
   "settingsAppearance": "Appearance",
   "settingsTheme": "Theme",
   "themeSystem": "System",
@@ -84,5 +75,334 @@
       }
     }
   },
-  "exceptionUnknownExplanation": "Non-standard exception code. See the device manual."
+  "exceptionUnknownExplanation": "Non-standard exception code. See the device manual.",
+  "actionConnect": "Connect",
+  "actionDisconnect": "Disconnect",
+  "actionCancel": "Cancel",
+  "actionSave": "Save",
+  "actionDelete": "Delete",
+  "actionDuplicate": "Duplicate",
+  "actionEdit": "Edit",
+  "actionRetry": "Try again",
+  "profileCopyName": "{name} (copy)",
+  "@profileCopyName": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "profilesTitle": "Connection profiles",
+  "profileNew": "New profile",
+  "profileEditTitle": "Edit profile",
+  "profileDeleteTitle": "Delete profile?",
+  "profileDeleteBody": "\"{name}\" will be removed permanently.",
+  "@profileDeleteBody": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "profileLastUsed": "Last used {date}",
+  "@profileLastUsed": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "profileNeverUsed": "Never used",
+  "profilesEmpty": "No profiles yet. Create one to connect to a device.",
+  "profileActive": "Active",
+  "connectionKindTcp": "Modbus TCP",
+  "connectionKindRtu": "Modbus RTU",
+  "connectionKindRtuOverTcp": "RTU over TCP",
+  "connectionKindSimulator": "Simulator",
+  "sectionConnection": "Connection",
+  "sectionSerial": "Serial settings",
+  "sectionRequests": "Requests",
+  "sectionSimulator": "Simulation",
+  "fieldName": "Name",
+  "fieldHost": "Host / IP address",
+  "fieldPort": "Port",
+  "fieldUnitId": "Unit/slave ID",
+  "fieldTimeout": "Timeout (ms)",
+  "fieldRetries": "Retries",
+  "fieldSerialPort": "Serial port",
+  "fieldBaudRate": "Baud rate",
+  "fieldCustomBaudRate": "Custom baud rate",
+  "baudRateCustom": "Custom…",
+  "fieldDataBits": "Data bits",
+  "fieldParity": "Parity",
+  "parityNone": "None",
+  "parityEven": "Even",
+  "parityOdd": "Odd",
+  "fieldStopBits": "Stop bits",
+  "fieldRts": "RTS line",
+  "fieldDtr": "DTR line",
+  "lineUnchanged": "Unchanged",
+  "lineOn": "On",
+  "lineOff": "Off",
+  "fieldInterFrameDelay": "Inter-frame delay (ms)",
+  "interFrameDelayAuto": "Empty = automatic (t3.5 = {value} ms)",
+  "@interFrameDelayAuto": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "fieldAutoReconnect": "Reconnect automatically",
+  "fieldAutoReconnectHint": "Retries with increasing delay when the connection drops.",
+  "fieldSimFraming": "Framing",
+  "fieldSimLatency": "Simulated latency (ms)",
+  "fieldSimDrop": "Lost responses (%)",
+  "fieldSimCorrupt": "Corrupted responses (%)",
+  "refreshPorts": "Refresh ports",
+  "noPortsFound": "No serial ports found",
+  "portNotAvailable": "{port} (not connected)",
+  "@portNotAvailable": {
+    "placeholders": {
+      "port": {
+        "type": "String"
+      }
+    }
+  },
+  "validationRequired": "Required",
+  "validationRange": "Must be between {min} and {max}",
+  "@validationRange": {
+    "placeholders": {
+      "min": {
+        "type": "int"
+      },
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "validationNumber": "Enter a number",
+  "statusNotConnected": "Not connected",
+  "statusNotConnectedHint": "Choose a profile and connect.",
+  "statusConnectedTo": "Connected to {target}",
+  "@statusConnectedTo": {
+    "placeholders": {
+      "target": {
+        "type": "String"
+      }
+    }
+  },
+  "statusConnectingTo": "Connecting to {target}…",
+  "@statusConnectingTo": {
+    "placeholders": {
+      "target": {
+        "type": "String"
+      }
+    }
+  },
+  "statusReconnecting": "Connection lost – reconnecting (attempt {attempt})…",
+  "@statusReconnecting": {
+    "placeholders": {
+      "attempt": {
+        "type": "int"
+      }
+    }
+  },
+  "statusSince": "since {time}",
+  "@statusSince": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "statusFailed": "Connection to {target} failed",
+  "@statusFailed": {
+    "placeholders": {
+      "target": {
+        "type": "String"
+      }
+    }
+  },
+  "errorDetails": "Technical details",
+  "errorRefusedTitle": "Connection refused",
+  "errorRefusedHint": "The device is reachable, but nothing listens on this port. Check the port number and whether Modbus TCP is enabled on the device.",
+  "errorConnectTimeoutTitle": "Device not reachable",
+  "errorConnectTimeoutHint": "No answer to the connection attempt. Check IP address, network cable, subnet and firewall.",
+  "errorHostNotFoundTitle": "Host not found",
+  "errorHostNotFoundHint": "The host name could not be resolved. Check the spelling or use the IP address.",
+  "errorUnreachableTitle": "Network unreachable",
+  "errorUnreachableHint": "Check the network adapter and the IP/subnet settings of this computer.",
+  "errorPortUnavailableTitle": "Serial port not available",
+  "errorPortUnavailableHint": "The port is missing or used by another program. Re-plug the adapter or close other tools.",
+  "errorPermissionTitle": "Access denied",
+  "errorPermissionHint": "No permission to use the port. Linux: add your user to the 'dialout' group. Android: allow USB access.",
+  "errorInvalidSettingsTitle": "Settings not supported",
+  "errorInvalidSettingsHint": "The adapter does not support these serial settings (baud rate, data bits, parity, stop bits).",
+  "errorUnsupportedTitle": "Not supported on this platform",
+  "errorUnsupportedHint": "Use Modbus TCP or the simulator on this device.",
+  "errorClosedTitle": "Connection lost",
+  "errorClosedHint": "The device, gateway or network closed the connection.",
+  "errorConnectionTitle": "Connection failed",
+  "errorConnectionHint": "See the technical details below.",
+  "errorTimeoutTitle": "No response",
+  "errorTimeoutHint": "No valid answer within {timeout} ms ({attempts} attempt(s)). Check unit ID, serial settings (baud rate, parity) and wiring (A/B swapped?).",
+  "@errorTimeoutHint": {
+    "placeholders": {
+      "timeout": {
+        "type": "int"
+      },
+      "attempts": {
+        "type": "int"
+      }
+    }
+  },
+  "errorProtocolTitle": "Invalid response",
+  "errorProtocolHint": "The device answered, but the response is malformed. Possible causes: line noise, wrong framing (TCP vs. RTU over TCP) or a second master on the bus.",
+  "errorNotConnectedTitle": "Not connected",
+  "errorNotConnectedHint": "Connect to a device first.",
+  "errorWriteLockedTitle": "Writing is locked",
+  "errorWriteLockedHint": "Enable writing first.",
+  "errorUnexpectedTitle": "Unexpected error",
+  "simulatorServerTitle": "Simulator TCP server",
+  "simulatorServerHint": "Lets other Modbus tools connect to the demo device.",
+  "simulatorServerRunning": "Running on {address}",
+  "@simulatorServerRunning": {
+    "placeholders": {
+      "address": {
+        "type": "String"
+      }
+    }
+  },
+  "simulatorServerConnections": "{count} client(s) connected",
+  "@simulatorServerConnections": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "simulatorServerStopped": "Stopped",
+  "simulatorServerExpose": "Reachable from the network",
+  "simulatorServerStartFailed": "Could not start: {error}",
+  "@simulatorServerStartFailed": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "tableCoils": "Coils",
+  "tableDiscreteInputs": "Discrete inputs",
+  "tableInputRegisters": "Input registers",
+  "tableHoldingRegisters": "Holding registers",
+  "fieldStartAddress": "Start address",
+  "fieldCount": "Count",
+  "fieldUnitIdOverride": "Unit ID",
+  "fieldUnitIdOverrideHint": "Empty = profile",
+  "addressHintProtocol": "= protocol address {address}",
+  "@addressHintProtocol": {
+    "placeholders": {
+      "address": {
+        "type": "String"
+      }
+    }
+  },
+  "addressModeTooltip": "Addressing mode – change in settings",
+  "actionRead": "Read",
+  "actionReadTooltip": "Read once ({shortcut})",
+  "@actionReadTooltip": {
+    "placeholders": {
+      "shortcut": {
+        "type": "String"
+      }
+    }
+  },
+  "actionStartPolling": "Poll",
+  "actionStopPolling": "Stop",
+  "fieldPollInterval": "Interval (ms)",
+  "writeUnlockLabel": "Writing enabled",
+  "writeUnlockTooltip": "Protection against accidental writes; resets when the app restarts.",
+  "columnAddress": "Address",
+  "columnHex": "Hex",
+  "columnUnsigned": "Unsigned",
+  "columnSigned": "Signed",
+  "columnBinary": "Binary",
+  "columnValue": "Value",
+  "bitOn": "ON",
+  "bitOff": "OFF",
+  "registersEmpty": "No data yet. Press Read or start polling.",
+  "readStatus": "{count} values · {latency} ms · {time}",
+  "@readStatus": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "latency": {
+        "type": "int"
+      },
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "pollStatus": "Polls: {reads} · errors: {errors}",
+  "@pollStatus": {
+    "placeholders": {
+      "reads": {
+        "type": "int"
+      },
+      "errors": {
+        "type": "int"
+      }
+    }
+  },
+  "actionOpenConnections": "Open connections",
+  "actionConnectSimulator": "Connect to simulator",
+  "writeRegisterTitle": "Write register {address}",
+  "@writeRegisterTitle": {
+    "placeholders": {
+      "address": {
+        "type": "String"
+      }
+    }
+  },
+  "writeMultipleTitle": "Write multiple values",
+  "actionWriteMultiple": "Write multiple…",
+  "actionWriteRow": "Write value",
+  "fieldValue": "Value",
+  "valueFormatsHint": "Decimal (-32768…65535), 0x… hex or 0b… binary",
+  "fieldValues": "Values",
+  "registerValuesHint": "Separated by comma or space; decimal, 0x… or 0b…",
+  "coilValuesHint": "1/0 or on/off, separated by comma or space",
+  "useFc16": "Send as FC16 (for devices without FC06)",
+  "bitsLabel": "Bits – click to toggle",
+  "actionWrite": "Write",
+  "confirmWriteTitle": "Confirm write",
+  "confirmWriteBody": "Send to unit {unit}?",
+  "@confirmWriteBody": {
+    "placeholders": {
+      "unit": {
+        "type": "int"
+      }
+    }
+  },
+  "writeSuccess": "Written: {summary}",
+  "@writeSuccess": {
+    "placeholders": {
+      "summary": {
+        "type": "String"
+      }
+    }
+  },
+  "invalidValue": "Invalid value",
+  "tooManyValues": "At most {max} values",
+  "@tooManyValues": {
+    "placeholders": {
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "rangeExceedsAddressSpace": "Range exceeds address 65535"
 }

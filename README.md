@@ -4,7 +4,7 @@ Plattformübergreifendes Debugging-Werkzeug für Modbus TCP/RTU (Flutter). Rohe
 Registerwerte werden gleichzeitig in allen gängigen Datentypen und
 Byte-/Wortreihenfolgen interpretiert.
 
-> Status: **M3** – Grundgerüst, Konvertierungs-Engine, Modbus-Transport (TCP/RTU/RTU over TCP) und Simulator. Die Bedienoberfläche folgt ab M4.
+> Status: **M4** – Verbindungsprofile, Lesen/Pollen und Schreiben in der Oberfläche, Modbus-Transport (TCP/RTU/RTU over TCP) und Simulator. Interpretations-Matrix folgt in M5.
 > Die vollständige Dokumentation folgt mit M7.
 
 ## Entwicklung
@@ -14,7 +14,20 @@ flutter pub get
 flutter analyze
 flutter test
 flutter run -d macos   # bzw. windows / linux / <android-device>
+
+# Integrationstests in der echten Desktop-App (Serial-FFI, Sandbox, Pfade)
+flutter test integration_test -d macos --no-dds
 ```
+
+### Bedienung (Stand M4)
+
+1. **Verbindung:** Profil anlegen (TCP, RTU, RTU über TCP oder Simulator) und
+   auf „Verbinden“ klicken. Beim ersten Start gibt es schon ein Simulator-Profil.
+2. **Register:** Tabelle, Startadresse und Anzahl wählen, dann „Lesen“
+   (Strg/⌘+R, F5) oder „Pollen“. Geänderte Werte blinken kurz auf.
+3. **Schreiben:** Erst „Schreiben freigeben“ einschalten, dann das Stift-Symbol
+   (Register), den Schalter (Coils) oder „Mehrere schreiben…“ benutzen.
+   Jeder Schreibzugriff wird vorher bestätigt (abschaltbar in den Einstellungen).
 
 ### macOS: CocoaPods
 

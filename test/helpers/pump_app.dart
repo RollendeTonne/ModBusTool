@@ -4,7 +4,12 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:modbus_explorer/app.dart';
 import 'package:modbus_explorer/core/routing/app_router.dart';
+import 'package:modbus_explorer/core/storage/document_store.dart';
 import 'package:modbus_explorer/core/storage/key_value_store.dart';
+import 'package:modbus_explorer/features/modbus/data/modbus_providers.dart';
+import 'package:modbus_explorer/features/simulator/data/simulator_bank.dart';
+
+import 'fake_serial.dart';
 
 extension PumpApp on WidgetTester {
   /// Pumps the full app with an in-memory store and a fixed window size.
@@ -12,6 +17,7 @@ extension PumpApp on WidgetTester {
     Size size = const Size(1280, 800),
     Locale locale = const Locale('en'),
     Map<String, Object>? storedValues,
+    Map<String, String>? documents,
     List<Override> overrides = const [],
   }) async {
     view
@@ -26,6 +32,15 @@ extension PumpApp on WidgetTester {
       ProviderScope(
         overrides: [
           keyValueStoreProvider.overrideWithValue(store),
+          documentStoreProvider.overrideWithValue(
+            InMemoryDocumentStore(documents),
+          ),
+          // No animation timer: widget tests fail on pending timers.
+          simulatorBankProvider.overrideWithValue(SimulatorBank.demo()),
+          // Platform plugins are unavailable in widget tests.
+          serialPortServiceProvider.overrideWithValue(
+            const FakeSerialPortService(),
+          ),
           // Fresh router per test; the default provider would be shared state.
           appRouterProvider.overrideWith((ref) => createAppRouter()),
           ...overrides,

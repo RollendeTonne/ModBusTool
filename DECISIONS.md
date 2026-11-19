@@ -56,3 +56,20 @@ Kurzprotokoll der Architektur- und Produktentscheidungen. Neueste unten.
 | D38 | Simulator-TCP-Server standardmäßig auf **127.0.0.1:1502** | Port 502 braucht unter macOS und Linux Root-Rechte. Auf Wunsch auch im Netzwerk erreichbar. |
 | D39 | Fault-Injection: Latenz, Drop- und Korruptionswahrscheinlichkeit (Demo) sowie deterministische Zähler `dropNext`/`corruptNext` (Tests) | Reproduzierbare Tests für Timeout und Retry. |
 | D40 | Exception-Texte (01–08, 0A, 0B) sind lokalisiert und nennen die **typische Ursache** (z. B. bei 02 den Hinweis auf 0- oder 1-basierte Adressierung) | Hilft bei der Inbetriebnahme mehr als der reine Spezifikationsname. |
+
+## M4 – Verbindungsverwaltung, Lesen und Schreiben
+
+| # | Entscheidung | Begründung |
+|---|---|---|
+| D41 | **Abweichung vom Plan:** Profile (und künftig Register-Maps) als **versionierte JSON-Dateien** im App-Support-Verzeichnis, nicht drift/SQLite | Die Datenmengen sind klein (Dutzende Profile, Maps mit einigen hundert Einträgen). Für Import/Export (M7) ist dasselbe Format nutzbar, es braucht keinen Codegenerator und keine native SQLite-Bibliothek; nach den CocoaPods-Erfahrungen in M3 zählt jede vermiedene native Abhängigkeit. Geschrieben wird atomar (tmp + rename). Defekte Einträge werden beim Laden übersprungen statt alles zu verwerfen. |
+| D42 | Beim ersten Start wird ein Profil „Simulator (Demo)“ angelegt. Eine bewusst geleerte Liste wird nicht erneut befüllt | Die App funktioniert sofort ohne Hardware. |
+| D43 | Verbindungszustand als Zustandsautomat (Getrennt → Verbinde → Verbunden / Fehlgeschlagen). Eine Generationsnummer verwirft veraltete asynchrone Ergebnisse. **Auto-Reconnect** pro Profil, Backoff 1 s, 2 s, 5 s, dann alle 10 s, bis „Trennen“ | Robust bei Kabelabzug und Geräteneustart, ohne Endlosschleifen beim manuellen Trennen. |
+| D44 | **Schreibschutz in zwei Stufen:** Schalter „Schreiben freigeben“ pro Sitzung (nach Neustart wieder gesperrt) und Bestätigungsdialog mit genauer Beschreibung (FC, Adresse, Werte, Unit). Der Dialog lässt sich in den Einstellungen abschalten | Schutz vor versehentlichen Schreibzugriffen auf laufende Anlagen. |
+| D45 | Polling misst das Intervall von Start zu Start. Läuft eine Anfrage länger als das Intervall, startet die nächste direkt danach statt sich zu stapeln | Die Busauslastung bleibt kontrollierbar. |
+| D46 | Änderungsmarkierung: Geänderte Werte blinken 1,5 s und blenden aus. Die Zeitstempel liegen im Snapshot, sodass die Markierung auch nach dem Scrollen passt | Spezifikation „kurz hervorheben“. |
+| D47 | Registerseite als durchgehend scrollende Sliver-Ansicht mit fixiertem Tabellenkopf und virtualisierten Zeilen | Auf dem Handy nimmt die Abfrageleiste viel Höhe ein. Bis 2000 Coils bleiben flüssig. |
+| D48 | Fehlermeldungen = lokalisierte Kategorie + Handlungshinweis, dazu aufklappbare technische Details (englisch, vom Transport) | Verständlich für Inbetriebnehmer, trotzdem alle Infos für die Fehlersuche. |
+| D49 | Port-Suche mit 5-s-Timeout. USB-Adapter (Vendor-ID vorhanden) stehen oben und werden vorausgewählt | Auf macOS liefert libserialport auch Bluetooth- und Debug-Ports. Ein hängender Treiber blockiert den Editor nicht. |
+| D50 | Tastenkürzel: Strg/⌘+R oder F5 = Lesen, Strg/⌘+Enter = Dialog absenden bzw. Profil speichern | Desktop-Bedienung wie gefordert, Rest in M7. |
+| D51 | Einzelregister optional als **FC16** senden | Manche Geräte unterstützen kein FC06. |
+| D52 | Integrationstests in der echten Desktop-App: `flutter test integration_test -d macos --no-dds` | Prüft FFI (libserialport), Sandbox-Netzwerk und Dateipfade. `--no-dds` ist nötig, weil der Debug-Dienst hier nicht startet. |

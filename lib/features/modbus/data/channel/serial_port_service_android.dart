@@ -38,15 +38,16 @@ final class AndroidSerialPortService implements SerialPortService {
         .firstOrNull;
     if (device == null) {
       throw ModbusConnectionException(
-        'USB device ${settings.portName} not found – unplugged?',
+        'USB device ${settings.portName} not found',
+        kind: ConnectionErrorKind.portUnavailable,
       );
     }
     // create() triggers the Android USB permission dialog if needed.
     final port = await device.create();
     if (port == null || !await port.open()) {
       throw ModbusConnectionException(
-        'Cannot open ${device.productName ?? settings.portName} – '
-        'USB permission denied or unsupported adapter.',
+        'Cannot open ${device.productName ?? settings.portName}',
+        kind: ConnectionErrorKind.permissionDenied,
       );
     }
     await port.setPortParameters(
@@ -99,7 +100,10 @@ final class _UsbSerialChannel implements ByteChannel {
   @override
   Future<void> write(Uint8List data) {
     if (_done.isCompleted) {
-      throw const ModbusConnectionException('USB serial port closed');
+      throw const ModbusConnectionException(
+        'USB serial port closed',
+        kind: ConnectionErrorKind.closed,
+      );
     }
     return _port.write(data);
   }

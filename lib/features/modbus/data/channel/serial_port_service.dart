@@ -52,6 +52,7 @@ final class UnsupportedSerialPortService implements SerialPortService {
   Future<ByteChannel> open(SerialSettings settings) => Future.error(
     const ModbusConnectionException(
       'Serial ports are not supported on this platform',
+      kind: ConnectionErrorKind.unsupported,
     ),
   );
 }

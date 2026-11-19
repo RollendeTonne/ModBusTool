@@ -43,9 +43,13 @@ final class DesktopSerialPortService implements SerialPortService {
     if (!port.openReadWrite()) {
       final error = SerialPort.lastError;
       port.dispose();
+      final message = error?.message ?? 'unknown error';
+      final lower = message.toLowerCase();
       throw ModbusConnectionException(
-        'Cannot open ${settings.portName}: ${error?.message ?? 'unknown error'}'
-        ' – port in use or missing permissions?',
+        'Cannot open ${settings.portName}: $message',
+        kind: lower.contains('permission') || lower.contains('access')
+            ? ConnectionErrorKind.permissionDenied
+            : ConnectionErrorKind.portUnavailable,
         cause: error,
       );
     }
@@ -78,6 +82,7 @@ final class DesktopSerialPortService implements SerialPortService {
       throw ModbusConnectionException(
         'Unsupported settings ${settings.shortDescription} for '
         '${settings.portName}: ${e.message}',
+        kind: ConnectionErrorKind.invalidSettings,
         cause: e,
       );
     } finally {
@@ -123,7 +128,10 @@ final class _LibSerialPortChannel implements ByteChannel {
   @override
   Future<void> write(Uint8List data) async {
     if (_done.isCompleted) {
-      throw const ModbusConnectionException('Serial port closed');
+      throw const ModbusConnectionException(
+        'Serial port closed',
+        kind: ConnectionErrorKind.closed,
+      );
     }
     // Blocking write with timeout; frames are ≤ 256 bytes so this is short.
     final written = _port.write(data, timeout: 1000);

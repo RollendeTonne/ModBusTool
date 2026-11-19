@@ -27,10 +27,8 @@ final class SocketChannel implements ByteChannel {
       final socket = await Socket.connect(host, port, timeout: timeout);
       return SocketChannel(socket);
     } on SocketException catch (e) {
-      throw ModbusConnectionException(
-        describeSocketError(e, host, port),
-        cause: e,
-      );
+      final (kind, message) = describeSocketError(e, host, port);
+      throw ModbusConnectionException(message, kind: kind, cause: e);
     }
   }
 
@@ -51,7 +49,10 @@ final class SocketChannel implements ByteChannel {
   @override
   Future<void> write(Uint8List data) async {
     if (_done.isCompleted) {
-      throw const ModbusConnectionException('Connection closed');
+      throw const ModbusConnectionException(
+        'Connection closed',
+        kind: ConnectionErrorKind.closed,
+      );
     }
     _socket.add(data);
     await _socket.flush();
@@ -71,26 +72,30 @@ final class SocketChannel implements ByteChannel {
   }
 }
 
-/// English diagnostic text; the UI maps error categories to localized text.
-String describeSocketError(SocketException e, String host, int port) {
+/// Error category plus English technical detail; the UI shows a localized
+/// text for the category.
+(ConnectionErrorKind, String) describeSocketError(
+  SocketException e,
+  String host,
+  int port,
+) {
   final code = e.osError?.errorCode;
   final message = e.osError?.message ?? e.message;
-  // Error codes differ per OS; match the message as a fallback.
-  final lower = message.toLowerCase();
-  if (lower.contains('refused')) {
-    return 'Connection to $host:$port refused – is the device listening '
-        'on this port?';
-  }
+  final detail =
+      '$host:$port – $message${code == null ? '' : ' (OS error $code)'}';
+  // Error codes differ per OS; matching the message is more portable.
+  final lower = '$message ${e.message}'.toLowerCase();
+  if (lower.contains('refused')) return (ConnectionErrorKind.refused, detail);
   if (lower.contains('timed out') || lower.contains('timeout')) {
-    return 'Connection to $host:$port timed out – check IP address, '
-        'cabling and firewall.';
+    return (ConnectionErrorKind.timeout, detail);
   }
-  if (lower.contains('host lookup') || lower.contains('nodename')) {
-    return 'Host "$host" could not be resolved.';
+  if (lower.contains('host lookup') ||
+      lower.contains('nodename') ||
+      lower.contains('not known')) {
+    return (ConnectionErrorKind.hostNotFound, detail);
   }
   if (lower.contains('unreachable')) {
-    return 'Network unreachable for $host – check IP/subnet settings.';
+    return (ConnectionErrorKind.unreachable, detail);
   }
-  return 'Cannot connect to $host:$port: $message'
-      '${code == null ? '' : ' (OS error $code)'}';
+  return (ConnectionErrorKind.other, detail);
 }

@@ -40,10 +40,26 @@ final class ModbusTimeoutException extends ModbusError {
   final int attempts;
 }
 
+/// Category of a connection failure, for localized user messages; the
+/// [ModbusError.message] carries the technical detail.
+enum ConnectionErrorKind {
+  refused,
+  timeout,
+  hostNotFound,
+  unreachable,
+  portUnavailable,
+  permissionDenied,
+  invalidSettings,
+  unsupported,
+  closed,
+  other,
+}
+
 /// Transport could not be opened or was closed.
 final class ModbusConnectionException extends ModbusError {
-  const new(super.message, {this.cause});
+  const new(super.message, {this.kind = ConnectionErrorKind.other, this.cause});
 
+  final ConnectionErrorKind kind;
   final Object? cause;
 }
 

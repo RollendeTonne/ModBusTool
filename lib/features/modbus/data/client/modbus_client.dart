@@ -125,7 +125,10 @@ final class ModbusClient {
 
     while (attempts <= options.retries) {
       if (_closed) {
-        const error = ModbusConnectionException('Connection closed');
+        const error = ModbusConnectionException(
+          'Connection closed',
+          kind: ConnectionErrorKind.closed,
+        );
         record(error: error);
         throw error;
       }
@@ -456,7 +459,10 @@ final class ModbusClient {
     final pending = _pending;
     if (pending != null && !pending.completer.isCompleted) {
       pending.completer.completeError(
-        const ModbusConnectionException('Connection closed by peer'),
+        const ModbusConnectionException(
+          'Connection closed by peer',
+          kind: ConnectionErrorKind.closed,
+        ),
       );
     }
     if (!_done.isCompleted) _done.complete();

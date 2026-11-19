@@ -83,9 +83,7 @@ void main() {
   });
 
   group('Capabilities', () {
-    testWidgets('serial transport is shown as unavailable on iOS', (
-      tester,
-    ) async {
+    testWidgets('profile editor offers no RTU on iOS', (tester) async {
       await tester.pumpModbusApp(
         overrides: [
           platformCapabilitiesProvider.overrideWithValue(
@@ -93,8 +91,19 @@ void main() {
           ),
         ],
       );
+      await tester.tap(find.byKey(const Key('profiles.new')));
+      await tester.pumpAndSettle();
+      final kinds = find.byKey(const Key('profileEditor.kind'));
       expect(
-        find.text('Serial ports are not available on this platform.'),
+        find.descendant(of: kinds, matching: find.text('Modbus TCP')),
+        findsOneWidget,
+      );
+      expect(
+        find.descendant(of: kinds, matching: find.text('Modbus RTU')),
+        findsNothing,
+      );
+      expect(
+        find.descendant(of: kinds, matching: find.text('Simulator')),
         findsOneWidget,
       );
     });
