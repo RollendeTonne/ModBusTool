@@ -19,7 +19,7 @@ NetworkScanner fakeScanner() => NetworkScanner(
     }
     if ('$ip' == '192.168.50.20' && port == 22) return PortState.open;
     // A routed device (outside the local /24).
-    if ('$ip' == '10.100.0.24' && port == 502) return PortState.open;
+    if ('$ip' == '10.200.30.40' && port == 502) return PortState.open;
     return PortState.filtered;
   },
   modbusProbe: (ip, port, _) async => '$ip' == '192.168.50.10'
@@ -250,7 +250,7 @@ void main() {
     await openNetworkTab(tester); // local address 192.168.50.5
     await tester.enterText(
       find.byKey(const Key('network.range')),
-      '10.100.0.24',
+      '10.200.30.40',
     );
     await runScan(tester);
     expect(find.byKey(const Key('network.routed')), findsOneWidget);

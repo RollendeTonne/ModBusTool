@@ -1,6 +1,6 @@
 // Live, READ-ONLY checks against a real device. Not part of `flutter test`
 // (lives outside test/). Run explicitly:
-//   MODBUS_HOST=10.100.0.24 flutter test test_live/device_probe_test.dart
+//   MODBUS_HOST=<device-ip> flutter test test_live/device_probe_test.dart
 import 'dart:io';
 
 import 'package:flutter_test/flutter_test.dart';

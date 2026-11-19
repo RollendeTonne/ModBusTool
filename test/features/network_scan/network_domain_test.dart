@@ -144,7 +144,7 @@ Interface: 10.0.0.15 --- 0xb
   test('range overlap and tryParse', () {
     final lan = Ipv4Range.parse('192.168.1.0/24');
     expect(lan.overlaps(Ipv4Range.parse('192.168.1.200-210')), isTrue);
-    expect(lan.overlaps(Ipv4Range.parse('10.100.0.24')), isFalse);
+    expect(lan.overlaps(Ipv4Range.parse('10.200.30.40')), isFalse);
     expect(Ipv4Range.tryParse('nope'), isNull);
   });
 }
