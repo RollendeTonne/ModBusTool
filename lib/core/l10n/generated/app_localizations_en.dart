@@ -2403,4 +2403,186 @@ class AppLocalizationsEn extends AppLocalizations {
   String payloadMetaSeconds(int value) {
     return '$value s';
   }
+
+  @override
+  String get topicTabMessage => 'Message';
+
+  @override
+  String get topicTabHistory => 'History';
+
+  @override
+  String get topicTabDiff => 'Compare';
+
+  @override
+  String get topicTabChart => 'Chart';
+
+  @override
+  String get topicTabStats => 'Statistics';
+
+  @override
+  String historyCount(int count, int max) {
+    return '$count messages stored (max. $max)';
+  }
+
+  @override
+  String get historyEmpty => 'No history yet.';
+
+  @override
+  String historyViewing(String time) {
+    return 'Older message from $time';
+  }
+
+  @override
+  String get historyShowLatest => 'Show latest';
+
+  @override
+  String get historyLatest => 'latest';
+
+  @override
+  String get diffNeedTwo =>
+      'At least two messages in the history are needed to compare.';
+
+  @override
+  String get diffOld => 'Old';
+
+  @override
+  String get diffNew => 'New';
+
+  @override
+  String get diffSwap => 'Swap';
+
+  @override
+  String get diffNoChanges => 'No differences.';
+
+  @override
+  String diffModeJson(int count) {
+    return 'JSON comparison, $count changes';
+  }
+
+  @override
+  String get diffModeText => 'Text comparison (by line)';
+
+  @override
+  String diffModeBytes(int count) {
+    return 'Byte comparison, $count differing ranges';
+  }
+
+  @override
+  String get diffAdded => 'added';
+
+  @override
+  String get diffRemoved => 'removed';
+
+  @override
+  String get diffChanged => 'changed';
+
+  @override
+  String diffByteRun(int offset, String before, String after) {
+    return 'Offset $offset: $before → $after';
+  }
+
+  @override
+  String get chartNoField =>
+      'Choose a value for the chart: the chart icon next to a number in the JSON tree, or “Show in chart” in the binary view. Numeric payloads are charted automatically.';
+
+  @override
+  String chartField(String field) {
+    return 'Value: $field';
+  }
+
+  @override
+  String get chartClear => 'Clear selection';
+
+  @override
+  String get chartNoPoints =>
+      'No message in the history has a number at this position yet.';
+
+  @override
+  String chartSummary(
+    int count,
+    String min,
+    String max,
+    String avg,
+    String last,
+  ) {
+    return '$count points · min $min · max $max · avg $avg · last $last';
+  }
+
+  @override
+  String get chartShowJson => 'Show in chart';
+
+  @override
+  String get chartShowBinary => 'Show in chart';
+
+  @override
+  String chartBinaryHint(int offset) {
+    return 'Data type and byte order for the chart from offset $offset';
+  }
+
+  @override
+  String get statsMessages => 'Messages';
+
+  @override
+  String get statsFirst => 'First message';
+
+  @override
+  String get statsLast => 'Last message';
+
+  @override
+  String get statsSinceLast => 'Since last message';
+
+  @override
+  String get statsRateOverall => 'Overall rate';
+
+  @override
+  String get statsRateRecent => 'Rate last 60 s';
+
+  @override
+  String statsRateValue(String value) {
+    return '$value/s';
+  }
+
+  @override
+  String statsRateMinimum(String value) {
+    return 'at least $value/s';
+  }
+
+  @override
+  String get statsAvgSize => 'Avg payload size';
+
+  @override
+  String get statsMinMaxSize => 'Min / max';
+
+  @override
+  String get statsHistory => 'In history';
+
+  @override
+  String get statsHistoryMemory => 'History total';
+
+  @override
+  String statsHistoryMemoryValue(int count, String size) {
+    return '$count messages, $size';
+  }
+
+  @override
+  String get settingsMqtt => 'MQTT';
+
+  @override
+  String get settingsMqttHistory => 'History per topic';
+
+  @override
+  String get settingsMqttHistoryHint =>
+      'This many messages per topic are kept for history, comparison and chart.';
+
+  @override
+  String get settingsMqttBudget => 'Memory limit for the history';
+
+  @override
+  String get settingsMqttBudgetHint =>
+      'When reached, the oldest messages of all topics are dropped first; every topic keeps its last value.';
+
+  @override
+  String settingsMegabytes(int value) {
+    return '$value MB';
+  }
 }

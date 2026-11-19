@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:material_ui/material_ui.dart';
@@ -498,6 +499,121 @@ void main() {
     // The chronological list lives in the Monitor tab.
     await tester.tapNavigation('Monitor');
     expect(find.byKey(const Key('mqtt.messageList')), findsOneWidget);
+
+    await tester.tapNavigation('Connection');
+    await tester.tap(find.byKey(const Key('mqtt.disconnect')));
+    await tester.pumpAndSettle();
+  });
+
+  testWidgets('topic history, compare, chart and statistics', (tester) async {
+    await openMqtt(tester);
+    await connectDemo(tester);
+    await tester.tapNavigation('Topics');
+    // Five temperature messages (one per second).
+    await tester.pump(const Duration(seconds: 5));
+    await tester.pumpAndSettle();
+    await tester.tap(find.byKey(const Key('mqtt.tree.expandAll')));
+    await tester.pumpAndSettle();
+    await tester.tap(
+      find.byKey(const Key('mqtt.tree.row.demo/plant/line1/temperature')),
+    );
+    await tester.pumpAndSettle();
+
+    Future<void> detailTab(String name) async {
+      final tab = find.byKey(Key('topic.tab.$name'));
+      await tester.ensureVisible(tab);
+      await tester.pumpAndSettle();
+      await tester.tap(tab);
+      await tester.pumpAndSettle();
+    }
+
+    // History: newest first; picking an older one shows it in the message
+    // tab until "show latest".
+    await detailTab('history');
+    // pumpAndSettle advances the clock too: count at least five.
+    expect(
+      find.textContaining(
+        RegExp(r'^([5-9]|1\d) messages stored \(max\. 100\)$'),
+      ),
+      findsOneWidget,
+    );
+    await tester.tap(find.byKey(const Key('topic.history.3')));
+    await tester.pumpAndSettle();
+    expect(find.byKey(const Key('topic.viewingOlder')), findsOneWidget);
+    await tester.tap(find.byKey(const Key('topic.showLatest')));
+    await tester.pumpAndSettle();
+    expect(find.byKey(const Key('topic.viewingOlder')), findsNothing);
+
+    // Compare: JSON diff of the last two temperatures.
+    await detailTab('diff');
+    expect(find.byKey(const Key('topic.diff.json')), findsOneWidget);
+    expect(find.textContaining(r'$.ts'), findsOneWidget);
+    expect(find.textContaining(r'$.value'), findsOneWidget);
+
+    // Chart from the JSON tree.
+    await detailTab('message');
+    final chartButton = find.byKey(const Key(r'json.chart.$.value'));
+    await tester.ensureVisible(chartButton);
+    await tester.pumpAndSettle();
+    await tester.tap(chartButton);
+    await tester.pumpAndSettle();
+    expect(find.text(r'Value: $.value'), findsOneWidget);
+    expect(find.byType(LineChart), findsOneWidget);
+    int points() => int.parse(
+      tester
+          .widget<Text>(find.byKey(const Key('topic.chart.summary')))
+          .data!
+          .split(' ')
+          .first,
+    );
+    final before = points();
+    expect(before, greaterThanOrEqualTo(5));
+    // The chart grows live.
+    await tester.pump(const Duration(seconds: 1));
+    await tester.pumpAndSettle();
+    expect(points(), greaterThan(before));
+
+    // Statistics.
+    await detailTab('stats');
+    final stats = find.byKey(const Key('topic.stats'));
+    expect(
+      find.descendant(of: stats, matching: find.textContaining('/s')),
+      findsWidgets,
+    );
+
+    // Binary value into the chart: the UINT32 counter.
+    await tester.tap(
+      find.byKey(const Key('mqtt.tree.row.demo/plant/line1/counter')),
+    );
+    await tester.pumpAndSettle();
+    await detailTab('message');
+    final typePicker = find.byKey(const Key('payload.chartType'));
+    await tester.ensureVisible(typePicker);
+    await tester.pumpAndSettle();
+    await tester.tap(typePicker);
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('UINT32').last);
+    await tester.pumpAndSettle();
+    final binaryChart = find.byKey(const Key('payload.chartBinary'));
+    await tester.ensureVisible(binaryChart);
+    await tester.pumpAndSettle();
+    await tester.tap(binaryChart);
+    await tester.pumpAndSettle();
+    expect(find.text('Value: UINT32 ABCD @ 0'), findsOneWidget);
+    expect(find.byType(LineChart), findsOneWidget);
+
+    // Smaller history from the settings applies immediately.
+    await tester.tapNavigation('Settings');
+    final setting = find.byKey(const Key('settings.mqttHistory'));
+    await tester.ensureVisible(setting);
+    await tester.pumpAndSettle();
+    await tester.tap(find.descendant(of: setting, matching: find.text('10')));
+    await tester.pumpAndSettle();
+    await tester.tapNavigation('Topics');
+    await tester.pump(const Duration(seconds: 6));
+    await tester.pumpAndSettle();
+    await detailTab('history');
+    expect(find.text('10 messages stored (max. 10)'), findsOneWidget);
 
     await tester.tapNavigation('Connection');
     await tester.tap(find.byKey(const Key('mqtt.disconnect')));

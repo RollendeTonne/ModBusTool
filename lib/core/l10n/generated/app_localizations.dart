@@ -4315,6 +4315,306 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{value} s'**
   String payloadMetaSeconds(int value);
+
+  /// No description provided for @topicTabMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Message'**
+  String get topicTabMessage;
+
+  /// No description provided for @topicTabHistory.
+  ///
+  /// In en, this message translates to:
+  /// **'History'**
+  String get topicTabHistory;
+
+  /// No description provided for @topicTabDiff.
+  ///
+  /// In en, this message translates to:
+  /// **'Compare'**
+  String get topicTabDiff;
+
+  /// No description provided for @topicTabChart.
+  ///
+  /// In en, this message translates to:
+  /// **'Chart'**
+  String get topicTabChart;
+
+  /// No description provided for @topicTabStats.
+  ///
+  /// In en, this message translates to:
+  /// **'Statistics'**
+  String get topicTabStats;
+
+  /// No description provided for @historyCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} messages stored (max. {max})'**
+  String historyCount(int count, int max);
+
+  /// No description provided for @historyEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No history yet.'**
+  String get historyEmpty;
+
+  /// No description provided for @historyViewing.
+  ///
+  /// In en, this message translates to:
+  /// **'Older message from {time}'**
+  String historyViewing(String time);
+
+  /// No description provided for @historyShowLatest.
+  ///
+  /// In en, this message translates to:
+  /// **'Show latest'**
+  String get historyShowLatest;
+
+  /// No description provided for @historyLatest.
+  ///
+  /// In en, this message translates to:
+  /// **'latest'**
+  String get historyLatest;
+
+  /// No description provided for @diffNeedTwo.
+  ///
+  /// In en, this message translates to:
+  /// **'At least two messages in the history are needed to compare.'**
+  String get diffNeedTwo;
+
+  /// No description provided for @diffOld.
+  ///
+  /// In en, this message translates to:
+  /// **'Old'**
+  String get diffOld;
+
+  /// No description provided for @diffNew.
+  ///
+  /// In en, this message translates to:
+  /// **'New'**
+  String get diffNew;
+
+  /// No description provided for @diffSwap.
+  ///
+  /// In en, this message translates to:
+  /// **'Swap'**
+  String get diffSwap;
+
+  /// No description provided for @diffNoChanges.
+  ///
+  /// In en, this message translates to:
+  /// **'No differences.'**
+  String get diffNoChanges;
+
+  /// No description provided for @diffModeJson.
+  ///
+  /// In en, this message translates to:
+  /// **'JSON comparison, {count} changes'**
+  String diffModeJson(int count);
+
+  /// No description provided for @diffModeText.
+  ///
+  /// In en, this message translates to:
+  /// **'Text comparison (by line)'**
+  String get diffModeText;
+
+  /// No description provided for @diffModeBytes.
+  ///
+  /// In en, this message translates to:
+  /// **'Byte comparison, {count} differing ranges'**
+  String diffModeBytes(int count);
+
+  /// No description provided for @diffAdded.
+  ///
+  /// In en, this message translates to:
+  /// **'added'**
+  String get diffAdded;
+
+  /// No description provided for @diffRemoved.
+  ///
+  /// In en, this message translates to:
+  /// **'removed'**
+  String get diffRemoved;
+
+  /// No description provided for @diffChanged.
+  ///
+  /// In en, this message translates to:
+  /// **'changed'**
+  String get diffChanged;
+
+  /// No description provided for @diffByteRun.
+  ///
+  /// In en, this message translates to:
+  /// **'Offset {offset}: {before} → {after}'**
+  String diffByteRun(int offset, String before, String after);
+
+  /// No description provided for @chartNoField.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose a value for the chart: the chart icon next to a number in the JSON tree, or “Show in chart” in the binary view. Numeric payloads are charted automatically.'**
+  String get chartNoField;
+
+  /// No description provided for @chartField.
+  ///
+  /// In en, this message translates to:
+  /// **'Value: {field}'**
+  String chartField(String field);
+
+  /// No description provided for @chartClear.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear selection'**
+  String get chartClear;
+
+  /// No description provided for @chartNoPoints.
+  ///
+  /// In en, this message translates to:
+  /// **'No message in the history has a number at this position yet.'**
+  String get chartNoPoints;
+
+  /// No description provided for @chartSummary.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} points · min {min} · max {max} · avg {avg} · last {last}'**
+  String chartSummary(
+    int count,
+    String min,
+    String max,
+    String avg,
+    String last,
+  );
+
+  /// No description provided for @chartShowJson.
+  ///
+  /// In en, this message translates to:
+  /// **'Show in chart'**
+  String get chartShowJson;
+
+  /// No description provided for @chartShowBinary.
+  ///
+  /// In en, this message translates to:
+  /// **'Show in chart'**
+  String get chartShowBinary;
+
+  /// No description provided for @chartBinaryHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Data type and byte order for the chart from offset {offset}'**
+  String chartBinaryHint(int offset);
+
+  /// No description provided for @statsMessages.
+  ///
+  /// In en, this message translates to:
+  /// **'Messages'**
+  String get statsMessages;
+
+  /// No description provided for @statsFirst.
+  ///
+  /// In en, this message translates to:
+  /// **'First message'**
+  String get statsFirst;
+
+  /// No description provided for @statsLast.
+  ///
+  /// In en, this message translates to:
+  /// **'Last message'**
+  String get statsLast;
+
+  /// No description provided for @statsSinceLast.
+  ///
+  /// In en, this message translates to:
+  /// **'Since last message'**
+  String get statsSinceLast;
+
+  /// No description provided for @statsRateOverall.
+  ///
+  /// In en, this message translates to:
+  /// **'Overall rate'**
+  String get statsRateOverall;
+
+  /// No description provided for @statsRateRecent.
+  ///
+  /// In en, this message translates to:
+  /// **'Rate last 60 s'**
+  String get statsRateRecent;
+
+  /// No description provided for @statsRateValue.
+  ///
+  /// In en, this message translates to:
+  /// **'{value}/s'**
+  String statsRateValue(String value);
+
+  /// No description provided for @statsRateMinimum.
+  ///
+  /// In en, this message translates to:
+  /// **'at least {value}/s'**
+  String statsRateMinimum(String value);
+
+  /// No description provided for @statsAvgSize.
+  ///
+  /// In en, this message translates to:
+  /// **'Avg payload size'**
+  String get statsAvgSize;
+
+  /// No description provided for @statsMinMaxSize.
+  ///
+  /// In en, this message translates to:
+  /// **'Min / max'**
+  String get statsMinMaxSize;
+
+  /// No description provided for @statsHistory.
+  ///
+  /// In en, this message translates to:
+  /// **'In history'**
+  String get statsHistory;
+
+  /// No description provided for @statsHistoryMemory.
+  ///
+  /// In en, this message translates to:
+  /// **'History total'**
+  String get statsHistoryMemory;
+
+  /// No description provided for @statsHistoryMemoryValue.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} messages, {size}'**
+  String statsHistoryMemoryValue(int count, String size);
+
+  /// No description provided for @settingsMqtt.
+  ///
+  /// In en, this message translates to:
+  /// **'MQTT'**
+  String get settingsMqtt;
+
+  /// No description provided for @settingsMqttHistory.
+  ///
+  /// In en, this message translates to:
+  /// **'History per topic'**
+  String get settingsMqttHistory;
+
+  /// No description provided for @settingsMqttHistoryHint.
+  ///
+  /// In en, this message translates to:
+  /// **'This many messages per topic are kept for history, comparison and chart.'**
+  String get settingsMqttHistoryHint;
+
+  /// No description provided for @settingsMqttBudget.
+  ///
+  /// In en, this message translates to:
+  /// **'Memory limit for the history'**
+  String get settingsMqttBudget;
+
+  /// No description provided for @settingsMqttBudgetHint.
+  ///
+  /// In en, this message translates to:
+  /// **'When reached, the oldest messages of all topics are dropped first; every topic keeps its last value.'**
+  String get settingsMqttBudgetHint;
+
+  /// No description provided for @settingsMegabytes.
+  ///
+  /// In en, this message translates to:
+  /// **'{value} MB'**
+  String settingsMegabytes(int value);
 }
 
 class _AppLocalizationsDelegate

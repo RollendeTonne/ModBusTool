@@ -2416,4 +2416,186 @@ class AppLocalizationsDe extends AppLocalizations {
   String payloadMetaSeconds(int value) {
     return '$value s';
   }
+
+  @override
+  String get topicTabMessage => 'Nachricht';
+
+  @override
+  String get topicTabHistory => 'Verlauf';
+
+  @override
+  String get topicTabDiff => 'Vergleich';
+
+  @override
+  String get topicTabChart => 'Graph';
+
+  @override
+  String get topicTabStats => 'Statistik';
+
+  @override
+  String historyCount(int count, int max) {
+    return '$count Nachrichten gespeichert (max. $max)';
+  }
+
+  @override
+  String get historyEmpty => 'Noch kein Verlauf.';
+
+  @override
+  String historyViewing(String time) {
+    return 'Ältere Nachricht von $time';
+  }
+
+  @override
+  String get historyShowLatest => 'Neueste anzeigen';
+
+  @override
+  String get historyLatest => 'neueste';
+
+  @override
+  String get diffNeedTwo =>
+      'Zum Vergleichen werden mindestens zwei Nachrichten im Verlauf benötigt.';
+
+  @override
+  String get diffOld => 'Alt';
+
+  @override
+  String get diffNew => 'Neu';
+
+  @override
+  String get diffSwap => 'Tauschen';
+
+  @override
+  String get diffNoChanges => 'Keine Unterschiede.';
+
+  @override
+  String diffModeJson(int count) {
+    return 'JSON-Vergleich, $count Änderungen';
+  }
+
+  @override
+  String get diffModeText => 'Text-Vergleich (zeilenweise)';
+
+  @override
+  String diffModeBytes(int count) {
+    return 'Byte-Vergleich, $count abweichende Bereiche';
+  }
+
+  @override
+  String get diffAdded => 'hinzugefügt';
+
+  @override
+  String get diffRemoved => 'entfernt';
+
+  @override
+  String get diffChanged => 'geändert';
+
+  @override
+  String diffByteRun(int offset, String before, String after) {
+    return 'Offset $offset: $before → $after';
+  }
+
+  @override
+  String get chartNoField =>
+      'Wert für den Graph wählen: im JSON-Baum das Graph-Symbol neben einer Zahl, in der Binär-Ansicht „Im Graph anzeigen“. Zahlen als Payload werden automatisch dargestellt.';
+
+  @override
+  String chartField(String field) {
+    return 'Wert: $field';
+  }
+
+  @override
+  String get chartClear => 'Auswahl aufheben';
+
+  @override
+  String get chartNoPoints =>
+      'Im Verlauf hat noch keine Nachricht einen Zahlenwert an dieser Stelle.';
+
+  @override
+  String chartSummary(
+    int count,
+    String min,
+    String max,
+    String avg,
+    String last,
+  ) {
+    return '$count Punkte · min $min · max $max · Ø $avg · zuletzt $last';
+  }
+
+  @override
+  String get chartShowJson => 'Im Graph anzeigen';
+
+  @override
+  String get chartShowBinary => 'Im Graph anzeigen';
+
+  @override
+  String chartBinaryHint(int offset) {
+    return 'Datentyp und Byte-Order für den Verlauf ab Offset $offset';
+  }
+
+  @override
+  String get statsMessages => 'Nachrichten';
+
+  @override
+  String get statsFirst => 'Erste Nachricht';
+
+  @override
+  String get statsLast => 'Letzte Nachricht';
+
+  @override
+  String get statsSinceLast => 'Seit letzter Nachricht';
+
+  @override
+  String get statsRateOverall => 'Rate gesamt';
+
+  @override
+  String get statsRateRecent => 'Rate letzte 60 s';
+
+  @override
+  String statsRateValue(String value) {
+    return '$value/s';
+  }
+
+  @override
+  String statsRateMinimum(String value) {
+    return 'mind. $value/s';
+  }
+
+  @override
+  String get statsAvgSize => 'Ø Payload-Größe';
+
+  @override
+  String get statsMinMaxSize => 'Min / Max';
+
+  @override
+  String get statsHistory => 'Im Verlauf';
+
+  @override
+  String get statsHistoryMemory => 'Verlauf gesamt';
+
+  @override
+  String statsHistoryMemoryValue(int count, String size) {
+    return '$count Nachrichten, $size';
+  }
+
+  @override
+  String get settingsMqtt => 'MQTT';
+
+  @override
+  String get settingsMqttHistory => 'Verlauf pro Topic';
+
+  @override
+  String get settingsMqttHistoryHint =>
+      'So viele Nachrichten je Topic stehen für Verlauf, Vergleich und Graph bereit.';
+
+  @override
+  String get settingsMqttBudget => 'Speicherlimit für den Verlauf';
+
+  @override
+  String get settingsMqttBudgetHint =>
+      'Wird es erreicht, fallen die ältesten Nachrichten aller Topics zuerst weg; der letzte Wert jedes Topics bleibt.';
+
+  @override
+  String settingsMegabytes(int value) {
+    return '$value MB';
+  }
 }

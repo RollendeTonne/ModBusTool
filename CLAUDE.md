@@ -1,6 +1,6 @@
 # ProtocollExplorer (package `modbus_explorer`)
 
-Flutter debugging tool with two modules: Modbus (done) and MQTT (M9–M11 done, M12–M14 open).
+Flutter debugging tool with two modules: Modbus (done) and MQTT (M9–M12 done, M13–M14 open).
 Read DECISIONS.md before changing behaviour; add an entry for every
 non-obvious decision (German, table row `| Dnnn | decision | reason |`).
 

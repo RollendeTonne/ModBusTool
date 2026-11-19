@@ -5,8 +5,11 @@ import 'package:material_ui/material_ui.dart';
 import 'package:modbus_explorer/core/l10n/l10n.dart';
 import 'package:modbus_explorer/core/theme/app_theme.dart';
 import 'package:modbus_explorer/core/widgets/snackbar.dart';
+import 'package:modbus_explorer/modules/mqtt/domain/chart_field.dart';
 import 'package:modbus_explorer/modules/mqtt/domain/mqtt_message.dart';
 import 'package:modbus_explorer/modules/mqtt/domain/payload_analysis.dart';
+import 'package:modbus_explorer/shared/interpretation/domain/byte_order.dart';
+import 'package:modbus_explorer/shared/interpretation/domain/data_type.dart';
 import 'package:modbus_explorer/shared/interpretation/domain/interpretation_matrix.dart';
 import 'package:modbus_explorer/shared/interpretation/domain/value_formatter.dart';
 import 'package:modbus_explorer/shared/interpretation/presentation/matrix_table.dart';
@@ -20,9 +23,17 @@ enum PayloadTab { content, text, hex, binary, meta }
 /// Embedded in a scrolling parent, so tab contents size themselves (no
 /// TabBarView) and very large payloads are cut off with "show more".
 class PayloadView extends StatefulWidget {
-  const new({required this.record, required this.topic, super.key});
+  const new({
+    required this.record,
+    required this.topic,
+    this.onChartField,
+    super.key,
+  });
 
   final MqttMessageRecord record;
+
+  /// "Show in chart" from the JSON tree or the binary view.
+  final ValueChanged<ChartField>? onChartField;
 
   /// Changing the topic resets the tab to the best one for its content.
   final String topic;
@@ -46,6 +57,8 @@ class _PayloadViewState extends State<PayloadView>
   int _offset = 0;
   bool _decodedSource = false;
   int _hexLines = 256;
+  DataType _chartType = DataType.float32;
+  ByteOrderFamily _chartOrder = ByteOrderFamily.abcd;
 
   PayloadAnalysis get _analysis => analyzeCached(
     widget.record.payload,
@@ -162,6 +175,9 @@ class _PayloadViewState extends State<PayloadView>
         return _JsonContent(
           analysis: a,
           onCopyPath: (path) => _copy(path, l10n.payloadPathCopied(path)),
+          onChart: widget.onChartField == null
+              ? null
+              : (path) => widget.onChartField!(JsonPathField(path)),
         );
       case PayloadKind.xml:
         return _XmlContent(analysis: a);
@@ -404,6 +420,57 @@ class _PayloadViewState extends State<PayloadView>
               },
             ),
           ),
+          if (widget.onChartField != null && !_decodedSource) ...[
+            const SizedBox(height: 12),
+            Text(
+              l10n.chartBinaryHint(offset),
+              style: theme.textTheme.bodySmall,
+            ),
+            Wrap(
+              spacing: 12,
+              crossAxisAlignment: WrapCrossAlignment.center,
+              children: [
+                DropdownButton<DataType>(
+                  key: const Key('payload.chartType'),
+                  value: _chartType,
+                  items: [
+                    for (final t in InterpretationMatrix.defaultTypes)
+                      if (t != DataType.unixTime32 &&
+                          t != DataType.unixTime64Ms)
+                        DropdownMenuItem(
+                          value: t,
+                          child: Text(t.technicalName),
+                        ),
+                  ],
+                  onChanged: (t) => setState(() => _chartType = t!),
+                ),
+                DropdownButton<ByteOrderFamily>(
+                  key: const Key('payload.chartOrder'),
+                  value: _chartOrder,
+                  items: [
+                    for (final f in ByteOrderFamily.values)
+                      DropdownMenuItem(
+                        value: f,
+                        child: Text(f.name.toUpperCase()),
+                      ),
+                  ],
+                  onChanged: (f) => setState(() => _chartOrder = f!),
+                ),
+                FilledButton.tonalIcon(
+                  key: const Key('payload.chartBinary'),
+                  onPressed: () => widget.onChartField!(
+                    BinaryField(
+                      offset: offset,
+                      type: _chartType,
+                      order: _chartOrder,
+                    ),
+                  ),
+                  icon: const Icon(Icons.show_chart),
+                  label: Text(l10n.chartShowBinary),
+                ),
+              ],
+            ),
+          ],
           const SizedBox(height: 12),
           Text(l10n.payloadBits, style: theme.textTheme.titleSmall),
           const SizedBox(height: 4),
@@ -537,10 +604,11 @@ class _OffsetFieldState extends State<_OffsetField> {
 enum _JsonMode { tree, pretty, raw }
 
 class _JsonContent extends StatefulWidget {
-  const new({required this.analysis, required this.onCopyPath});
+  const new({required this.analysis, required this.onCopyPath, this.onChart});
 
   final PayloadAnalysis analysis;
   final ValueChanged<String> onCopyPath;
+  final ValueChanged<List<Object>>? onChart;
 
   @override
   State<_JsonContent> createState() => _JsonContentState();
@@ -587,6 +655,7 @@ class _JsonContentState extends State<_JsonContent> {
           _JsonMode.tree => JsonTreeView(
             json: a.json,
             onCopyPath: widget.onCopyPath,
+            onChart: widget.onChart,
           ),
           _JsonMode.pretty => _MonoBox(
             key: const Key('payload.jsonPretty'),
@@ -603,10 +672,18 @@ class _JsonContentState extends State<_JsonContent> {
 /// up to depth 1 start open; long arrays/objects show the first
 /// [maxChildren] entries.
 class JsonTreeView extends StatefulWidget {
-  const new({required this.json, required this.onCopyPath, super.key});
+  const new({
+    required this.json,
+    required this.onCopyPath,
+    this.onChart,
+    super.key,
+  });
 
   final Object? json;
   final ValueChanged<String> onCopyPath;
+
+  /// Offered on numbers and booleans: chart this value over the history.
+  final ValueChanged<List<Object>>? onChart;
 
   static const maxChildren = 200;
   static const maxRows = 2000;
@@ -683,6 +760,15 @@ class _JsonTreeViewState extends State<JsonTreeView> {
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),
+                if (widget.onChart != null && (value is num || value is bool))
+                  IconButton(
+                    key: Key('json.chart.$pathText'),
+                    visualDensity: VisualDensity.compact,
+                    iconSize: 18,
+                    tooltip: l10n.chartShowJson,
+                    icon: const Icon(Icons.show_chart),
+                    onPressed: () => widget.onChart!(path),
+                  ),
               ],
             ),
           ),

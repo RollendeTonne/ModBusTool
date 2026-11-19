@@ -7,29 +7,66 @@ import 'package:material_ui/material_ui.dart';
 import 'package:modbus_explorer/core/l10n/l10n.dart';
 import 'package:modbus_explorer/core/theme/app_theme.dart';
 import 'package:modbus_explorer/core/widgets/snackbar.dart';
+import 'package:modbus_explorer/modules/mqtt/domain/chart_field.dart';
 import 'package:modbus_explorer/modules/mqtt/domain/mqtt_config.dart';
+import 'package:modbus_explorer/modules/mqtt/domain/mqtt_message.dart';
 import 'package:modbus_explorer/modules/mqtt/presentation/mqtt_connection_controller.dart';
+import 'package:modbus_explorer/modules/mqtt/presentation/mqtt_history_settings.dart';
 import 'package:modbus_explorer/modules/mqtt/presentation/mqtt_publish_draft.dart';
 import 'package:modbus_explorer/modules/mqtt/presentation/mqtt_topic_tree_controller.dart';
 import 'package:modbus_explorer/modules/mqtt/presentation/payload_view.dart';
+import 'package:modbus_explorer/modules/mqtt/presentation/topic_history_views.dart';
 import 'package:modbus_explorer/shared/interpretation/domain/value_formatter.dart';
 
-/// Selected topic: path, counters, actions and the last message in all
-/// representations ([PayloadView]).
-class MqttTopicDetail extends ConsumerWidget {
+/// Selected topic: path, counters, actions, then tabs for the message
+/// (all representations), its history, a comparison of two messages, a
+/// chart of one value and statistics.
+class MqttTopicDetail extends ConsumerStatefulWidget {
   const new({super.key});
 
-  /// Longest payload shown inline; the rest is reachable via copy.
-  static const int maxShownBytes = 16 * 1024;
+  @override
+  ConsumerState<MqttTopicDetail> createState() => _MqttTopicDetailState();
+}
+
+enum _DetailTab { message, history, diff, chart, stats }
+
+class _MqttTopicDetailState extends ConsumerState<MqttTopicDetail>
+    with SingleTickerProviderStateMixin {
+  late final TabController _tabs = TabController(
+    length: _DetailTab.values.length,
+    vsync: this,
+  );
+
+  /// Older message picked in the history; `null` = follow the latest.
+  MqttMessageRecord? _viewed;
+  String? _path;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  void initState() {
+    super.initState();
+    _tabs.addListener(() => setState(() {}));
+  }
+
+  @override
+  void dispose() {
+    _tabs.dispose();
+    super.dispose();
+  }
+
+  void _showTab(_DetailTab tab) => _tabs.index = tab.index;
+
+  @override
+  Widget build(BuildContext context) {
     final l10n = context.l10n;
     final theme = Theme.of(context);
     final mono = theme.textTheme.bodyMedium!.mono;
     final path = ref.watch(
       topicTreeViewControllerProvider.select((v) => v.selected),
     );
+    if (path != _path) {
+      _path = path;
+      _viewed = null;
+    }
     // Rebuilds with every tree version, i.e. live while messages arrive.
     final snapshot = ref.watch(mqttTopicTreeControllerProvider);
     final node = path == null ? null : snapshot.tree.find(path);
@@ -42,16 +79,34 @@ class MqttTopicDetail extends ConsumerWidget {
       );
     }
     final last = node.last;
+    // A picked message that fell out of the history shows the latest.
+    final viewed =
+        _viewed != null && node.history.any((r) => identical(r, _viewed))
+        ? _viewed
+        : null;
+    final shown = viewed ?? last;
     final connected = ref.watch(
       mqttConnectionControllerProvider.select((s) => s.isConnected),
     );
+    final perTopic = ref.watch(
+      mqttHistorySettingsProvider.select((s) => s.perTopic),
+    );
+    final chartField =
+        ref.watch(chartFieldsProvider.select((m) => m[node.path])) ??
+        defaultChartField(last);
     final messenger = ScaffoldMessenger.of(context);
     Future<void> copy(String text) async {
       await Clipboard.setData(ClipboardData(text: text));
       messenger.showReplacing(l10n.mqttCopied);
     }
 
+    void chartThis(ChartField field) {
+      ref.read(chartFieldsProvider.notifier).set(node.path, field);
+      _showTab(_DetailTab.chart);
+    }
+
     final subtree = node.hasChildren ? '${node.path}/#' : node.path;
+    final tab = _DetailTab.values[_tabs.index];
 
     return ListView(
       key: const Key('mqtt.detail'),
@@ -123,24 +178,87 @@ class MqttTopicDetail extends ConsumerWidget {
         ),
         if (last != null) ...[
           _Ago(time: last.timestamp),
-          const SizedBox(height: 12),
-          Row(
-            children: [
-              Expanded(
-                child: Text(
-                  l10n.mqttDetailLast,
-                  style: theme.textTheme.titleSmall,
+          const SizedBox(height: 8),
+          TabBar(
+            controller: _tabs,
+            isScrollable: true,
+            tabAlignment: TabAlignment.start,
+            tabs: [
+              for (final t in _DetailTab.values)
+                Tab(
+                  key: Key('topic.tab.${t.name}'),
+                  text: switch (t) {
+                    _DetailTab.message => l10n.topicTabMessage,
+                    _DetailTab.history => l10n.topicTabHistory,
+                    _DetailTab.diff => l10n.topicTabDiff,
+                    _DetailTab.chart => l10n.topicTabChart,
+                    _DetailTab.stats => l10n.topicTabStats,
+                  },
                 ),
-              ),
-              IconButton(
-                key: const Key('mqtt.detail.copyPayload'),
-                tooltip: l10n.mqttCopyPayload,
-                icon: const Icon(Icons.copy_all, size: 18),
-                onPressed: () => copy(_payloadText(last.payload)),
-              ),
             ],
           ),
-          PayloadView(record: last, topic: node.path),
+          const SizedBox(height: 12),
+          switch (tab) {
+            _DetailTab.message => Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Expanded(
+                      child: viewed == null
+                          ? Text(
+                              l10n.mqttDetailLast,
+                              style: theme.textTheme.titleSmall,
+                            )
+                          : Text(
+                              l10n.historyViewing(
+                                _Clock.format(viewed.timestamp),
+                              ),
+                              key: const Key('topic.viewingOlder'),
+                              style: theme.textTheme.titleSmall?.copyWith(
+                                color: theme.colorScheme.tertiary,
+                              ),
+                            ),
+                    ),
+                    if (viewed != null)
+                      TextButton(
+                        key: const Key('topic.showLatest'),
+                        onPressed: () => setState(() => _viewed = null),
+                        child: Text(l10n.historyShowLatest),
+                      ),
+                    IconButton(
+                      key: const Key('mqtt.detail.copyPayload'),
+                      tooltip: l10n.mqttCopyPayload,
+                      icon: const Icon(Icons.copy_all, size: 18),
+                      onPressed: () => copy(_payloadText(shown!.payload)),
+                    ),
+                  ],
+                ),
+                PayloadView(
+                  record: shown!,
+                  topic: node.path,
+                  onChartField: chartThis,
+                ),
+              ],
+            ),
+            _DetailTab.history => TopicHistoryList(
+              node: node,
+              perTopicLimit: perTopic,
+              viewed: viewed,
+              onView: (record) => setState(() {
+                _viewed = identical(record, last) ? null : record;
+                _showTab(_DetailTab.message);
+              }),
+            ),
+            _DetailTab.diff => TopicDiffView(node: node),
+            _DetailTab.chart => TopicChartView(
+              node: node,
+              field: chartField,
+              onClear: () =>
+                  ref.read(chartFieldsProvider.notifier).set(node.path, null),
+            ),
+            _DetailTab.stats => TopicStatsView(node: node, tree: snapshot.tree),
+          },
         ] else
           Padding(
             padding: const EdgeInsets.only(top: 12),

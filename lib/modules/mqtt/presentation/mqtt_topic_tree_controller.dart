@@ -5,6 +5,7 @@ import 'package:meta/meta.dart';
 import 'package:modbus_explorer/modules/mqtt/domain/mqtt_message.dart';
 import 'package:modbus_explorer/modules/mqtt/domain/topic_tree.dart';
 import 'package:modbus_explorer/modules/mqtt/presentation/mqtt_connection_controller.dart';
+import 'package:modbus_explorer/modules/mqtt/presentation/mqtt_history_settings.dart';
 
 /// Version stamp of the live tree; the tree itself is mutated in place.
 @immutable
@@ -42,6 +43,19 @@ final class MqttTopicTreeController extends Notifier<TopicTreeSnapshot> {
 
   @override
   TopicTreeSnapshot build() {
+    final limits = ref.read(mqttHistorySettingsProvider);
+    _tree.setHistoryLimits(
+      perTopic: limits.perTopic,
+      budgetBytes: limits.budgetBytes,
+    );
+    ref.listen(mqttHistorySettingsProvider, (_, next) {
+      _tree.setHistoryLimits(
+        perTopic: next.perTopic,
+        budgetBytes: next.budgetBytes,
+      );
+      _version++;
+      state = _snapshot();
+    });
     final connection = ref.watch(mqttConnectionControllerProvider.notifier);
     final subscription = connection.traffic.listen(_onMessage);
     // A different broker starts with an empty tree.

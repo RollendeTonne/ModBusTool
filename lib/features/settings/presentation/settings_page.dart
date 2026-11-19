@@ -6,6 +6,7 @@ import 'package:modbus_explorer/core/theme/app_theme.dart';
 import 'package:modbus_explorer/features/settings/domain/app_settings.dart';
 import 'package:modbus_explorer/features/settings/presentation/settings_controller.dart';
 import 'package:modbus_explorer/modules/modbus/protocol/domain/addressing_mode.dart';
+import 'package:modbus_explorer/modules/mqtt/presentation/mqtt_history_settings.dart';
 
 class SettingsPage extends ConsumerWidget {
   const new({super.key});
@@ -14,6 +15,7 @@ class SettingsPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = context.l10n;
     final settings = ref.watch(settingsControllerProvider);
+    final history = ref.watch(mqttHistorySettingsProvider);
     final controller = ref.read(settingsControllerProvider.notifier);
     final languageCode = settings.localeOverride?.languageCode;
 
@@ -104,6 +106,41 @@ class SettingsPage extends ConsumerWidget {
               subtitle: Text(l10n.settingsHighlightPlausibleHint),
               value: settings.highlightPlausible,
               onChanged: (v) => controller.setHighlightPlausible(enabled: v),
+            ),
+            const SizedBox(height: 16),
+            _SectionHeader(l10n.settingsMqtt),
+            _LabeledControl(
+              label: l10n.settingsMqttHistory,
+              hint: l10n.settingsMqttHistoryHint,
+              child: SegmentedButton<int>(
+                key: const Key('settings.mqttHistory'),
+                segments: [
+                  for (final n in MqttHistorySettings.perTopicChoices)
+                    ButtonSegment(value: n, label: Text('$n')),
+                ],
+                selected: {history.perTopic},
+                onSelectionChanged: (s) => ref
+                    .read(mqttHistorySettingsProvider.notifier)
+                    .setPerTopic(s.single),
+              ),
+            ),
+            _LabeledControl(
+              label: l10n.settingsMqttBudget,
+              hint: l10n.settingsMqttBudgetHint,
+              child: SegmentedButton<int>(
+                key: const Key('settings.mqttBudget'),
+                segments: [
+                  for (final mb in MqttHistorySettings.budgetChoices)
+                    ButtonSegment(
+                      value: mb,
+                      label: Text(l10n.settingsMegabytes(mb)),
+                    ),
+                ],
+                selected: {history.budgetMb},
+                onSelectionChanged: (s) => ref
+                    .read(mqttHistorySettingsProvider.notifier)
+                    .setBudgetMb(s.single),
+              ),
             ),
             const SizedBox(height: 16),
             _SectionHeader(l10n.settingsShortcuts),

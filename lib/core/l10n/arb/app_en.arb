@@ -1546,5 +1546,162 @@
         "type": "int"
       }
     }
+  },
+  "topicTabMessage": "Message",
+  "topicTabHistory": "History",
+  "topicTabDiff": "Compare",
+  "topicTabChart": "Chart",
+  "topicTabStats": "Statistics",
+  "historyCount": "{count} messages stored (max. {max})",
+  "@historyCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "historyEmpty": "No history yet.",
+  "historyViewing": "Older message from {time}",
+  "@historyViewing": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "historyShowLatest": "Show latest",
+  "historyLatest": "latest",
+  "diffNeedTwo": "At least two messages in the history are needed to compare.",
+  "diffOld": "Old",
+  "diffNew": "New",
+  "diffSwap": "Swap",
+  "diffNoChanges": "No differences.",
+  "diffModeJson": "JSON comparison, {count} changes",
+  "@diffModeJson": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "diffModeText": "Text comparison (by line)",
+  "diffModeBytes": "Byte comparison, {count} differing ranges",
+  "@diffModeBytes": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "diffAdded": "added",
+  "diffRemoved": "removed",
+  "diffChanged": "changed",
+  "diffByteRun": "Offset {offset}: {before} → {after}",
+  "@diffByteRun": {
+    "placeholders": {
+      "offset": {
+        "type": "int"
+      },
+      "before": {
+        "type": "String"
+      },
+      "after": {
+        "type": "String"
+      }
+    }
+  },
+  "chartNoField": "Choose a value for the chart: the chart icon next to a number in the JSON tree, or “Show in chart” in the binary view. Numeric payloads are charted automatically.",
+  "chartField": "Value: {field}",
+  "@chartField": {
+    "placeholders": {
+      "field": {
+        "type": "String"
+      }
+    }
+  },
+  "chartClear": "Clear selection",
+  "chartNoPoints": "No message in the history has a number at this position yet.",
+  "chartSummary": "{count} points · min {min} · max {max} · avg {avg} · last {last}",
+  "@chartSummary": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "min": {
+        "type": "String"
+      },
+      "max": {
+        "type": "String"
+      },
+      "avg": {
+        "type": "String"
+      },
+      "last": {
+        "type": "String"
+      }
+    }
+  },
+  "chartShowJson": "Show in chart",
+  "chartShowBinary": "Show in chart",
+  "chartBinaryHint": "Data type and byte order for the chart from offset {offset}",
+  "@chartBinaryHint": {
+    "placeholders": {
+      "offset": {
+        "type": "int"
+      }
+    }
+  },
+  "statsMessages": "Messages",
+  "statsFirst": "First message",
+  "statsLast": "Last message",
+  "statsSinceLast": "Since last message",
+  "statsRateOverall": "Overall rate",
+  "statsRateRecent": "Rate last 60 s",
+  "statsRateValue": "{value}/s",
+  "@statsRateValue": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "statsRateMinimum": "at least {value}/s",
+  "@statsRateMinimum": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "statsAvgSize": "Avg payload size",
+  "statsMinMaxSize": "Min / max",
+  "statsHistory": "In history",
+  "statsHistoryMemory": "History total",
+  "statsHistoryMemoryValue": "{count} messages, {size}",
+  "@statsHistoryMemoryValue": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "size": {
+        "type": "String"
+      }
+    }
+  },
+  "settingsMqtt": "MQTT",
+  "settingsMqttHistory": "History per topic",
+  "settingsMqttHistoryHint": "This many messages per topic are kept for history, comparison and chart.",
+  "settingsMqttBudget": "Memory limit for the history",
+  "settingsMqttBudgetHint": "When reached, the oldest messages of all topics are dropped first; every topic keeps its last value.",
+  "settingsMegabytes": "{value} MB",
+  "@settingsMegabytes": {
+    "placeholders": {
+      "value": {
+        "type": "int"
+      }
+    }
   }
 }

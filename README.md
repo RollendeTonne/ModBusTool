@@ -1,8 +1,9 @@
 # ProtocollExplorer (vormals Modbus Explorer)
 
 > Debugging-Werkzeug mit zwei Modulen: **Modbus** (fertig) und **MQTT**
-> (Verbindung, Publish/Subscribe, Live-Topic-Baum und Payload-Analyse
-> fertig; Historie, Monitor und Werkzeuge folgen mit M12–M14). Oben in der App wechselt ein
+> (Verbindung, Publish/Subscribe, Live-Topic-Baum, Payload-Analyse,
+> Verlauf, Vergleich, Graph und Statistik fertig; Monitor und Werkzeuge
+> folgen mit M13–M14). Oben in der App wechselt ein
 > Umschalter **Modbus | MQTT** zwischen den Modulen.
 
 Plattformübergreifendes Debugging-Werkzeug für **Modbus TCP**, **Modbus RTU**
@@ -90,8 +91,8 @@ einspaltig), Tastaturkürzel, Screenreader-Beschriftungen, Kontraste nach WCAG A
 
 ## MQTT-Modul
 
-**Stand M11:** Broker-Verbindung, Profile, TLS, Abonnements, Publish,
-Live-Topic-Baum und Payload-Analyse.
+**Stand M12:** Broker-Verbindung, Profile, TLS, Abonnements, Publish,
+Live-Topic-Baum, Payload-Analyse, Verlauf, Vergleich, Graph und Statistik.
 
 - **Topic-Baum** (Kernansicht): alle empfangenen Topics hierarchisch nach
   `/`, natürlich sortiert (`sensor2` vor `sensor10`), leere Ebenen als
@@ -125,6 +126,21 @@ Live-Topic-Baum und Payload-Analyse.
   - **Metadaten:** QoS, Retain, DUP, Größe, Zeit und alle MQTT-5-Properties
     (Content-Type, Payload-Format, Message Expiry, Topic Alias, Response
     Topic, Correlation Data, User Properties, Subscription Identifier).
+- **Verlauf pro Topic:** die letzten N Nachrichten (Einstellungen: 10, 100,
+  1000 oder 10 000) unter einem gemeinsamen Speicherlimit (16, 64 oder
+  256 MB; sind sie erreicht, fallen die ältesten Nachrichten aller Topics
+  zuerst weg, der letzte Wert jedes Topics bleibt). Ein Tipp zeigt eine
+  ältere Nachricht in allen Darstellungen.
+- **Vergleich** zweier Nachrichten aus dem Verlauf (vorgewählt: vorletzte
+  und letzte): JSON strukturell mit Pfaden (hinzugefügt, entfernt,
+  geändert), Text zeilenweise, sonst abweichende Byte-Bereiche.
+- **Graph** (fl_chart) eines Zahlenwerts über den Verlauf: per Graph-Symbol
+  neben einer Zahl im JSON-Baum, per „Im Graph anzeigen“ in der
+  Binär-Ansicht (Datentyp, Byte-Order, Offset) oder automatisch für
+  Zahlen-Payloads; mit Min/Max/Ø/letztem Wert, wächst live mit.
+- **Statistik pro Topic:** Anzahl, erste/letzte Nachricht, Zeit seit der
+  letzten, Rate gesamt und der letzten 60 s, Ø/Min/Max-Payload-Größe,
+  Belegung des Verlaufsspeichers.
 - **Layout:** Baum | Details | Abos + Publish in drei verschiebbaren
   Spalten (ab 1000 px Inhaltsbreite), darunter Baum + Tabs, auf Telefonen
   nur Tabs (Auswahl eines Topics öffnet die Details).
@@ -274,7 +290,7 @@ dart run flutter_launcher_icons              # Plattform-Icons
 
 | Ebene | Befehl | Inhalt |
 |---|---|---|
-| Unit | `flutter test test/shared test/modules …` | MQTT: Topic-Filter (`+`, `#`, `$SYS`, Grenzfälle), Payload-Formate, CONNACK-Codes, Profil-Speicher, Demo-Broker (Retained, No Local, Retain Handling), Verbindungs-Controller (Neuverbinden, Abos), Ringpuffer, Topic-Baum (Aufbau, Sortierung, Filter, Leistung mit 10 000 Topics), Drosselung der UI-Updates, Payload-Erkennung, JSON-Pfade, XML-Prüfung, Zeichensätze, Hex-Dump, Binär-Interpretation auf Bytes. Modbus: CRC16, MBAP/RTU-Framing, PDU-Codec, alle Datentyp-/Byte-Order-Konvertierungen (Referenzwerte unabhängig berechnet), Encoder, Adressen, Exceptions, Client mit Simulator (Timeouts, Retries, CRC, verspätete Antworten), Register-Map, Scanner, Statistik |
+| Unit | `flutter test test/shared test/modules …` | MQTT: Topic-Filter (`+`, `#`, `$SYS`, Grenzfälle), Payload-Formate, CONNACK-Codes, Profil-Speicher, Demo-Broker (Retained, No Local, Retain Handling), Verbindungs-Controller (Neuverbinden, Abos), Ringpuffer, Topic-Baum (Aufbau, Sortierung, Filter, Leistung mit 10 000 Topics), Drosselung der UI-Updates, Payload-Erkennung, JSON-Pfade, XML-Prüfung, Zeichensätze, Hex-Dump, Binär-Interpretation auf Bytes, Verlauf mit Speicherlimit, Statistik, JSON-/Text-/Byte-Vergleich, Graph-Felder. Modbus: CRC16, MBAP/RTU-Framing, PDU-Codec, alle Datentyp-/Byte-Order-Konvertierungen (Referenzwerte unabhängig berechnet), Encoder, Adressen, Exceptions, Client mit Simulator (Timeouts, Retries, CRC, verspätete Antworten), Register-Map, Scanner, Statistik |
 | Widget | `flutter test` | Interpretations-Matrix, alle Seiten und Abläufe gegen den Simulator, Import/Export, Tastaturkürzel |
 | Layout | `test/layout_smoke_test.dart` | alle Seiten auf Deutsch in Handy-, Tablet- und Desktop-Größe (Überläufe lassen den Test scheitern) |
 | Barrierefreiheit | `test/core/contrast_test.dart` | Textkontraste ≥ 4,5:1 in beiden Themes |
@@ -313,7 +329,8 @@ lib/
       simulator/   Demo-Geräte, Endpunkt mit Fehlerinjektion, TCP-Server
     mqtt/
       domain/      Konfiguration, Topic-Filter, Nachrichten, CONNACK-Codes,
-                   Payload-Formate, Topic-Baum, Payload-Analyse (reines Dart)
+                   Payload-Formate, Topic-Baum mit Verlauf, Payload-Analyse, Vergleich, Statistik,
+                   Graph-Felder (reines Dart)
       data/        MqttSession-Schnittstelle mit mqtt_client (3.1.1),
                    mqtt5_client (5.0) und Demo-Broker; Profile + Geheimnisse
       presentation/ Verbindung, Profil-Editor, Topic-Baum, Details,
@@ -453,8 +470,10 @@ Antwortzeit ~95 ms (Mac) bzw. ~108 ms (Android-Emulator). Die Prüfung lief
   werden auf das /24 um die eigene Adresse begrenzt (max. 4096 Adressen).
 - MQTT über WebSocket (wss): eigene CA und Client-Zertifikate unterstützt
   das MQTT-Paket nicht, es gelten die System-CAs (TLS über TCP kann beides).
-- MQTT: Publish-Vorlagen/Favoriten, Historie, Monitor-Filter/Export und
-  Broker-Info folgen mit M12–M14. CBOR, MessagePack und schemalose
+- MQTT: Publish-Vorlagen/Favoriten, Monitor-Filter/Export, Replay und
+  Broker-Info folgen mit M13–M14. Verlauf, Graph und Statistik gelten für
+  die laufende Sitzung (nicht gespeichert); der Graph zeigt nur, was im
+  Verlauf liegt. CBOR, MessagePack und schemalose
   Protobuf-Dekodierung sind als spätere Ausbaustufe vorgesehen.
 - Payload-Anzeige begrenzt: Text bis 64 KB, Hex-Dump in Schritten von
   1024 Zeilen, JSON-Baum bis 2000 Zeilen bzw. 200 Einträge je Ebene.

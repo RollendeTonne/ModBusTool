@@ -50,6 +50,21 @@ final class TopicNode {
   /// Whether the payload ever changed (more than one distinct value).
   bool hasChanged = false;
 
+  /// First message on this topic.
+  DateTime? firstSeen;
+
+  /// Payload bytes of all messages on this topic (also evicted ones).
+  int totalBytes = 0;
+  int minSize = 0;
+  int maxSize = 0;
+
+  final ListQueue<HistoryEntry> _history = ListQueue();
+
+  /// Recent messages on this topic, oldest first; bounded by
+  /// [TopicTree.historyPerTopic] and the tree's memory budget.
+  Iterable<MqttMessageRecord> get history => _history.map((e) => e.record);
+  int get historyLength => _history.length;
+
   bool get isTopic => messageCount > 0;
   bool get hasChildren => _children.isNotEmpty;
   int get childCount => _children.length;
@@ -188,7 +203,46 @@ final class TopicRow {
 }
 
 /// Live tree of all received topics.
+/// A history slot; [seq] orders all entries of the tree globally.
+@immutable
+final class HistoryEntry {
+  const new(this.seq, this.record, this.size);
+
+  final int seq;
+  final MqttMessageRecord record;
+
+  /// Bytes counted against the budget (payload + fixed overhead).
+  final int size;
+}
+
 final class TopicTree {
+  new({this.historyPerTopic = 100, this.historyBudgetBytes = 64 << 20});
+
+  /// Estimated bookkeeping per stored message besides the payload.
+  static const entryOverhead = 96;
+
+  /// Messages kept per topic.
+  int historyPerTopic;
+
+  /// Upper bound for all histories together; the globally oldest entries
+  /// go first, so busy topics cannot starve quiet ones of their last value
+  /// ([TopicNode.last] is always kept).
+  int historyBudgetBytes;
+
+  int _seq = 0;
+  int _historyBytes = 0;
+  int _historyCount = 0;
+
+  /// Global insertion order for budget eviction. Entries already dropped by
+  /// the per-topic limit stay until they reach the head (or a compaction).
+  final ListQueue<(TopicNode, int, int)> _evictionQueue = ListQueue();
+
+  /// Memory used by all histories (estimate).
+  int get historyBytes => _historyBytes;
+
+  /// Messages in all histories.
+  int get historyCount => _historyCount;
+
   final TopicNode root = TopicNode._('', '', null);
 
   /// Number of distinct topics with at least one message.
@@ -226,9 +280,17 @@ final class TopicTree {
         ..lastChangedAt = record.timestamp
         ..changeVersion += 1;
     }
+    final size = record.payload.length;
     node
       ..last = record
-      ..messageCount += 1;
+      ..messageCount += 1
+      ..firstSeen ??= record.timestamp
+      ..totalBytes += size
+      ..minSize = node.messageCount == 1
+          ? size
+          : (size < node.minSize ? size : node.minSize)
+      ..maxSize = size > node.maxSize ? size : node.maxSize;
+    _remember(node, record);
     for (final n in path) {
       n
         ..totalMessages += 1
@@ -236,6 +298,64 @@ final class TopicTree {
       if (firstMessage && n != node) n.descendantTopics += 1;
     }
     return node;
+  }
+
+  void _remember(TopicNode node, MqttMessageRecord record) {
+    final entry = HistoryEntry(
+      _seq++,
+      record,
+      record.payload.length + entryOverhead,
+    );
+    node._history.add(entry);
+    _historyBytes += entry.size;
+    _historyCount++;
+    _evictionQueue.add((node, entry.seq, entry.size));
+    _trimTopic(node);
+    _enforceBudget();
+  }
+
+  void _trimTopic(TopicNode node) {
+    while (node._history.length > historyPerTopic) {
+      final dropped = node._history.removeFirst();
+      _historyBytes -= dropped.size;
+      _historyCount--;
+    }
+  }
+
+  void _enforceBudget() {
+    while (_historyBytes > historyBudgetBytes && _evictionQueue.isNotEmpty) {
+      final (node, seq, size) = _evictionQueue.removeFirst();
+      // Per-topic trimming removes from the front too, so a queue entry is
+      // live exactly when it is still the topic's oldest entry.
+      if (node._history.isNotEmpty && node._history.first.seq == seq) {
+        node._history.removeFirst();
+        _historyBytes -= size;
+        _historyCount--;
+      }
+    }
+    // Drop stale queue entries before they outgrow the live ones.
+    if (_evictionQueue.length > 2 * _historyCount + 1024) {
+      final live = _evictionQueue.where(
+        (e) => e.$1._history.isNotEmpty && e.$2 >= e.$1._history.first.seq,
+      );
+      final compacted = ListQueue<(TopicNode, int, int)>.of(live);
+      _evictionQueue
+        ..clear()
+        ..addAll(compacted);
+    }
+  }
+
+  /// Applies new limits to the existing histories.
+  void setHistoryLimits({required int perTopic, required int budgetBytes}) {
+    historyPerTopic = perTopic;
+    historyBudgetBytes = budgetBytes;
+    void visit(TopicNode node) {
+      _trimTopic(node);
+      node._children.values.forEach(visit);
+    }
+
+    visit(root);
+    _enforceBudget();
   }
 
   static bool _samePayload(MqttMessageRecord a, MqttMessageRecord b) {
@@ -259,6 +379,9 @@ final class TopicTree {
   }
 
   void clear() {
+    _evictionQueue.clear();
+    _historyBytes = 0;
+    _historyCount = 0;
     root
       .._children.clear()
       .._sortedChildren = null

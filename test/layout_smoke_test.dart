@@ -200,6 +200,24 @@ void main() {
         await tester.tap(finder);
         await tester.pumpAndSettle();
       }
+      // History, comparison, chart (from the JSON tree) and statistics.
+      final chart = find.byKey(const Key(r'json.chart.$.value'));
+      final content = find.byKey(const Key('payload.tab.content'));
+      await tester.ensureVisible(content);
+      await tester.pumpAndSettle();
+      await tester.tap(content);
+      await tester.pumpAndSettle();
+      await tester.ensureVisible(chart);
+      await tester.pumpAndSettle();
+      await tester.tap(chart);
+      await tester.pumpAndSettle();
+      for (final tab in ['history', 'diff', 'chart', 'stats', 'message']) {
+        final finder = find.byKey(Key('topic.tab.$tab'));
+        await tester.ensureVisible(finder);
+        await tester.pumpAndSettle();
+        await tester.tap(finder);
+        await tester.pumpAndSettle();
+      }
       for (final tab in ['Baum', 'Details', 'Abos', 'Publish']) {
         final finder = find.widgetWithText(Tab, tab);
         if (finder.evaluate().isEmpty) continue;
