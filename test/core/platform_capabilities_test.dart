@@ -41,4 +41,43 @@ void main() {
       expect(caps.supportsSerial, isFalse);
     });
   });
+
+  group('MAC address support', () {
+    test('desktop without sandbox reads the ARP table', () {
+      for (final p in [
+        TargetPlatform.linux,
+        TargetPlatform.windows,
+        TargetPlatform.macOS,
+      ]) {
+        expect(
+          PlatformCapabilities.forPlatform(p).supportsMacAddresses,
+          isTrue,
+        );
+      }
+    });
+
+    test('sandboxed macOS cannot, other sandboxes are ignored', () {
+      final mac = PlatformCapabilities.forPlatform(
+        TargetPlatform.macOS,
+        isSandboxed: true,
+      );
+      expect(mac.macAddressLimit, MacAddressLimit.sandbox);
+      expect(
+        PlatformCapabilities.forPlatform(
+          TargetPlatform.linux,
+          isSandboxed: true,
+        ).supportsMacAddresses,
+        isTrue,
+      );
+    });
+
+    test('mobile platforms cannot', () {
+      for (final p in [TargetPlatform.android, TargetPlatform.iOS]) {
+        expect(
+          PlatformCapabilities.forPlatform(p).macAddressLimit,
+          MacAddressLimit.platform,
+        );
+      }
+    });
+  });
 }

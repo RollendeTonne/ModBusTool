@@ -86,7 +86,13 @@ void main() {
         await tester.pumpAndSettle();
       }
       await go('Werkzeuge');
-      for (final tab in ['Scanner', 'Statistik', 'Trend', 'Hex-Rechner']) {
+      for (final tab in [
+        'Scanner',
+        'Netzwerk',
+        'Statistik',
+        'Trend',
+        'Hex-Rechner',
+      ]) {
         // The tab bar scrolls on phones.
         await tester.ensureVisible(find.text(tab));
         await tester.pumpAndSettle();

@@ -850,5 +850,90 @@
         "type": "String"
       }
     }
-  }
+  },
+  "toolsNetwork": "Network",
+  "netScanHint": "Finds devices by trying to connect to the selected TCP ports (no ping needed). Only scan networks you are permitted to scan.",
+  "netScanNoMac": "MAC addresses are not available on this platform (the system does not expose the ARP table to apps).",
+  "netRange": "Address range",
+  "netRangeHint": "e.g. 192.168.1.0/24 or 192.168.1.10-50",
+  "netRangeTooLarge": "At most {max} addresses per scan",
+  "@netRangeTooLarge": {
+    "placeholders": {
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "netPorts": "Ports",
+  "netModbusPorts": "Verify Modbus on ports",
+  "netResolveNames": "Resolve host names",
+  "netStart": "Scan network",
+  "netPhasePorts": "Probing ports",
+  "netPhaseArp": "Reading MAC addresses",
+  "netPhaseModbus": "Identifying Modbus devices",
+  "netPhaseHostnames": "Resolving host names",
+  "netPhaseDone": "Finished",
+  "netProgress": "{phase}: {done} / {total} · {hosts} hosts",
+  "@netProgress": {
+    "placeholders": {
+      "phase": {
+        "type": "String"
+      },
+      "done": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      },
+      "hosts": {
+        "type": "int"
+      }
+    }
+  },
+  "netSummary": "{hosts} hosts · {modbus} with Modbus · {seconds} s",
+  "@netSummary": {
+    "placeholders": {
+      "hosts": {
+        "type": "int"
+      },
+      "modbus": {
+        "type": "int"
+      },
+      "seconds": {
+        "type": "String"
+      }
+    }
+  },
+  "netOnlyModbus": "Only Modbus devices",
+  "netThisDevice": "this device",
+  "netNoMac": "MAC unknown",
+  "netNoHosts": "No hosts found.",
+  "netModbusVerified": "Modbus on port {port}",
+  "@netModbusVerified": {
+    "placeholders": {
+      "port": {
+        "type": "int"
+      }
+    }
+  },
+  "netModbusException": "answers with exception {code}",
+  "@netModbusException": {
+    "placeholders": {
+      "code": {
+        "type": "String"
+      }
+    }
+  },
+  "netNoOpenPorts": "no open ports (seen via ARP or refused connection)",
+  "netConnect": "Connect",
+  "netProfileCreated": "Profile “{name}” created and connected",
+  "@netProfileCreated": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "netExport": "Export results…",
+  "netScanNoMacSandbox": "MAC addresses are not available: the macOS app sandbox blocks access to the ARP table."
 }

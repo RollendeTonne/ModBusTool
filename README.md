@@ -60,6 +60,13 @@ hervorgehoben. So sieht man sofort, wie ein Gerät seine Werte ablegt.
 - Hex-Rechner: Bytes oder Register in alle Formate und zurück
   (Wert → Register, z. B. 230,1 V als FLOAT32 CDAB), eigene Muster wie `EFGHABCD`.
 - Scanner: Slave-IDs 1–247 und Registerbereiche, mit Fortschritt und Abbruch.
+- Netzwerk-Scan: IP-Bereich (CIDR oder von–bis, Vorschlag aus den eigenen
+  Netzwerkkarten) nach Geräten durchsuchen; listet IP, Hostname, MAC-Adresse
+  und offene gängige Ports (u. a. 502 Modbus, 102 S7, 4840 OPC UA, 44818
+  EtherNet/IP, 20000 DNP3, 1883 MQTT, HTTP/HTTPS, SSH). Offene Modbus-Ports
+  werden mit einer echten Modbus-Anfrage geprüft (Hersteller/Produkt per
+  Device Identification); ein Klick legt ein Profil an und verbindet.
+  Ergebnisse als CSV exportierbar.
 - Statistik: Anfragen, Fehlerquote, Ø/Min/Max-Latenz, Fehler nach Art und FC.
 - Trend-Graph für Werte der Register-Map.
 
@@ -280,6 +287,15 @@ Profil lassen sich Latenz sowie verlorene und verfälschte Antworten simulieren.
   USB-RS485-Adapter schalten automatisch (RTS/DTR können fest gesetzt werden).
 - Modbus TCP hat keine eigene Prüfsumme: verfälschte Nutzdaten sind auf
   Modbus-Ebene nicht erkennbar (bei RTU greift die CRC).
+- Netzwerk-Scan ohne Ping: Apps können kein ICMP senden. Hosts werden per
+  TCP-Verbindungsversuch erkannt (auch eine Ablehnung zeigt einen lebenden
+  Host) und, wo möglich, über die ARP-Tabelle. Geräte, die alle geprüften
+  Ports stumm verwerfen und nicht im ARP-Cache stehen, bleiben unsichtbar.
+- MAC-Adressen im Netzwerk-Scan nur unter Windows, Linux und macOS **ohne**
+  App-Sandbox. Die Sandbox (Standard dieses Builds) sperrt den Zugriff auf die
+  ARP-Tabelle; Android 10+ und iOS ebenso. Die App zeigt dann einen Hinweis.
+- Subnetzmasken liefert Dart nicht; der Netzwerk-Scan schlägt /24 vor, der
+  Bereich ist frei editierbar (max. 4096 Adressen).
 - Keine separate Sitzungsaufzeichnung; das Log (bis 5000 Telegramme) lässt
   sich als Text/CSV speichern.
 - Windows: keine Mindestfenstergröße (macOS und Linux haben eine).

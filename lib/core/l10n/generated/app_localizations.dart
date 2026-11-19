@@ -2593,6 +2593,174 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Modbus Explorer {version} – debugging tool for Modbus TCP and RTU. Data stays on this device.'**
   String aboutText(String version);
+
+  /// No description provided for @toolsNetwork.
+  ///
+  /// In en, this message translates to:
+  /// **'Network'**
+  String get toolsNetwork;
+
+  /// No description provided for @netScanHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Finds devices by trying to connect to the selected TCP ports (no ping needed). Only scan networks you are permitted to scan.'**
+  String get netScanHint;
+
+  /// No description provided for @netScanNoMac.
+  ///
+  /// In en, this message translates to:
+  /// **'MAC addresses are not available on this platform (the system does not expose the ARP table to apps).'**
+  String get netScanNoMac;
+
+  /// No description provided for @netRange.
+  ///
+  /// In en, this message translates to:
+  /// **'Address range'**
+  String get netRange;
+
+  /// No description provided for @netRangeHint.
+  ///
+  /// In en, this message translates to:
+  /// **'e.g. 192.168.1.0/24 or 192.168.1.10-50'**
+  String get netRangeHint;
+
+  /// No description provided for @netRangeTooLarge.
+  ///
+  /// In en, this message translates to:
+  /// **'At most {max} addresses per scan'**
+  String netRangeTooLarge(int max);
+
+  /// No description provided for @netPorts.
+  ///
+  /// In en, this message translates to:
+  /// **'Ports'**
+  String get netPorts;
+
+  /// No description provided for @netModbusPorts.
+  ///
+  /// In en, this message translates to:
+  /// **'Verify Modbus on ports'**
+  String get netModbusPorts;
+
+  /// No description provided for @netResolveNames.
+  ///
+  /// In en, this message translates to:
+  /// **'Resolve host names'**
+  String get netResolveNames;
+
+  /// No description provided for @netStart.
+  ///
+  /// In en, this message translates to:
+  /// **'Scan network'**
+  String get netStart;
+
+  /// No description provided for @netPhasePorts.
+  ///
+  /// In en, this message translates to:
+  /// **'Probing ports'**
+  String get netPhasePorts;
+
+  /// No description provided for @netPhaseArp.
+  ///
+  /// In en, this message translates to:
+  /// **'Reading MAC addresses'**
+  String get netPhaseArp;
+
+  /// No description provided for @netPhaseModbus.
+  ///
+  /// In en, this message translates to:
+  /// **'Identifying Modbus devices'**
+  String get netPhaseModbus;
+
+  /// No description provided for @netPhaseHostnames.
+  ///
+  /// In en, this message translates to:
+  /// **'Resolving host names'**
+  String get netPhaseHostnames;
+
+  /// No description provided for @netPhaseDone.
+  ///
+  /// In en, this message translates to:
+  /// **'Finished'**
+  String get netPhaseDone;
+
+  /// No description provided for @netProgress.
+  ///
+  /// In en, this message translates to:
+  /// **'{phase}: {done} / {total} · {hosts} hosts'**
+  String netProgress(String phase, int done, int total, int hosts);
+
+  /// No description provided for @netSummary.
+  ///
+  /// In en, this message translates to:
+  /// **'{hosts} hosts · {modbus} with Modbus · {seconds} s'**
+  String netSummary(int hosts, int modbus, String seconds);
+
+  /// No description provided for @netOnlyModbus.
+  ///
+  /// In en, this message translates to:
+  /// **'Only Modbus devices'**
+  String get netOnlyModbus;
+
+  /// No description provided for @netThisDevice.
+  ///
+  /// In en, this message translates to:
+  /// **'this device'**
+  String get netThisDevice;
+
+  /// No description provided for @netNoMac.
+  ///
+  /// In en, this message translates to:
+  /// **'MAC unknown'**
+  String get netNoMac;
+
+  /// No description provided for @netNoHosts.
+  ///
+  /// In en, this message translates to:
+  /// **'No hosts found.'**
+  String get netNoHosts;
+
+  /// No description provided for @netModbusVerified.
+  ///
+  /// In en, this message translates to:
+  /// **'Modbus on port {port}'**
+  String netModbusVerified(int port);
+
+  /// No description provided for @netModbusException.
+  ///
+  /// In en, this message translates to:
+  /// **'answers with exception {code}'**
+  String netModbusException(String code);
+
+  /// No description provided for @netNoOpenPorts.
+  ///
+  /// In en, this message translates to:
+  /// **'no open ports (seen via ARP or refused connection)'**
+  String get netNoOpenPorts;
+
+  /// No description provided for @netConnect.
+  ///
+  /// In en, this message translates to:
+  /// **'Connect'**
+  String get netConnect;
+
+  /// No description provided for @netProfileCreated.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile “{name}” created and connected'**
+  String netProfileCreated(String name);
+
+  /// No description provided for @netExport.
+  ///
+  /// In en, this message translates to:
+  /// **'Export results…'**
+  String get netExport;
+
+  /// No description provided for @netScanNoMacSandbox.
+  ///
+  /// In en, this message translates to:
+  /// **'MAC addresses are not available: the macOS app sandbox blocks access to the ARP table.'**
+  String get netScanNoMacSandbox;
 }
 
 class _AppLocalizationsDelegate

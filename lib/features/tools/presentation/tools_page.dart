@@ -1,5 +1,6 @@
 import 'package:material_ui/material_ui.dart';
 import 'package:modbus_explorer/core/l10n/l10n.dart';
+import 'package:modbus_explorer/features/network_scan/presentation/network_scan_view.dart';
 import 'package:modbus_explorer/features/tools/presentation/hex_calculator_view.dart';
 import 'package:modbus_explorer/features/tools/presentation/scanner_view.dart';
 import 'package:modbus_explorer/features/tools/presentation/statistics_view.dart';
@@ -12,7 +13,7 @@ class ToolsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = context.l10n;
     return DefaultTabController(
-      length: 4,
+      length: 5,
       child: Column(
         children: [
           TabBar(
@@ -25,6 +26,10 @@ class ToolsPage extends StatelessWidget {
               ),
               Tab(icon: const Icon(Icons.radar), text: l10n.toolsScanner),
               Tab(
+                icon: const Icon(Icons.travel_explore),
+                text: l10n.toolsNetwork,
+              ),
+              Tab(
                 icon: const Icon(Icons.insights_outlined),
                 text: l10n.toolsStatistics,
               ),
@@ -36,6 +41,7 @@ class ToolsPage extends StatelessWidget {
               children: [
                 HexCalculatorView(),
                 ScannerView(),
+                NetworkScanView(),
                 StatisticsView(),
                 TrendView(),
               ],

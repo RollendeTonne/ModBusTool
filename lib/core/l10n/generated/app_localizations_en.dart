@@ -1416,4 +1416,104 @@ class AppLocalizationsEn extends AppLocalizations {
   String aboutText(String version) {
     return 'Modbus Explorer $version – debugging tool for Modbus TCP and RTU. Data stays on this device.';
   }
+
+  @override
+  String get toolsNetwork => 'Network';
+
+  @override
+  String get netScanHint =>
+      'Finds devices by trying to connect to the selected TCP ports (no ping needed). Only scan networks you are permitted to scan.';
+
+  @override
+  String get netScanNoMac =>
+      'MAC addresses are not available on this platform (the system does not expose the ARP table to apps).';
+
+  @override
+  String get netRange => 'Address range';
+
+  @override
+  String get netRangeHint => 'e.g. 192.168.1.0/24 or 192.168.1.10-50';
+
+  @override
+  String netRangeTooLarge(int max) {
+    return 'At most $max addresses per scan';
+  }
+
+  @override
+  String get netPorts => 'Ports';
+
+  @override
+  String get netModbusPorts => 'Verify Modbus on ports';
+
+  @override
+  String get netResolveNames => 'Resolve host names';
+
+  @override
+  String get netStart => 'Scan network';
+
+  @override
+  String get netPhasePorts => 'Probing ports';
+
+  @override
+  String get netPhaseArp => 'Reading MAC addresses';
+
+  @override
+  String get netPhaseModbus => 'Identifying Modbus devices';
+
+  @override
+  String get netPhaseHostnames => 'Resolving host names';
+
+  @override
+  String get netPhaseDone => 'Finished';
+
+  @override
+  String netProgress(String phase, int done, int total, int hosts) {
+    return '$phase: $done / $total · $hosts hosts';
+  }
+
+  @override
+  String netSummary(int hosts, int modbus, String seconds) {
+    return '$hosts hosts · $modbus with Modbus · $seconds s';
+  }
+
+  @override
+  String get netOnlyModbus => 'Only Modbus devices';
+
+  @override
+  String get netThisDevice => 'this device';
+
+  @override
+  String get netNoMac => 'MAC unknown';
+
+  @override
+  String get netNoHosts => 'No hosts found.';
+
+  @override
+  String netModbusVerified(int port) {
+    return 'Modbus on port $port';
+  }
+
+  @override
+  String netModbusException(String code) {
+    return 'answers with exception $code';
+  }
+
+  @override
+  String get netNoOpenPorts =>
+      'no open ports (seen via ARP or refused connection)';
+
+  @override
+  String get netConnect => 'Connect';
+
+  @override
+  String netProfileCreated(String name) {
+    return 'Profile “$name” created and connected';
+  }
+
+  @override
+  String get netExport => 'Export results…';
+
+  @override
+  String get netScanNoMacSandbox =>
+      'MAC addresses are not available: the macOS app sandbox blocks access to the ARP table.';
 }
