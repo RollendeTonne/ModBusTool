@@ -45,19 +45,6 @@ class AppLocalizationsDe extends AppLocalizations {
   }
 
   @override
-  String plannedFeatureMilestone(String milestone) {
-    return 'Geplant für Meilenstein $milestone';
-  }
-
-  @override
-  String get monitorPageDescription =>
-      'Live-Protokoll aller Telegramme mit Hex-Dump und Frame-Dekodierung.';
-
-  @override
-  String get toolsPageDescription =>
-      'Hex-Rechner, Slave-/Register-Scanner und Statistik.';
-
-  @override
   String get settingsAppearance => 'Darstellung';
 
   @override
@@ -958,4 +945,380 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get mapUnnamed => '(ohne Namen)';
+
+  @override
+  String get monitorPause => 'Pausieren';
+
+  @override
+  String get monitorResume => 'Fortsetzen';
+
+  @override
+  String get monitorClear => 'Leeren';
+
+  @override
+  String get monitorErrorsOnly => 'Nur Fehler';
+
+  @override
+  String get monitorAllFunctions => 'Alle Funktionen';
+
+  @override
+  String get monitorCopyText => 'Als Text kopieren';
+
+  @override
+  String get monitorCopyCsv => 'Als CSV kopieren';
+
+  @override
+  String monitorCopied(int count) {
+    return '$count Telegramme kopiert';
+  }
+
+  @override
+  String get monitorEmpty =>
+      'Noch keine Telegramme. Register lesen oder Polling starten – jede Anfrage und Antwort erscheint hier.';
+
+  @override
+  String monitorPaused(int count) {
+    return 'Pausiert – $count Telegramme nicht aufgezeichnet';
+  }
+
+  @override
+  String monitorCount(int shown, int total) {
+    return '$shown von $total Telegrammen';
+  }
+
+  @override
+  String get monitorSelectHint =>
+      'Telegramm auswählen, um die Dekodierung zu sehen.';
+
+  @override
+  String get monitorDetailTitle => 'Telegramm-Details';
+
+  @override
+  String get monitorHexDump => 'Hex-Dump';
+
+  @override
+  String get monitorFields => 'Felder';
+
+  @override
+  String monitorTransaction(int number) {
+    return 'Transaktion #$number';
+  }
+
+  @override
+  String monitorAttempts(int count) {
+    return '$count Versuch(e)';
+  }
+
+  @override
+  String get monitorResultOk => 'Erfolgreich';
+
+  @override
+  String get monitorCrcValid => 'CRC gültig';
+
+  @override
+  String get monitorCrcInvalid => 'CRC ungültig';
+
+  @override
+  String get columnField => 'Feld';
+
+  @override
+  String get columnBytes => 'Bytes';
+
+  @override
+  String get columnTime => 'Zeit';
+
+  @override
+  String get frameStatusOk => 'OK';
+
+  @override
+  String get frameStatusCrc => 'CRC-Fehler';
+
+  @override
+  String get frameStatusMalformed => 'Fehlerhaft';
+
+  @override
+  String get frameStatusUnexpected => 'Unerwartet';
+
+  @override
+  String get frameStatusIncomplete => 'Unvollständig';
+
+  @override
+  String get frameStatusException => 'Exception';
+
+  @override
+  String get segmentTransactionId => 'Transaktions-ID';
+
+  @override
+  String get segmentProtocolId => 'Protokoll-ID';
+
+  @override
+  String get segmentLength => 'Länge';
+
+  @override
+  String get segmentUnitId => 'Unit-ID';
+
+  @override
+  String get segmentFunctionCode => 'Funktionscode';
+
+  @override
+  String get segmentExceptionCode => 'Exception-Code';
+
+  @override
+  String get segmentAddress => 'Adresse';
+
+  @override
+  String get segmentCount => 'Anzahl';
+
+  @override
+  String get segmentByteCount => 'Byte-Anzahl';
+
+  @override
+  String get segmentValue => 'Wert';
+
+  @override
+  String get segmentValueList => 'Werte';
+
+  @override
+  String get segmentAndMask => 'AND-Maske';
+
+  @override
+  String get segmentOrMask => 'OR-Maske';
+
+  @override
+  String get segmentReadAddress => 'Leseadresse';
+
+  @override
+  String get segmentReadCount => 'Leseanzahl';
+
+  @override
+  String get segmentWriteAddress => 'Schreibadresse';
+
+  @override
+  String get segmentWriteCount => 'Schreibanzahl';
+
+  @override
+  String get segmentMeiType => 'MEI-Typ';
+
+  @override
+  String get segmentDeviceIdCode => 'Device-ID-Code';
+
+  @override
+  String get segmentObjectId => 'Objekt-ID';
+
+  @override
+  String get segmentConformityLevel => 'Konformitätsstufe';
+
+  @override
+  String get segmentMoreFollows => 'Weitere folgen';
+
+  @override
+  String get segmentNextObjectId => 'Nächste Objekt-ID';
+
+  @override
+  String get segmentObjectCount => 'Anzahl Objekte';
+
+  @override
+  String get segmentObject => 'Objekt';
+
+  @override
+  String get segmentData => 'Daten';
+
+  @override
+  String get segmentCrc => 'CRC';
+
+  @override
+  String get segmentTruncated => 'Abgeschnitten';
+
+  @override
+  String get segmentTrailing => 'Überzählige Bytes';
+
+  @override
+  String get toolsHexCalculator => 'Hex-Rechner';
+
+  @override
+  String get toolsScanner => 'Scanner';
+
+  @override
+  String get toolsStatistics => 'Statistik';
+
+  @override
+  String get toolsTrend => 'Trend';
+
+  @override
+  String get hexInput => 'Eingabe';
+
+  @override
+  String get hexInputHint => 'z. B. 41 20 00 00 oder 0x41200000';
+
+  @override
+  String get hexModeBytes => 'Hex-Bytes';
+
+  @override
+  String get hexModeRegisters => 'Register (hex)';
+
+  @override
+  String get hexModeDecimal => 'Register (dez)';
+
+  @override
+  String hexInvalid(String token) {
+    return '„$token“ ist nicht lesbar';
+  }
+
+  @override
+  String get hexOddBytes =>
+      'Ungerade Byte-Anzahl – das letzte Register wurde mit 00 aufgefüllt.';
+
+  @override
+  String get hexBytesLabel => 'Bytes';
+
+  @override
+  String get hexRegistersLabel => 'Register';
+
+  @override
+  String get hexCustomOrder => 'Eigene Byte-Reihenfolge';
+
+  @override
+  String get hexPattern => 'Muster';
+
+  @override
+  String get hexPatternHint => 'z. B. EFGHABCD';
+
+  @override
+  String get hexEncoder => 'Wert → Register';
+
+  @override
+  String get hexEncodeHint => 'Zahl; Zeitstempel auch als ISO-Datum';
+
+  @override
+  String get hexUseAsInput => 'Als Eingabe übernehmen';
+
+  @override
+  String get hexCopyRegisters => 'Register kopieren';
+
+  @override
+  String get hexEmpty =>
+      'Bytes oder Registerwerte eingeben, um alle Interpretationen zu sehen.';
+
+  @override
+  String get scanModeSlaves => 'Slave-IDs';
+
+  @override
+  String get scanModeRegisters => 'Registerbereich';
+
+  @override
+  String get scanFrom => 'Von';
+
+  @override
+  String get scanTo => 'Bis';
+
+  @override
+  String get scanProbeAddress => 'Test-Register';
+
+  @override
+  String get scanTimeout => 'Timeout (ms)';
+
+  @override
+  String get scanBlockSize => 'Blockgröße';
+
+  @override
+  String get scanStart => 'Scan starten';
+
+  @override
+  String scanProgress(int done, int total, int found) {
+    return '$done / $total · $found gefunden';
+  }
+
+  @override
+  String scanFinished(String seconds) {
+    return 'Fertig nach $seconds s';
+  }
+
+  @override
+  String get scanCancelled => 'Abgebrochen';
+
+  @override
+  String get scanNoResults => 'Keine Antworten.';
+
+  @override
+  String scanUnit(int id) {
+    return 'Unit $id';
+  }
+
+  @override
+  String scanException(String code) {
+    return 'Exception $code – Gerät vorhanden';
+  }
+
+  @override
+  String get scanTcpHint =>
+      'Hinweis: Viele Modbus-TCP-Geräte antworten auf jede Unit-ID. Der Scan ist vor allem hinter Gateways und bei RTU aussagekräftig.';
+
+  @override
+  String scanSlowHint(int total, String seconds) {
+    return 'Jede fehlende ID wartet den Timeout ab ($total IDs ≈ höchstens $seconds s).';
+  }
+
+  @override
+  String get statsRequests => 'Anfragen';
+
+  @override
+  String get statsErrors => 'Fehler';
+
+  @override
+  String get statsErrorRate => 'Fehlerquote';
+
+  @override
+  String get statsLatencyAvg => 'Ø Latenz';
+
+  @override
+  String get statsLatencyMin => 'Min. Latenz';
+
+  @override
+  String get statsLatencyMax => 'Max. Latenz';
+
+  @override
+  String get statsTimeouts => 'Timeouts';
+
+  @override
+  String get statsExceptions => 'Exception-Antworten';
+
+  @override
+  String get statsProtocolErrors => 'Ungültige Antworten';
+
+  @override
+  String get statsConnectionErrors => 'Verbindungsfehler';
+
+  @override
+  String get statsRetries => 'Wiederholungen';
+
+  @override
+  String get statsByFunction => 'Nach Funktionscode';
+
+  @override
+  String statsSince(String time) {
+    return 'Seit $time';
+  }
+
+  @override
+  String get statsEmpty => 'Noch keine Anfragen.';
+
+  @override
+  String trendSelect(int max) {
+    return 'Werte für den Graph (numerische Register-Map-Einträge, max. $max)';
+  }
+
+  @override
+  String get trendNoEntries =>
+      'Numerische Einträge zur Register-Map hinzufügen, um sie darzustellen.';
+
+  @override
+  String get trendPollMap => 'Register-Map pollen';
+
+  @override
+  String get trendWaiting => 'Warte auf Daten – Register-Map pollen.';
+
+  @override
+  String trendMaxReached(int max) {
+    return 'Es lassen sich höchstens $max Werte darstellen.';
+  }
 }

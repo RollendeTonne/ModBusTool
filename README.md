@@ -4,7 +4,7 @@ Plattformübergreifendes Debugging-Werkzeug für Modbus TCP/RTU (Flutter). Rohe
 Registerwerte werden gleichzeitig in allen gängigen Datentypen und
 Byte-/Wortreihenfolgen interpretiert.
 
-> Status: **M5** – Verbindungsprofile, Lesen/Pollen/Schreiben, Interpretations-Matrix (alle Datentypen × Byte-Reihenfolgen) und Register-Map. Monitor, Werkzeuge und Statistik folgen in M6.
+> Status: **M6** – alle Funktionen des MVP: Verbindungen, Lesen/Pollen/Schreiben, Interpretations-Matrix, Register-Map, Kommunikations-Monitor, Hex-Rechner, Scanner, Statistik und Trend. Feinschliff, Datei-Import/-Export und Doku folgen in M7.
 > Die vollständige Dokumentation folgt mit M7.
 
 ## Entwicklung
@@ -36,6 +36,12 @@ flutter test integration_test -d macos --no-dds
 5. **Register-Map:** Umschalter „Register-Map“. Einträge mit Label, Einheit
    und Skalierung anlegen, durchsuchen und mit „Alle lesen“ bzw. „Pollen“ live
    anzeigen. Die Labels erscheinen auch in der Rohwert-Tabelle.
+6. **Monitor:** alle Telegramme (TX/RX) mit Zeit, Funktionscode, Latenz und
+   Status; Filter „Nur Fehler“ und nach Funktionscode, Pause, Leeren, Export
+   in die Zwischenablage. Ein Klick zeigt Hex-Dump und Feldzerlegung samt CRC-Prüfung.
+7. **Werkzeuge:** Hex-Rechner (Bytes/Register in alle Formate und zurück),
+   Slave-ID- und Registerbereich-Scan, Statistik (Fehlerquote, Latenzen) und
+   Trend-Graph für Register-Map-Werte.
 
 ### macOS: CocoaPods
 

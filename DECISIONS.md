@@ -90,3 +90,18 @@ Kurzprotokoll der Architektur- und Produktentscheidungen. Neueste unten.
 | D62 | Werte in der Rohwert-Tabelle sind normaler Text, nicht markierbar. Ein Tipp wählt die Zeile aus, Umschalt+Tipp einen Bereich | Markierbarer Text hat Taps abgefangen, die Zeilenauswahl funktionierte dann nicht. Kopieren geht über die Interpretation. |
 | D63 | Snackbars ersetzen die aktuelle Meldung, statt sich anzustellen | Nach mehreren schnellen Kopieraktionen kamen Meldungen sonst sekundenlang verspätet. |
 | D64 | **Bit-Ansicht** in der Interpretationsansicht: 16 Bits des markierten Registers als Chips. Bei freigegebenem Schreiben schaltet ein Klick das Bit (FC06, mit Bestätigung) | Erfüllt „Bits als anklickbare Toggles für Write“ ohne eigene dritte Ansicht. |
+
+## M6 – Monitor, Hex-Rechner, Scanner, Statistik, Trend
+
+| # | Entscheidung | Begründung |
+|---|---|---|
+| D65 | Kommunikations-Log als Ringpuffer (5000 Telegramme, 2500 Transaktionen). Neue Ereignisse werden alle 100 ms gebündelt übernommen | Dauerbetrieb mit schnellem Polling ohne unbegrenzten Speicher. Die Liste wird nicht bei jedem Frame neu aufgebaut. |
+| D66 | Log, Statistik und Trend laufen **ab App-Start** mit, nicht erst ab dem ersten Öffnen ihrer Seite | Gefunden durch Test: Verkehr vor dem ersten Besuch des Monitors fehlte sonst. |
+| D67 | „Pause“ = nicht aufzeichnen (mit Zähler der verworfenen Telegramme). Die **Statistik** zählt unabhängig von Pause, Leeren und Puffergrenze weiter | Pause dient dem Lesen einer Stelle im Log. Die Fehlerquote soll trotzdem stimmen. |
+| D68 | Monitor zeigt neueste Telegramme oben. Detailansicht: farbiger Hex-Dump, Feldtabelle (aus dem Frame-Dissector von M3), CRC-Status und Ergebnis der Transaktion | Beim Live-Debugging zählt das Neueste. Die Felder sind im Dump an derselben Farbe wiederzuerkennen. |
+| D69 | Log-Export vorerst in die **Zwischenablage** (Text oder CSV mit `;`). Dateien speichern kommt mit dem Datei-Export in M7 | Sofort nutzbar, z. B. für Tickets oder E-Mails. Kein Dateidialog-Plugin vor M7. |
+| D70 | Hex-Rechner: Eingabe als Bytes, Register (hex) oder Register (dezimal). Im Dezimalmodus ist `-` ein Vorzeichen, sonst ein Trennzeichen (`41-20-00-00`) | Gefunden durch Test: `-1` wurde vorher zu `1`. |
+| D71 | Hex-Rechner mit **Encoder** (Wert → Register, alle Typen und Byte-Reihenfolgen, Zeitstempel auch als ISO-Datum) und eigenem Muster wie `EFGHABCD` | Häufiger Bedarf: „welche Register muss ich für 230,1 V in CDAB schreiben?“. Der Encoder ist gegen den Decoder per Hin- und Rückweg getestet. |
+| D72 | Slave-Scan: jede Antwort, **auch eine Exception**, zählt als „Gerät vorhanden“. Unit 0 (Broadcast) wird übersprungen. Ohne Wiederholungen, Timeout einstellbar (Standard 100 ms) | Ein Gerät, das die Testadresse nicht kennt, ist trotzdem da. Ein voller Scan (247 IDs) dauert höchstens ~25 s. Hinweis in der UI: Viele TCP-Geräte antworten auf jede Unit-ID. |
+| D73 | Register-Scan liest zuerst Blöcke (Standard 10) und bei Fehlern einzeln weiter. Exception 02 gilt als „nicht vorhanden“, andere Exceptions werden als Treffer gemeldet | Dichte Bereiche brauchen wenige Requests, Lücken werden trotzdem genau gefunden. |
+| D74 | Trend (fl_chart) zeigt numerische Register-Map-Einträge (max. 4, je 600 Punkte, skaliert) und wird beim Lesen oder Pollen der Map gefüllt | Wiederverwendung von Labels und Skalierung der Map, keine zweite Konfiguration. |

@@ -27,12 +27,16 @@ class InterpretationMatrixTable extends StatelessWidget {
     required this.onCellAction,
     this.scaling = Scaling.identity,
     this.highlightPlausible = true,
+    this.allowAddToMap = true,
     super.key,
   });
 
   final InterpretationMatrix matrix;
   final Scaling scaling;
   final bool highlightPlausible;
+
+  /// Without a register address (hex calculator) only copying makes sense.
+  final bool allowAddToMap;
   final MatrixCellCallback onCellAction;
 
   static const _typeWidth = 104.0;
@@ -88,6 +92,7 @@ extension on InterpretationMatrixTable {
       cell: cell,
       text: ValueFormatter.format(cell.value, scaling: scaling),
       highlightPlausible: highlightPlausible,
+      allowAddToMap: allowAddToMap,
       onAction: (action) => onCellAction(row, cell, action),
     );
   }
@@ -132,6 +137,7 @@ class _ValueCell extends StatelessWidget {
     required this.cell,
     required this.text,
     required this.highlightPlausible,
+    required this.allowAddToMap,
     required this.onAction,
     super.key,
   });
@@ -139,6 +145,7 @@ class _ValueCell extends StatelessWidget {
   final MatrixCell cell;
   final String text;
   final bool highlightPlausible;
+  final bool allowAddToMap;
   final ValueChanged<MatrixCellAction> onAction;
 
   Future<void> _showMenu(BuildContext context, Offset position) async {
@@ -159,13 +166,14 @@ class _ValueCell extends StatelessWidget {
             title: Text(l10n.actionCopy),
           ),
         ),
-        PopupMenuItem(
-          value: MatrixCellAction.addToMap,
-          child: ListTile(
-            leading: const Icon(Icons.bookmark_add_outlined),
-            title: Text(l10n.actionAddToMap),
+        if (allowAddToMap)
+          PopupMenuItem(
+            value: MatrixCellAction.addToMap,
+            child: ListTile(
+              leading: const Icon(Icons.bookmark_add_outlined),
+              title: Text(l10n.actionAddToMap),
+            ),
           ),
-        ),
       ],
     );
     if (action != null) onAction(action);

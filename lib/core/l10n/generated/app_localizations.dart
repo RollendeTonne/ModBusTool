@@ -164,24 +164,6 @@ abstract class AppLocalizations {
   /// **'Connection status: {status}'**
   String connectionStatusLabel(String status);
 
-  /// No description provided for @plannedFeatureMilestone.
-  ///
-  /// In en, this message translates to:
-  /// **'Planned for milestone {milestone}'**
-  String plannedFeatureMilestone(String milestone);
-
-  /// No description provided for @monitorPageDescription.
-  ///
-  /// In en, this message translates to:
-  /// **'Live log of all frames with hex dump and frame decoding.'**
-  String get monitorPageDescription;
-
-  /// No description provided for @toolsPageDescription.
-  ///
-  /// In en, this message translates to:
-  /// **'Hex calculator, slave/register scanner and statistics.'**
-  String get toolsPageDescription;
-
   /// No description provided for @settingsAppearance.
   ///
   /// In en, this message translates to:
@@ -1759,6 +1741,690 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'(unnamed)'**
   String get mapUnnamed;
+
+  /// No description provided for @monitorPause.
+  ///
+  /// In en, this message translates to:
+  /// **'Pause'**
+  String get monitorPause;
+
+  /// No description provided for @monitorResume.
+  ///
+  /// In en, this message translates to:
+  /// **'Resume'**
+  String get monitorResume;
+
+  /// No description provided for @monitorClear.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear'**
+  String get monitorClear;
+
+  /// No description provided for @monitorErrorsOnly.
+  ///
+  /// In en, this message translates to:
+  /// **'Errors only'**
+  String get monitorErrorsOnly;
+
+  /// No description provided for @monitorAllFunctions.
+  ///
+  /// In en, this message translates to:
+  /// **'All functions'**
+  String get monitorAllFunctions;
+
+  /// No description provided for @monitorCopyText.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy as text'**
+  String get monitorCopyText;
+
+  /// No description provided for @monitorCopyCsv.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy as CSV'**
+  String get monitorCopyCsv;
+
+  /// No description provided for @monitorCopied.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} frames copied'**
+  String monitorCopied(int count);
+
+  /// No description provided for @monitorEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No frames yet. Read registers or start polling – every request and response appears here.'**
+  String get monitorEmpty;
+
+  /// No description provided for @monitorPaused.
+  ///
+  /// In en, this message translates to:
+  /// **'Paused – {count} frames not recorded'**
+  String monitorPaused(int count);
+
+  /// No description provided for @monitorCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{shown} of {total} frames'**
+  String monitorCount(int shown, int total);
+
+  /// No description provided for @monitorSelectHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Select a frame to see its decoding.'**
+  String get monitorSelectHint;
+
+  /// No description provided for @monitorDetailTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Frame details'**
+  String get monitorDetailTitle;
+
+  /// No description provided for @monitorHexDump.
+  ///
+  /// In en, this message translates to:
+  /// **'Hex dump'**
+  String get monitorHexDump;
+
+  /// No description provided for @monitorFields.
+  ///
+  /// In en, this message translates to:
+  /// **'Fields'**
+  String get monitorFields;
+
+  /// No description provided for @monitorTransaction.
+  ///
+  /// In en, this message translates to:
+  /// **'Transaction #{number}'**
+  String monitorTransaction(int number);
+
+  /// No description provided for @monitorAttempts.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} attempt(s)'**
+  String monitorAttempts(int count);
+
+  /// No description provided for @monitorResultOk.
+  ///
+  /// In en, this message translates to:
+  /// **'Success'**
+  String get monitorResultOk;
+
+  /// No description provided for @monitorCrcValid.
+  ///
+  /// In en, this message translates to:
+  /// **'CRC valid'**
+  String get monitorCrcValid;
+
+  /// No description provided for @monitorCrcInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'CRC invalid'**
+  String get monitorCrcInvalid;
+
+  /// No description provided for @columnField.
+  ///
+  /// In en, this message translates to:
+  /// **'Field'**
+  String get columnField;
+
+  /// No description provided for @columnBytes.
+  ///
+  /// In en, this message translates to:
+  /// **'Bytes'**
+  String get columnBytes;
+
+  /// No description provided for @columnTime.
+  ///
+  /// In en, this message translates to:
+  /// **'Time'**
+  String get columnTime;
+
+  /// No description provided for @frameStatusOk.
+  ///
+  /// In en, this message translates to:
+  /// **'OK'**
+  String get frameStatusOk;
+
+  /// No description provided for @frameStatusCrc.
+  ///
+  /// In en, this message translates to:
+  /// **'CRC error'**
+  String get frameStatusCrc;
+
+  /// No description provided for @frameStatusMalformed.
+  ///
+  /// In en, this message translates to:
+  /// **'Malformed'**
+  String get frameStatusMalformed;
+
+  /// No description provided for @frameStatusUnexpected.
+  ///
+  /// In en, this message translates to:
+  /// **'Unexpected'**
+  String get frameStatusUnexpected;
+
+  /// No description provided for @frameStatusIncomplete.
+  ///
+  /// In en, this message translates to:
+  /// **'Incomplete'**
+  String get frameStatusIncomplete;
+
+  /// No description provided for @frameStatusException.
+  ///
+  /// In en, this message translates to:
+  /// **'Exception'**
+  String get frameStatusException;
+
+  /// No description provided for @segmentTransactionId.
+  ///
+  /// In en, this message translates to:
+  /// **'Transaction ID'**
+  String get segmentTransactionId;
+
+  /// No description provided for @segmentProtocolId.
+  ///
+  /// In en, this message translates to:
+  /// **'Protocol ID'**
+  String get segmentProtocolId;
+
+  /// No description provided for @segmentLength.
+  ///
+  /// In en, this message translates to:
+  /// **'Length'**
+  String get segmentLength;
+
+  /// No description provided for @segmentUnitId.
+  ///
+  /// In en, this message translates to:
+  /// **'Unit ID'**
+  String get segmentUnitId;
+
+  /// No description provided for @segmentFunctionCode.
+  ///
+  /// In en, this message translates to:
+  /// **'Function code'**
+  String get segmentFunctionCode;
+
+  /// No description provided for @segmentExceptionCode.
+  ///
+  /// In en, this message translates to:
+  /// **'Exception code'**
+  String get segmentExceptionCode;
+
+  /// No description provided for @segmentAddress.
+  ///
+  /// In en, this message translates to:
+  /// **'Address'**
+  String get segmentAddress;
+
+  /// No description provided for @segmentCount.
+  ///
+  /// In en, this message translates to:
+  /// **'Quantity'**
+  String get segmentCount;
+
+  /// No description provided for @segmentByteCount.
+  ///
+  /// In en, this message translates to:
+  /// **'Byte count'**
+  String get segmentByteCount;
+
+  /// No description provided for @segmentValue.
+  ///
+  /// In en, this message translates to:
+  /// **'Value'**
+  String get segmentValue;
+
+  /// No description provided for @segmentValueList.
+  ///
+  /// In en, this message translates to:
+  /// **'Values'**
+  String get segmentValueList;
+
+  /// No description provided for @segmentAndMask.
+  ///
+  /// In en, this message translates to:
+  /// **'AND mask'**
+  String get segmentAndMask;
+
+  /// No description provided for @segmentOrMask.
+  ///
+  /// In en, this message translates to:
+  /// **'OR mask'**
+  String get segmentOrMask;
+
+  /// No description provided for @segmentReadAddress.
+  ///
+  /// In en, this message translates to:
+  /// **'Read address'**
+  String get segmentReadAddress;
+
+  /// No description provided for @segmentReadCount.
+  ///
+  /// In en, this message translates to:
+  /// **'Read quantity'**
+  String get segmentReadCount;
+
+  /// No description provided for @segmentWriteAddress.
+  ///
+  /// In en, this message translates to:
+  /// **'Write address'**
+  String get segmentWriteAddress;
+
+  /// No description provided for @segmentWriteCount.
+  ///
+  /// In en, this message translates to:
+  /// **'Write quantity'**
+  String get segmentWriteCount;
+
+  /// No description provided for @segmentMeiType.
+  ///
+  /// In en, this message translates to:
+  /// **'MEI type'**
+  String get segmentMeiType;
+
+  /// No description provided for @segmentDeviceIdCode.
+  ///
+  /// In en, this message translates to:
+  /// **'Device ID code'**
+  String get segmentDeviceIdCode;
+
+  /// No description provided for @segmentObjectId.
+  ///
+  /// In en, this message translates to:
+  /// **'Object ID'**
+  String get segmentObjectId;
+
+  /// No description provided for @segmentConformityLevel.
+  ///
+  /// In en, this message translates to:
+  /// **'Conformity level'**
+  String get segmentConformityLevel;
+
+  /// No description provided for @segmentMoreFollows.
+  ///
+  /// In en, this message translates to:
+  /// **'More follows'**
+  String get segmentMoreFollows;
+
+  /// No description provided for @segmentNextObjectId.
+  ///
+  /// In en, this message translates to:
+  /// **'Next object ID'**
+  String get segmentNextObjectId;
+
+  /// No description provided for @segmentObjectCount.
+  ///
+  /// In en, this message translates to:
+  /// **'Number of objects'**
+  String get segmentObjectCount;
+
+  /// No description provided for @segmentObject.
+  ///
+  /// In en, this message translates to:
+  /// **'Object'**
+  String get segmentObject;
+
+  /// No description provided for @segmentData.
+  ///
+  /// In en, this message translates to:
+  /// **'Data'**
+  String get segmentData;
+
+  /// No description provided for @segmentCrc.
+  ///
+  /// In en, this message translates to:
+  /// **'CRC'**
+  String get segmentCrc;
+
+  /// No description provided for @segmentTruncated.
+  ///
+  /// In en, this message translates to:
+  /// **'Truncated'**
+  String get segmentTruncated;
+
+  /// No description provided for @segmentTrailing.
+  ///
+  /// In en, this message translates to:
+  /// **'Extra bytes'**
+  String get segmentTrailing;
+
+  /// No description provided for @toolsHexCalculator.
+  ///
+  /// In en, this message translates to:
+  /// **'Hex calculator'**
+  String get toolsHexCalculator;
+
+  /// No description provided for @toolsScanner.
+  ///
+  /// In en, this message translates to:
+  /// **'Scanner'**
+  String get toolsScanner;
+
+  /// No description provided for @toolsStatistics.
+  ///
+  /// In en, this message translates to:
+  /// **'Statistics'**
+  String get toolsStatistics;
+
+  /// No description provided for @toolsTrend.
+  ///
+  /// In en, this message translates to:
+  /// **'Trend'**
+  String get toolsTrend;
+
+  /// No description provided for @hexInput.
+  ///
+  /// In en, this message translates to:
+  /// **'Input'**
+  String get hexInput;
+
+  /// No description provided for @hexInputHint.
+  ///
+  /// In en, this message translates to:
+  /// **'e.g. 41 20 00 00 or 0x41200000'**
+  String get hexInputHint;
+
+  /// No description provided for @hexModeBytes.
+  ///
+  /// In en, this message translates to:
+  /// **'Hex bytes'**
+  String get hexModeBytes;
+
+  /// No description provided for @hexModeRegisters.
+  ///
+  /// In en, this message translates to:
+  /// **'Registers (hex)'**
+  String get hexModeRegisters;
+
+  /// No description provided for @hexModeDecimal.
+  ///
+  /// In en, this message translates to:
+  /// **'Registers (dec)'**
+  String get hexModeDecimal;
+
+  /// No description provided for @hexInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Cannot read “{token}”'**
+  String hexInvalid(String token);
+
+  /// No description provided for @hexOddBytes.
+  ///
+  /// In en, this message translates to:
+  /// **'Odd number of bytes – the last register was padded with 00.'**
+  String get hexOddBytes;
+
+  /// No description provided for @hexBytesLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Bytes'**
+  String get hexBytesLabel;
+
+  /// No description provided for @hexRegistersLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Registers'**
+  String get hexRegistersLabel;
+
+  /// No description provided for @hexCustomOrder.
+  ///
+  /// In en, this message translates to:
+  /// **'Custom byte order'**
+  String get hexCustomOrder;
+
+  /// No description provided for @hexPattern.
+  ///
+  /// In en, this message translates to:
+  /// **'Pattern'**
+  String get hexPattern;
+
+  /// No description provided for @hexPatternHint.
+  ///
+  /// In en, this message translates to:
+  /// **'e.g. EFGHABCD'**
+  String get hexPatternHint;
+
+  /// No description provided for @hexEncoder.
+  ///
+  /// In en, this message translates to:
+  /// **'Value → registers'**
+  String get hexEncoder;
+
+  /// No description provided for @hexEncodeHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Number; timestamps also as ISO date'**
+  String get hexEncodeHint;
+
+  /// No description provided for @hexUseAsInput.
+  ///
+  /// In en, this message translates to:
+  /// **'Use as input'**
+  String get hexUseAsInput;
+
+  /// No description provided for @hexCopyRegisters.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy registers'**
+  String get hexCopyRegisters;
+
+  /// No description provided for @hexEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter bytes or register values to see all interpretations.'**
+  String get hexEmpty;
+
+  /// No description provided for @scanModeSlaves.
+  ///
+  /// In en, this message translates to:
+  /// **'Slave IDs'**
+  String get scanModeSlaves;
+
+  /// No description provided for @scanModeRegisters.
+  ///
+  /// In en, this message translates to:
+  /// **'Register range'**
+  String get scanModeRegisters;
+
+  /// No description provided for @scanFrom.
+  ///
+  /// In en, this message translates to:
+  /// **'From'**
+  String get scanFrom;
+
+  /// No description provided for @scanTo.
+  ///
+  /// In en, this message translates to:
+  /// **'To'**
+  String get scanTo;
+
+  /// No description provided for @scanProbeAddress.
+  ///
+  /// In en, this message translates to:
+  /// **'Test register'**
+  String get scanProbeAddress;
+
+  /// No description provided for @scanTimeout.
+  ///
+  /// In en, this message translates to:
+  /// **'Timeout (ms)'**
+  String get scanTimeout;
+
+  /// No description provided for @scanBlockSize.
+  ///
+  /// In en, this message translates to:
+  /// **'Block size'**
+  String get scanBlockSize;
+
+  /// No description provided for @scanStart.
+  ///
+  /// In en, this message translates to:
+  /// **'Start scan'**
+  String get scanStart;
+
+  /// No description provided for @scanProgress.
+  ///
+  /// In en, this message translates to:
+  /// **'{done} / {total} · {found} found'**
+  String scanProgress(int done, int total, int found);
+
+  /// No description provided for @scanFinished.
+  ///
+  /// In en, this message translates to:
+  /// **'Finished after {seconds} s'**
+  String scanFinished(String seconds);
+
+  /// No description provided for @scanCancelled.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancelled'**
+  String get scanCancelled;
+
+  /// No description provided for @scanNoResults.
+  ///
+  /// In en, this message translates to:
+  /// **'No responses.'**
+  String get scanNoResults;
+
+  /// No description provided for @scanUnit.
+  ///
+  /// In en, this message translates to:
+  /// **'Unit {id}'**
+  String scanUnit(int id);
+
+  /// No description provided for @scanException.
+  ///
+  /// In en, this message translates to:
+  /// **'Exception {code} – device present'**
+  String scanException(String code);
+
+  /// No description provided for @scanTcpHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Note: many Modbus TCP devices answer every unit ID. The scan is most useful behind gateways and on RTU.'**
+  String get scanTcpHint;
+
+  /// No description provided for @scanSlowHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Each missing ID waits for the timeout ({total} IDs ≈ {seconds} s at most).'**
+  String scanSlowHint(int total, String seconds);
+
+  /// No description provided for @statsRequests.
+  ///
+  /// In en, this message translates to:
+  /// **'Requests'**
+  String get statsRequests;
+
+  /// No description provided for @statsErrors.
+  ///
+  /// In en, this message translates to:
+  /// **'Errors'**
+  String get statsErrors;
+
+  /// No description provided for @statsErrorRate.
+  ///
+  /// In en, this message translates to:
+  /// **'Error rate'**
+  String get statsErrorRate;
+
+  /// No description provided for @statsLatencyAvg.
+  ///
+  /// In en, this message translates to:
+  /// **'Avg. latency'**
+  String get statsLatencyAvg;
+
+  /// No description provided for @statsLatencyMin.
+  ///
+  /// In en, this message translates to:
+  /// **'Min. latency'**
+  String get statsLatencyMin;
+
+  /// No description provided for @statsLatencyMax.
+  ///
+  /// In en, this message translates to:
+  /// **'Max. latency'**
+  String get statsLatencyMax;
+
+  /// No description provided for @statsTimeouts.
+  ///
+  /// In en, this message translates to:
+  /// **'Timeouts'**
+  String get statsTimeouts;
+
+  /// No description provided for @statsExceptions.
+  ///
+  /// In en, this message translates to:
+  /// **'Exception responses'**
+  String get statsExceptions;
+
+  /// No description provided for @statsProtocolErrors.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid responses'**
+  String get statsProtocolErrors;
+
+  /// No description provided for @statsConnectionErrors.
+  ///
+  /// In en, this message translates to:
+  /// **'Connection errors'**
+  String get statsConnectionErrors;
+
+  /// No description provided for @statsRetries.
+  ///
+  /// In en, this message translates to:
+  /// **'Retries'**
+  String get statsRetries;
+
+  /// No description provided for @statsByFunction.
+  ///
+  /// In en, this message translates to:
+  /// **'By function code'**
+  String get statsByFunction;
+
+  /// No description provided for @statsSince.
+  ///
+  /// In en, this message translates to:
+  /// **'Since {time}'**
+  String statsSince(String time);
+
+  /// No description provided for @statsEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No requests yet.'**
+  String get statsEmpty;
+
+  /// No description provided for @trendSelect.
+  ///
+  /// In en, this message translates to:
+  /// **'Values to plot (numeric register map entries, max. {max})'**
+  String trendSelect(int max);
+
+  /// No description provided for @trendNoEntries.
+  ///
+  /// In en, this message translates to:
+  /// **'Add numeric entries to the register map to plot them.'**
+  String get trendNoEntries;
+
+  /// No description provided for @trendPollMap.
+  ///
+  /// In en, this message translates to:
+  /// **'Poll register map'**
+  String get trendPollMap;
+
+  /// No description provided for @trendWaiting.
+  ///
+  /// In en, this message translates to:
+  /// **'Waiting for data – poll the register map.'**
+  String get trendWaiting;
+
+  /// No description provided for @trendMaxReached.
+  ///
+  /// In en, this message translates to:
+  /// **'At most {max} values can be plotted.'**
+  String trendMaxReached(int max);
 }
 
 class _AppLocalizationsDelegate

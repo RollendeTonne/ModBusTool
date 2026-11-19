@@ -45,19 +45,6 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String plannedFeatureMilestone(String milestone) {
-    return 'Planned for milestone $milestone';
-  }
-
-  @override
-  String get monitorPageDescription =>
-      'Live log of all frames with hex dump and frame decoding.';
-
-  @override
-  String get toolsPageDescription =>
-      'Hex calculator, slave/register scanner and statistics.';
-
-  @override
   String get settingsAppearance => 'Appearance';
 
   @override
@@ -952,4 +939,379 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get mapUnnamed => '(unnamed)';
+
+  @override
+  String get monitorPause => 'Pause';
+
+  @override
+  String get monitorResume => 'Resume';
+
+  @override
+  String get monitorClear => 'Clear';
+
+  @override
+  String get monitorErrorsOnly => 'Errors only';
+
+  @override
+  String get monitorAllFunctions => 'All functions';
+
+  @override
+  String get monitorCopyText => 'Copy as text';
+
+  @override
+  String get monitorCopyCsv => 'Copy as CSV';
+
+  @override
+  String monitorCopied(int count) {
+    return '$count frames copied';
+  }
+
+  @override
+  String get monitorEmpty =>
+      'No frames yet. Read registers or start polling – every request and response appears here.';
+
+  @override
+  String monitorPaused(int count) {
+    return 'Paused – $count frames not recorded';
+  }
+
+  @override
+  String monitorCount(int shown, int total) {
+    return '$shown of $total frames';
+  }
+
+  @override
+  String get monitorSelectHint => 'Select a frame to see its decoding.';
+
+  @override
+  String get monitorDetailTitle => 'Frame details';
+
+  @override
+  String get monitorHexDump => 'Hex dump';
+
+  @override
+  String get monitorFields => 'Fields';
+
+  @override
+  String monitorTransaction(int number) {
+    return 'Transaction #$number';
+  }
+
+  @override
+  String monitorAttempts(int count) {
+    return '$count attempt(s)';
+  }
+
+  @override
+  String get monitorResultOk => 'Success';
+
+  @override
+  String get monitorCrcValid => 'CRC valid';
+
+  @override
+  String get monitorCrcInvalid => 'CRC invalid';
+
+  @override
+  String get columnField => 'Field';
+
+  @override
+  String get columnBytes => 'Bytes';
+
+  @override
+  String get columnTime => 'Time';
+
+  @override
+  String get frameStatusOk => 'OK';
+
+  @override
+  String get frameStatusCrc => 'CRC error';
+
+  @override
+  String get frameStatusMalformed => 'Malformed';
+
+  @override
+  String get frameStatusUnexpected => 'Unexpected';
+
+  @override
+  String get frameStatusIncomplete => 'Incomplete';
+
+  @override
+  String get frameStatusException => 'Exception';
+
+  @override
+  String get segmentTransactionId => 'Transaction ID';
+
+  @override
+  String get segmentProtocolId => 'Protocol ID';
+
+  @override
+  String get segmentLength => 'Length';
+
+  @override
+  String get segmentUnitId => 'Unit ID';
+
+  @override
+  String get segmentFunctionCode => 'Function code';
+
+  @override
+  String get segmentExceptionCode => 'Exception code';
+
+  @override
+  String get segmentAddress => 'Address';
+
+  @override
+  String get segmentCount => 'Quantity';
+
+  @override
+  String get segmentByteCount => 'Byte count';
+
+  @override
+  String get segmentValue => 'Value';
+
+  @override
+  String get segmentValueList => 'Values';
+
+  @override
+  String get segmentAndMask => 'AND mask';
+
+  @override
+  String get segmentOrMask => 'OR mask';
+
+  @override
+  String get segmentReadAddress => 'Read address';
+
+  @override
+  String get segmentReadCount => 'Read quantity';
+
+  @override
+  String get segmentWriteAddress => 'Write address';
+
+  @override
+  String get segmentWriteCount => 'Write quantity';
+
+  @override
+  String get segmentMeiType => 'MEI type';
+
+  @override
+  String get segmentDeviceIdCode => 'Device ID code';
+
+  @override
+  String get segmentObjectId => 'Object ID';
+
+  @override
+  String get segmentConformityLevel => 'Conformity level';
+
+  @override
+  String get segmentMoreFollows => 'More follows';
+
+  @override
+  String get segmentNextObjectId => 'Next object ID';
+
+  @override
+  String get segmentObjectCount => 'Number of objects';
+
+  @override
+  String get segmentObject => 'Object';
+
+  @override
+  String get segmentData => 'Data';
+
+  @override
+  String get segmentCrc => 'CRC';
+
+  @override
+  String get segmentTruncated => 'Truncated';
+
+  @override
+  String get segmentTrailing => 'Extra bytes';
+
+  @override
+  String get toolsHexCalculator => 'Hex calculator';
+
+  @override
+  String get toolsScanner => 'Scanner';
+
+  @override
+  String get toolsStatistics => 'Statistics';
+
+  @override
+  String get toolsTrend => 'Trend';
+
+  @override
+  String get hexInput => 'Input';
+
+  @override
+  String get hexInputHint => 'e.g. 41 20 00 00 or 0x41200000';
+
+  @override
+  String get hexModeBytes => 'Hex bytes';
+
+  @override
+  String get hexModeRegisters => 'Registers (hex)';
+
+  @override
+  String get hexModeDecimal => 'Registers (dec)';
+
+  @override
+  String hexInvalid(String token) {
+    return 'Cannot read “$token”';
+  }
+
+  @override
+  String get hexOddBytes =>
+      'Odd number of bytes – the last register was padded with 00.';
+
+  @override
+  String get hexBytesLabel => 'Bytes';
+
+  @override
+  String get hexRegistersLabel => 'Registers';
+
+  @override
+  String get hexCustomOrder => 'Custom byte order';
+
+  @override
+  String get hexPattern => 'Pattern';
+
+  @override
+  String get hexPatternHint => 'e.g. EFGHABCD';
+
+  @override
+  String get hexEncoder => 'Value → registers';
+
+  @override
+  String get hexEncodeHint => 'Number; timestamps also as ISO date';
+
+  @override
+  String get hexUseAsInput => 'Use as input';
+
+  @override
+  String get hexCopyRegisters => 'Copy registers';
+
+  @override
+  String get hexEmpty =>
+      'Enter bytes or register values to see all interpretations.';
+
+  @override
+  String get scanModeSlaves => 'Slave IDs';
+
+  @override
+  String get scanModeRegisters => 'Register range';
+
+  @override
+  String get scanFrom => 'From';
+
+  @override
+  String get scanTo => 'To';
+
+  @override
+  String get scanProbeAddress => 'Test register';
+
+  @override
+  String get scanTimeout => 'Timeout (ms)';
+
+  @override
+  String get scanBlockSize => 'Block size';
+
+  @override
+  String get scanStart => 'Start scan';
+
+  @override
+  String scanProgress(int done, int total, int found) {
+    return '$done / $total · $found found';
+  }
+
+  @override
+  String scanFinished(String seconds) {
+    return 'Finished after $seconds s';
+  }
+
+  @override
+  String get scanCancelled => 'Cancelled';
+
+  @override
+  String get scanNoResults => 'No responses.';
+
+  @override
+  String scanUnit(int id) {
+    return 'Unit $id';
+  }
+
+  @override
+  String scanException(String code) {
+    return 'Exception $code – device present';
+  }
+
+  @override
+  String get scanTcpHint =>
+      'Note: many Modbus TCP devices answer every unit ID. The scan is most useful behind gateways and on RTU.';
+
+  @override
+  String scanSlowHint(int total, String seconds) {
+    return 'Each missing ID waits for the timeout ($total IDs ≈ $seconds s at most).';
+  }
+
+  @override
+  String get statsRequests => 'Requests';
+
+  @override
+  String get statsErrors => 'Errors';
+
+  @override
+  String get statsErrorRate => 'Error rate';
+
+  @override
+  String get statsLatencyAvg => 'Avg. latency';
+
+  @override
+  String get statsLatencyMin => 'Min. latency';
+
+  @override
+  String get statsLatencyMax => 'Max. latency';
+
+  @override
+  String get statsTimeouts => 'Timeouts';
+
+  @override
+  String get statsExceptions => 'Exception responses';
+
+  @override
+  String get statsProtocolErrors => 'Invalid responses';
+
+  @override
+  String get statsConnectionErrors => 'Connection errors';
+
+  @override
+  String get statsRetries => 'Retries';
+
+  @override
+  String get statsByFunction => 'By function code';
+
+  @override
+  String statsSince(String time) {
+    return 'Since $time';
+  }
+
+  @override
+  String get statsEmpty => 'No requests yet.';
+
+  @override
+  String trendSelect(int max) {
+    return 'Values to plot (numeric register map entries, max. $max)';
+  }
+
+  @override
+  String get trendNoEntries =>
+      'Add numeric entries to the register map to plot them.';
+
+  @override
+  String get trendPollMap => 'Poll register map';
+
+  @override
+  String get trendWaiting => 'Waiting for data – poll the register map.';
+
+  @override
+  String trendMaxReached(int max) {
+    return 'At most $max values can be plotted.';
+  }
 }

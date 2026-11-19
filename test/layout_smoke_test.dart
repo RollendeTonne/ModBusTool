@@ -73,6 +73,27 @@ void main() {
       await tester.tap(find.text('Abbrechen'));
       await tester.pumpAndSettle();
 
+      // Monitor with frame details, then every tools tab.
+      await go('Monitor');
+      await tester.pump(const Duration(milliseconds: 250));
+      await tester.pumpAndSettle();
+      await tester.tap(find.byKey(const Key('frame.0')));
+      await tester.pumpAndSettle();
+      expect(find.byKey(const Key('monitor.detail')), findsOneWidget);
+      if (size.width < 1000) {
+        Navigator.of(tester.element(find.byKey(const Key('monitor.detail'))))
+            .pop();
+        await tester.pumpAndSettle();
+      }
+      await go('Werkzeuge');
+      for (final tab in ['Scanner', 'Statistik', 'Trend', 'Hex-Rechner']) {
+        // The tab bar scrolls on phones.
+        await tester.ensureVisible(find.text(tab));
+        await tester.pumpAndSettle();
+        await tester.tap(find.text(tab));
+        await tester.pumpAndSettle();
+      }
+
       // Profile editor for every connection kind.
       await go('Verbindung');
       await tester.scrollUntilVisible(

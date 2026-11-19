@@ -18,16 +18,6 @@
       }
     }
   },
-  "plannedFeatureMilestone": "Planned for milestone {milestone}",
-  "@plannedFeatureMilestone": {
-    "placeholders": {
-      "milestone": {
-        "type": "String"
-      }
-    }
-  },
-  "monitorPageDescription": "Live log of all frames with hex dump and frame decoding.",
-  "toolsPageDescription": "Hex calculator, slave/register scanner and statistics.",
   "settingsAppearance": "Appearance",
   "settingsTheme": "Theme",
   "themeSystem": "System",
@@ -542,5 +532,229 @@
       }
     }
   },
-  "mapUnnamed": "(unnamed)"
+  "mapUnnamed": "(unnamed)",
+  "monitorPause": "Pause",
+  "monitorResume": "Resume",
+  "monitorClear": "Clear",
+  "monitorErrorsOnly": "Errors only",
+  "monitorAllFunctions": "All functions",
+  "monitorCopyText": "Copy as text",
+  "monitorCopyCsv": "Copy as CSV",
+  "monitorCopied": "{count} frames copied",
+  "@monitorCopied": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "monitorEmpty": "No frames yet. Read registers or start polling – every request and response appears here.",
+  "monitorPaused": "Paused – {count} frames not recorded",
+  "@monitorPaused": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "monitorCount": "{shown} of {total} frames",
+  "@monitorCount": {
+    "placeholders": {
+      "shown": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "monitorSelectHint": "Select a frame to see its decoding.",
+  "monitorDetailTitle": "Frame details",
+  "monitorHexDump": "Hex dump",
+  "monitorFields": "Fields",
+  "monitorTransaction": "Transaction #{number}",
+  "@monitorTransaction": {
+    "placeholders": {
+      "number": {
+        "type": "int"
+      }
+    }
+  },
+  "monitorAttempts": "{count} attempt(s)",
+  "@monitorAttempts": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "monitorResultOk": "Success",
+  "monitorCrcValid": "CRC valid",
+  "monitorCrcInvalid": "CRC invalid",
+  "columnField": "Field",
+  "columnBytes": "Bytes",
+  "columnTime": "Time",
+  "frameStatusOk": "OK",
+  "frameStatusCrc": "CRC error",
+  "frameStatusMalformed": "Malformed",
+  "frameStatusUnexpected": "Unexpected",
+  "frameStatusIncomplete": "Incomplete",
+  "frameStatusException": "Exception",
+  "segmentTransactionId": "Transaction ID",
+  "segmentProtocolId": "Protocol ID",
+  "segmentLength": "Length",
+  "segmentUnitId": "Unit ID",
+  "segmentFunctionCode": "Function code",
+  "segmentExceptionCode": "Exception code",
+  "segmentAddress": "Address",
+  "segmentCount": "Quantity",
+  "segmentByteCount": "Byte count",
+  "segmentValue": "Value",
+  "segmentValueList": "Values",
+  "segmentAndMask": "AND mask",
+  "segmentOrMask": "OR mask",
+  "segmentReadAddress": "Read address",
+  "segmentReadCount": "Read quantity",
+  "segmentWriteAddress": "Write address",
+  "segmentWriteCount": "Write quantity",
+  "segmentMeiType": "MEI type",
+  "segmentDeviceIdCode": "Device ID code",
+  "segmentObjectId": "Object ID",
+  "segmentConformityLevel": "Conformity level",
+  "segmentMoreFollows": "More follows",
+  "segmentNextObjectId": "Next object ID",
+  "segmentObjectCount": "Number of objects",
+  "segmentObject": "Object",
+  "segmentData": "Data",
+  "segmentCrc": "CRC",
+  "segmentTruncated": "Truncated",
+  "segmentTrailing": "Extra bytes",
+  "toolsHexCalculator": "Hex calculator",
+  "toolsScanner": "Scanner",
+  "toolsStatistics": "Statistics",
+  "toolsTrend": "Trend",
+  "hexInput": "Input",
+  "hexInputHint": "e.g. 41 20 00 00 or 0x41200000",
+  "hexModeBytes": "Hex bytes",
+  "hexModeRegisters": "Registers (hex)",
+  "hexModeDecimal": "Registers (dec)",
+  "hexInvalid": "Cannot read “{token}”",
+  "@hexInvalid": {
+    "placeholders": {
+      "token": {
+        "type": "String"
+      }
+    }
+  },
+  "hexOddBytes": "Odd number of bytes – the last register was padded with 00.",
+  "hexBytesLabel": "Bytes",
+  "hexRegistersLabel": "Registers",
+  "hexCustomOrder": "Custom byte order",
+  "hexPattern": "Pattern",
+  "hexPatternHint": "e.g. EFGHABCD",
+  "hexEncoder": "Value → registers",
+  "hexEncodeHint": "Number; timestamps also as ISO date",
+  "hexUseAsInput": "Use as input",
+  "hexCopyRegisters": "Copy registers",
+  "hexEmpty": "Enter bytes or register values to see all interpretations.",
+  "scanModeSlaves": "Slave IDs",
+  "scanModeRegisters": "Register range",
+  "scanFrom": "From",
+  "scanTo": "To",
+  "scanProbeAddress": "Test register",
+  "scanTimeout": "Timeout (ms)",
+  "scanBlockSize": "Block size",
+  "scanStart": "Start scan",
+  "scanProgress": "{done} / {total} · {found} found",
+  "@scanProgress": {
+    "placeholders": {
+      "done": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      },
+      "found": {
+        "type": "int"
+      }
+    }
+  },
+  "scanFinished": "Finished after {seconds} s",
+  "@scanFinished": {
+    "placeholders": {
+      "seconds": {
+        "type": "String"
+      }
+    }
+  },
+  "scanCancelled": "Cancelled",
+  "scanNoResults": "No responses.",
+  "scanUnit": "Unit {id}",
+  "@scanUnit": {
+    "placeholders": {
+      "id": {
+        "type": "int"
+      }
+    }
+  },
+  "scanException": "Exception {code} – device present",
+  "@scanException": {
+    "placeholders": {
+      "code": {
+        "type": "String"
+      }
+    }
+  },
+  "scanTcpHint": "Note: many Modbus TCP devices answer every unit ID. The scan is most useful behind gateways and on RTU.",
+  "scanSlowHint": "Each missing ID waits for the timeout ({total} IDs ≈ {seconds} s at most).",
+  "@scanSlowHint": {
+    "placeholders": {
+      "total": {
+        "type": "int"
+      },
+      "seconds": {
+        "type": "String"
+      }
+    }
+  },
+  "statsRequests": "Requests",
+  "statsErrors": "Errors",
+  "statsErrorRate": "Error rate",
+  "statsLatencyAvg": "Avg. latency",
+  "statsLatencyMin": "Min. latency",
+  "statsLatencyMax": "Max. latency",
+  "statsTimeouts": "Timeouts",
+  "statsExceptions": "Exception responses",
+  "statsProtocolErrors": "Invalid responses",
+  "statsConnectionErrors": "Connection errors",
+  "statsRetries": "Retries",
+  "statsByFunction": "By function code",
+  "statsSince": "Since {time}",
+  "@statsSince": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "statsEmpty": "No requests yet.",
+  "trendSelect": "Values to plot (numeric register map entries, max. {max})",
+  "@trendSelect": {
+    "placeholders": {
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "trendNoEntries": "Add numeric entries to the register map to plot them.",
+  "trendPollMap": "Poll register map",
+  "trendWaiting": "Waiting for data – poll the register map.",
+  "trendMaxReached": "At most {max} values can be plotted.",
+  "@trendMaxReached": {
+    "placeholders": {
+      "max": {
+        "type": "int"
+      }
+    }
+  }
 }
