@@ -1,6 +1,8 @@
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:material_ui/material_ui.dart';
+import 'package:modbus_explorer/core/routing/active_module.dart';
+import 'package:modbus_explorer/features/settings/presentation/settings_page.dart';
 
 import '../helpers/pump_app.dart';
 
@@ -80,5 +82,38 @@ void main() {
       ),
       findsOneWidget,
     );
+  });
+
+  testWidgets('the last module is remembered across restarts', (tester) async {
+    final store = await tester.pumpModbusApp();
+    await switchTo(tester, 'mqtt');
+    expect(store.getString(ActiveModuleController.storageKey), 'mqtt');
+
+    // "Restart" with the stored value: the app opens in MQTT.
+    await tester.pumpWidget(const SizedBox());
+    await tester.pumpModbusApp(
+      storedValues: {ActiveModuleController.storageKey: 'mqtt'},
+    );
+    expect(find.byKey(const Key('mqtt.connectionPage')), findsOneWidget);
+    expect(railLabel('Topics'), findsOneWidget);
+  });
+
+  testWidgets('settings list the module and MQTT shortcuts', (tester) async {
+    await tester.pumpModbusApp();
+    await tester.tapNavigation('Settings');
+    final table = find.byKey(const Key('settings.shortcuts'));
+    await tester.scrollUntilVisible(
+      table,
+      200,
+      scrollable: find
+          .descendant(
+            of: find.byType(SettingsPage),
+            matching: find.byType(Scrollable),
+          )
+          .first,
+    );
+    expect(find.text('Ctrl + Shift + M'), findsOneWidget);
+    expect(find.text('Switch module (Modbus ↔ MQTT)'), findsOneWidget);
+    expect(find.text('MQTT: clear the monitor'), findsOneWidget);
   });
 }

@@ -2890,4 +2890,57 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get mqttMonitorEmpty => 'No entries yet.';
+
+  @override
+  String get mqttTemplates => 'Templates';
+
+  @override
+  String get mqttTemplatesEmpty => 'No templates yet.';
+
+  @override
+  String get mqttTemplateSave => 'Save as template';
+
+  @override
+  String get mqttTemplateName => 'Template name';
+
+  @override
+  String mqttTemplateSaved(String name) {
+    return 'Template “$name” saved';
+  }
+
+  @override
+  String mqttTemplateLoaded(String name) {
+    return 'Template “$name” loaded';
+  }
+
+  @override
+  String mqttTemplateDeleted(String name) {
+    return 'Template “$name” deleted';
+  }
+
+  @override
+  String get mqttTemplateReplaceHint =>
+      'A template with the same name is replaced.';
+
+  @override
+  String netPortConnectMqtt(int port) {
+    return 'Create MQTT profile and connect (port $port)';
+  }
+
+  @override
+  String netMqttProfileCreated(String name) {
+    return 'MQTT profile “$name” created';
+  }
+
+  @override
+  String get shortcutModule => 'Switch module (Modbus ↔ MQTT)';
+
+  @override
+  String get shortcutMqttFilter => 'MQTT: filter topic tree or monitor';
+
+  @override
+  String get shortcutMqttClear => 'MQTT: clear the monitor';
+
+  @override
+  String get shortcutMqttPublish => 'MQTT: publish (in the publish panel)';
 }

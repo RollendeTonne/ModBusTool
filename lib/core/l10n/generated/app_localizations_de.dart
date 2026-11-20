@@ -2905,4 +2905,58 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get mqttMonitorEmpty => 'Noch keine Einträge.';
+
+  @override
+  String get mqttTemplates => 'Vorlagen';
+
+  @override
+  String get mqttTemplatesEmpty => 'Noch keine Vorlagen.';
+
+  @override
+  String get mqttTemplateSave => 'Als Vorlage speichern';
+
+  @override
+  String get mqttTemplateName => 'Name der Vorlage';
+
+  @override
+  String mqttTemplateSaved(String name) {
+    return 'Vorlage „$name“ gespeichert';
+  }
+
+  @override
+  String mqttTemplateLoaded(String name) {
+    return 'Vorlage „$name“ geladen';
+  }
+
+  @override
+  String mqttTemplateDeleted(String name) {
+    return 'Vorlage „$name“ gelöscht';
+  }
+
+  @override
+  String get mqttTemplateReplaceHint =>
+      'Eine Vorlage mit gleichem Namen wird ersetzt.';
+
+  @override
+  String netPortConnectMqtt(int port) {
+    return 'MQTT-Profil anlegen und verbinden (Port $port)';
+  }
+
+  @override
+  String netMqttProfileCreated(String name) {
+    return 'MQTT-Profil „$name“ angelegt';
+  }
+
+  @override
+  String get shortcutModule => 'Modul wechseln (Modbus ↔ MQTT)';
+
+  @override
+  String get shortcutMqttFilter => 'MQTT: Topic-Baum bzw. Monitor filtern';
+
+  @override
+  String get shortcutMqttClear => 'MQTT: Monitor leeren';
+
+  @override
+  String get shortcutMqttPublish =>
+      'MQTT: veröffentlichen (im Publish-Bereich)';
 }

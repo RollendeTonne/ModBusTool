@@ -34,8 +34,15 @@ void main() {
     expect((custom as ConnectModbusAction).port, 10502);
   });
 
+  test('MQTT ports create a broker profile (TLS on 8883)', () {
+    final plain = portActionFor(ip, 1883) as ConnectMqttAction;
+    expect(plain.port, 1883);
+    expect(plain.tls, isFalse);
+    expect((portActionFor(ip, 8883) as ConnectMqttAction).tls, isTrue);
+  });
+
   test('ports without a known program copy ip:port', () {
-    for (final port in [102, 1883, 3389, 20000, 44818, 12345]) {
+    for (final port in [102, 3389, 20000, 44818, 12345]) {
       expect(
         (portActionFor(ip, port) as CopyAddressAction).text,
         '192.168.1.10:$port',

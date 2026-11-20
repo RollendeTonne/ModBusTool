@@ -11,12 +11,14 @@ import 'package:modbus_explorer/core/widgets/snackbar.dart';
 import 'package:modbus_explorer/modules/mqtt/domain/mqtt_config.dart';
 import 'package:modbus_explorer/modules/mqtt/domain/mqtt_message.dart';
 import 'package:modbus_explorer/modules/mqtt/domain/payload_codec.dart';
+import 'package:modbus_explorer/modules/mqtt/domain/publish_template.dart';
 import 'package:modbus_explorer/modules/mqtt/domain/topic_filter.dart';
 import 'package:modbus_explorer/modules/mqtt/presentation/mqtt_connection_controller.dart';
 import 'package:modbus_explorer/modules/mqtt/presentation/mqtt_profile_editor.dart';
 import 'package:modbus_explorer/modules/mqtt/presentation/mqtt_publish_draft.dart';
 import 'package:modbus_explorer/modules/mqtt/presentation/mqtt_texts.dart';
 import 'package:modbus_explorer/modules/mqtt/presentation/mqtt_topic_tree_controller.dart';
+import 'package:modbus_explorer/modules/mqtt/presentation/publish_templates_controller.dart';
 
 const _confirmKey = 'mqtt.confirmOverwrite';
 
@@ -193,6 +195,93 @@ class _MqttPublishPanelState extends ConsumerState<MqttPublishPanel> {
     return ok ?? false;
   }
 
+  PublishTemplate _currentTemplate(String name) => PublishTemplate(
+    id: PublishTemplatesController.newId(),
+    name: name,
+    topic: _topic.text.trim(),
+    payload: _payload.text,
+    format: _format,
+    qos: _qos,
+    retain: _retain,
+    contentType: _contentType.text,
+    responseTopic: _responseTopic.text,
+    correlationData: _correlation.text,
+    messageExpiry: _expiry.text,
+    userProperties: _userProps.text,
+  );
+
+  void _loadTemplate(PublishTemplate t) {
+    setState(() {
+      _topic.text = t.topic;
+      _payload.text = t.payload;
+      _format = t.format;
+      _qos = t.qos;
+      _retain = t.retain;
+      _contentType.text = t.contentType;
+      _responseTopic.text = t.responseTopic;
+      _correlation.text = t.correlationData;
+      _expiry.text = t.messageExpiry;
+      _userProps.text = t.userProperties;
+      _topicError = null;
+      _payloadError = null;
+    });
+    ScaffoldMessenger.of(context)
+        .showReplacing(context.l10n.mqttTemplateLoaded(t.name));
+  }
+
+  Future<void> _saveTemplate() async {
+    final l10n = context.l10n;
+    final messenger = ScaffoldMessenger.of(context);
+    final name = await showDialog<String>(
+      context: context,
+      builder: (_) => _TemplateNameDialog(initial: _topic.text.trim()),
+    );
+    final trimmed = name?.trim() ?? '';
+    if (trimmed.isEmpty) return;
+    await ref
+        .read(publishTemplatesProvider.notifier)
+        .save(_currentTemplate(trimmed));
+    messenger.showReplacing(l10n.mqttTemplateSaved(trimmed));
+  }
+
+  Widget _templates(BuildContext context) {
+    final l10n = context.l10n;
+    final templates = ref.watch(publishTemplatesProvider).value ?? const [];
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(l10n.mqttTemplates, style: Theme.of(context).textTheme.labelLarge),
+        const SizedBox(height: 6),
+        Wrap(
+          spacing: 6,
+          runSpacing: 6,
+          children: [
+            for (final t in templates)
+              InputChip(
+                key: Key('mqtt.template.${t.name}'),
+                label: Text(t.name),
+                tooltip: t.topic,
+                onPressed: () => _loadTemplate(t),
+                onDeleted: () async {
+                  final messenger = ScaffoldMessenger.of(context);
+                  await ref
+                      .read(publishTemplatesProvider.notifier)
+                      .delete(t.id);
+                  messenger.showReplacing(l10n.mqttTemplateDeleted(t.name));
+                },
+              ),
+            ActionChip(
+              key: const Key('mqtt.template.save'),
+              avatar: const Icon(Icons.bookmark_add_outlined, size: 18),
+              label: Text(l10n.mqttTemplateSave),
+              onPressed: _saveTemplate,
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+
   Future<void> _clearRetained() async {
     final l10n = context.l10n;
     final topic = _topic.text.trim();
@@ -255,6 +344,8 @@ class _MqttPublishPanelState extends ConsumerState<MqttPublishPanel> {
             children: [
               Text(l10n.mqttTabPublish, style: theme.textTheme.titleSmall),
               const SizedBox(height: 8),
+              _templates(context),
+              const SizedBox(height: 12),
               TextField(
                 key: const Key('mqtt.pub.topic'),
                 controller: _topic,
@@ -394,6 +485,56 @@ class _MqttPublishPanelState extends ConsumerState<MqttPublishPanel> {
           ),
         ),
       ),
+    );
+  }
+}
+
+/// Owns its text controller: disposing it in the caller right after the
+/// dialog returns would break the dialog's closing animation.
+class _TemplateNameDialog extends StatefulWidget {
+  const new({required this.initial});
+
+  final String initial;
+
+  @override
+  State<_TemplateNameDialog> createState() => _TemplateNameDialogState();
+}
+
+class _TemplateNameDialogState extends State<_TemplateNameDialog> {
+  late final _controller = TextEditingController(text: widget.initial);
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = context.l10n;
+    return AlertDialog(
+      title: Text(l10n.mqttTemplateSave),
+      content: TextField(
+        key: const Key('mqtt.template.name'),
+        controller: _controller,
+        autofocus: true,
+        decoration: InputDecoration(
+          labelText: l10n.mqttTemplateName,
+          helperText: l10n.mqttTemplateReplaceHint,
+        ),
+        onSubmitted: (v) => Navigator.pop(context, v),
+      ),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.pop(context),
+          child: Text(l10n.actionCancel),
+        ),
+        FilledButton(
+          key: const Key('mqtt.template.confirm'),
+          onPressed: () => Navigator.pop(context, _controller.text),
+          child: Text(l10n.actionSave),
+        ),
+      ],
     );
   }
 }

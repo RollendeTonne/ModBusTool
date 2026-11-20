@@ -1966,5 +1966,54 @@
         "type": "int"
       }
     }
-  }
+  },
+  "mqttTemplates": "Templates",
+  "mqttTemplatesEmpty": "No templates yet.",
+  "mqttTemplateSave": "Save as template",
+  "mqttTemplateName": "Template name",
+  "mqttTemplateSaved": "Template “{name}” saved",
+  "@mqttTemplateSaved": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "mqttTemplateLoaded": "Template “{name}” loaded",
+  "@mqttTemplateLoaded": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "mqttTemplateDeleted": "Template “{name}” deleted",
+  "@mqttTemplateDeleted": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "mqttTemplateReplaceHint": "A template with the same name is replaced.",
+  "netPortConnectMqtt": "Create MQTT profile and connect (port {port})",
+  "@netPortConnectMqtt": {
+    "placeholders": {
+      "port": {
+        "type": "int"
+      }
+    }
+  },
+  "netMqttProfileCreated": "MQTT profile “{name}” created",
+  "@netMqttProfileCreated": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "shortcutModule": "Switch module (Modbus ↔ MQTT)",
+  "shortcutMqttFilter": "MQTT: filter topic tree or monitor",
+  "shortcutMqttClear": "MQTT: clear the monitor",
+  "shortcutMqttPublish": "MQTT: publish (in the publish panel)"
 }

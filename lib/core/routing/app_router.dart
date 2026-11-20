@@ -1,7 +1,9 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
+import 'package:modbus_explorer/core/routing/active_module.dart';
 import 'package:modbus_explorer/core/routing/app_destination.dart';
+import 'package:modbus_explorer/core/storage/key_value_store.dart';
 import 'package:modbus_explorer/core/widgets/adaptive_shell.dart';
 import 'package:modbus_explorer/features/settings/presentation/settings_page.dart';
 import 'package:modbus_explorer/modules/modbus/connection/presentation/connection_page.dart';
@@ -54,7 +56,11 @@ GoRouter createAppRouter({String initialLocation = '/modbus/connection'}) {
 }
 
 final appRouterProvider = Provider<GoRouter>((ref) {
-  final router = createAppRouter();
+  // Start in the module used last.
+  final module = ActiveModuleController.stored(ref.read(keyValueStoreProvider));
+  final router = createAppRouter(
+    initialLocation: AppDestination.visibleFor(module).first.path,
+  );
   ref.onDispose(router.dispose);
   return router;
 });

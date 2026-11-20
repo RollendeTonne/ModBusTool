@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod/misc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:modbus_explorer/core/files/file_exchange.dart';
@@ -17,6 +18,9 @@ import 'package:modbus_explorer/modules/modbus/connection/presentation/profiles_
 import 'package:modbus_explorer/modules/modbus/protocol/data/client/connection_factory.dart';
 import 'package:modbus_explorer/modules/modbus/protocol/data/modbus_providers.dart';
 import 'package:modbus_explorer/modules/modbus/simulator/data/simulator_bank.dart';
+import 'package:modbus_explorer/modules/mqtt/data/mqtt_session_factory.dart';
+import 'package:modbus_explorer/modules/mqtt/data/simulated_broker.dart';
+import 'package:modbus_explorer/modules/mqtt/domain/mqtt_config.dart';
 
 import '../../helpers/fake_files.dart';
 import '../../helpers/fake_serial.dart';
@@ -72,12 +76,18 @@ ActiveNetworkDetector fakeDetector() => ActiveNetworkDetector(
 final openedUris = <Uri>[];
 bool openerResult = true;
 
-Future<FakeFileExchange> openNetworkTab(WidgetTester tester) async {
+Future<FakeFileExchange> openNetworkTab(
+  WidgetTester tester, {
+  NetworkScanner? scanner,
+  List<Override> extra = const [],
+}) async {
   final files = FakeFileExchange();
   await tester.pumpModbusApp(
     size: const Size(1600, 1100),
+    reduceMotion: true,
     overrides: [
-      networkScannerProvider.overrideWithValue(fakeScanner()),
+      ...extra,
+      networkScannerProvider.overrideWithValue(scanner ?? fakeScanner()),
       activeNetworkDetectorProvider.overrideWithValue(fakeDetector()),
       // Connecting must not open real sockets in widget tests.
       connectionFactoryProvider.overrideWithValue(
@@ -396,5 +406,68 @@ void main() {
     await runScan(tester);
     expect(find.byKey(const Key('network.routed')), findsOneWidget);
     expect(find.byKey(const Key('network.arpEmpty')), findsNothing);
+  });
+
+  testWidgets('an open MQTT port creates a broker profile and connects', (
+    tester,
+  ) async {
+    final scanner = NetworkScanner(
+      portProbe: (ip, port, _) async => '$ip' == '192.168.50.7' && port == 1883
+          ? PortState.open
+          : PortState.filtered,
+      modbusProbe: (_, _, _) async => null,
+      hostnameLookup: (ip, _) async =>
+          '$ip' == '192.168.50.7' ? 'broker.local' : null,
+      arpReader: () async => const {},
+      localAddresses: () async => const [],
+    );
+    MqttConnectionConfig? connectedTo;
+    await openNetworkTab(
+      tester,
+      scanner: scanner,
+      extra: [
+        // The "broker" is the demo broker; no real socket is opened.
+        mqttSessionFactoryProvider.overrideWith((ref) {
+          final broker = ref.watch(simulatedBrokerProvider);
+          return (config, _) {
+            connectedTo = config;
+            return SimulatedMqttSession(broker, config);
+          };
+        }),
+      ],
+    );
+    await tester.enterText(
+      find.byKey(const Key('network.range')),
+      '192.168.50.0/24',
+    );
+    await runScan(tester);
+    final chip = find.byKey(const Key('network.port.192.168.50.7.1883'));
+    expect(
+      find.descendant(of: chip, matching: find.byIcon(Icons.hub_outlined)),
+      findsOneWidget,
+    );
+    await tester.tap(chip);
+    await tester.pumpAndSettle();
+
+    // Now in the MQTT module, connected to the new profile.
+    expect(find.byKey(const Key('mqtt.connectionPage')), findsOneWidget);
+    expect(find.text('MQTT profile “broker.local” created'), findsOneWidget);
+    expect(connectedTo!.host, '192.168.50.7');
+    expect(connectedTo!.port, 1883);
+    expect(connectedTo!.subscriptions.single.filter, '#');
+    final card = find.byKey(const Key('mqtt.statusCard'));
+    expect(
+      find.descendant(of: card, matching: find.textContaining('Connected')),
+      findsOneWidget,
+    );
+
+    // Back to Modbus lands on the scan again.
+    await tester.tap(find.byKey(const Key('module.modbus')));
+    await tester.pumpAndSettle();
+    expect(find.byKey(const Key('network.view')), findsOneWidget);
+    await tester.tap(find.byKey(const Key('module.mqtt')));
+    await tester.pumpAndSettle();
+    await tester.tap(find.byKey(const Key('mqtt.disconnect')));
+    await tester.pumpAndSettle();
   });
 }

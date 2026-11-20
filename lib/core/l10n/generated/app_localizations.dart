@@ -5125,6 +5125,90 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No entries yet.'**
   String get mqttMonitorEmpty;
+
+  /// No description provided for @mqttTemplates.
+  ///
+  /// In en, this message translates to:
+  /// **'Templates'**
+  String get mqttTemplates;
+
+  /// No description provided for @mqttTemplatesEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No templates yet.'**
+  String get mqttTemplatesEmpty;
+
+  /// No description provided for @mqttTemplateSave.
+  ///
+  /// In en, this message translates to:
+  /// **'Save as template'**
+  String get mqttTemplateSave;
+
+  /// No description provided for @mqttTemplateName.
+  ///
+  /// In en, this message translates to:
+  /// **'Template name'**
+  String get mqttTemplateName;
+
+  /// No description provided for @mqttTemplateSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Template “{name}” saved'**
+  String mqttTemplateSaved(String name);
+
+  /// No description provided for @mqttTemplateLoaded.
+  ///
+  /// In en, this message translates to:
+  /// **'Template “{name}” loaded'**
+  String mqttTemplateLoaded(String name);
+
+  /// No description provided for @mqttTemplateDeleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Template “{name}” deleted'**
+  String mqttTemplateDeleted(String name);
+
+  /// No description provided for @mqttTemplateReplaceHint.
+  ///
+  /// In en, this message translates to:
+  /// **'A template with the same name is replaced.'**
+  String get mqttTemplateReplaceHint;
+
+  /// No description provided for @netPortConnectMqtt.
+  ///
+  /// In en, this message translates to:
+  /// **'Create MQTT profile and connect (port {port})'**
+  String netPortConnectMqtt(int port);
+
+  /// No description provided for @netMqttProfileCreated.
+  ///
+  /// In en, this message translates to:
+  /// **'MQTT profile “{name}” created'**
+  String netMqttProfileCreated(String name);
+
+  /// No description provided for @shortcutModule.
+  ///
+  /// In en, this message translates to:
+  /// **'Switch module (Modbus ↔ MQTT)'**
+  String get shortcutModule;
+
+  /// No description provided for @shortcutMqttFilter.
+  ///
+  /// In en, this message translates to:
+  /// **'MQTT: filter topic tree or monitor'**
+  String get shortcutMqttFilter;
+
+  /// No description provided for @shortcutMqttClear.
+  ///
+  /// In en, this message translates to:
+  /// **'MQTT: clear the monitor'**
+  String get shortcutMqttClear;
+
+  /// No description provided for @shortcutMqttPublish.
+  ///
+  /// In en, this message translates to:
+  /// **'MQTT: publish (in the publish panel)'**
+  String get shortcutMqttPublish;
 }
 
 class _AppLocalizationsDelegate

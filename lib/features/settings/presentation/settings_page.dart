@@ -171,7 +171,7 @@ class SettingsPage extends ConsumerWidget {
 }
 
 /// Keep in sync with `version:` in pubspec.yaml.
-const appVersion = '1.0.0';
+const appVersion = '2.0.0';
 
 class _ShortcutTable extends StatelessWidget {
   const new();
@@ -182,12 +182,16 @@ class _ShortcutTable extends StatelessWidget {
     final theme = Theme.of(context);
     final mod = defaultTargetPlatform == TargetPlatform.macOS ? '⌘' : 'Ctrl';
     final rows = [
+      ('$mod + Shift + M', l10n.shortcutModule),
       ('$mod + 1…5', l10n.shortcutNavigate),
       ('$mod + R / F5', l10n.shortcutRead),
       ('$mod + P', l10n.shortcutPoll),
       ('$mod + Enter', l10n.shortcutSubmit),
       ('Esc', l10n.shortcutClose),
       (l10n.shortcutShiftClick, l10n.shortcutRange),
+      ('$mod + F', l10n.shortcutMqttFilter),
+      ('$mod + L', l10n.shortcutMqttClear),
+      ('$mod + Enter', l10n.shortcutMqttPublish),
     ];
     return Table(
       key: const Key('settings.shortcuts'),

@@ -2,11 +2,14 @@ import 'dart:async';
 
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:modbus_explorer/core/files/file_exchange.dart';
 import 'package:modbus_explorer/core/l10n/l10n.dart';
 import 'package:modbus_explorer/core/platform/platform_capabilities.dart';
 import 'package:modbus_explorer/core/platform/url_opener.dart';
+import 'package:modbus_explorer/core/routing/active_module.dart';
+import 'package:modbus_explorer/core/routing/app_destination.dart';
 import 'package:modbus_explorer/core/theme/app_colors.dart';
 import 'package:modbus_explorer/core/theme/app_theme.dart';
 import 'package:modbus_explorer/core/widgets/error_panel.dart';
@@ -23,6 +26,9 @@ import 'package:modbus_explorer/modules/modbus/connection/domain/connection_prof
 import 'package:modbus_explorer/modules/modbus/connection/presentation/connection_controller.dart';
 import 'package:modbus_explorer/modules/modbus/connection/presentation/modbus_error_text.dart';
 import 'package:modbus_explorer/modules/modbus/connection/presentation/profiles_controller.dart';
+import 'package:modbus_explorer/modules/mqtt/domain/mqtt_config.dart';
+import 'package:modbus_explorer/modules/mqtt/presentation/mqtt_connection_controller.dart';
+import 'package:modbus_explorer/modules/mqtt/presentation/mqtt_profiles_controller.dart';
 import 'package:modbus_explorer/shared/interpretation/domain/matrix_export.dart';
 import 'package:modbus_explorer/shared/interpretation/domain/value_formatter.dart';
 
@@ -122,6 +128,38 @@ class _NetworkScanViewState extends ConsumerState<NetworkScanView> {
     messenger.showReplacing(l10n.netProfileCreated(name));
   }
 
+  /// New MQTT profile for a broker found by the scan, connected and shown
+  /// in the MQTT module.
+  Future<void> _connectMqtt(
+    HostResult host, {
+    required int port,
+    required bool tls,
+  }) async {
+    final l10n = context.l10n;
+    final messenger = ScaffoldMessenger.of(context);
+    final router = GoRouter.of(context);
+    final name = host.hostname ?? '${host.address}';
+    final profile = MqttProfile(
+      id: MqttProfilesController.newId(),
+      name: name,
+      createdAt: DateTime.now(),
+      config: MqttConnectionConfig(
+        host: '${host.address}',
+        port: port,
+        transport: tls ? MqttTransport.tls : MqttTransport.tcp,
+        subscriptions: const [MqttSubscriptionSpec(filter: '#')],
+      ),
+    );
+    await ref.read(mqttProfilesControllerProvider.notifier).save(profile);
+    // Switching back to Modbus returns to the scan.
+    ref.read(activeModuleProvider.notifier)
+      ..visited(AppDestination.modbusTools)
+      ..visited(AppDestination.mqttConnection);
+    router.go(AppDestination.mqttConnection.path);
+    messenger.showReplacing(l10n.netMqttProfileCreated(name));
+    await ref.read(mqttConnectionControllerProvider.notifier).connect(profile);
+  }
+
   Future<void> _onPortTap(HostResult host, PortAction action) async {
     final l10n = context.l10n;
     final messenger = ScaffoldMessenger.of(context);
@@ -133,6 +171,8 @@ class _NetworkScanViewState extends ConsumerState<NetworkScanView> {
     switch (action) {
       case ConnectModbusAction(:final port):
         await _connect(host, port: port);
+      case ConnectMqttAction(:final port, :final tls):
+        await _connectMqtt(host, port: port, tls: tls);
       case CopyAddressAction(:final text):
         await copy(text, l10n.netPortCopied(text));
       case OpenUriAction(:final uri):
@@ -614,6 +654,10 @@ class _PortChip extends StatelessWidget {
     // Port 502 stands out: it is what this tool is about.
     final highlight = isModbus || port == 502;
     final (icon, tooltip) = switch (action) {
+      ConnectMqttAction(:final port) => (
+        Icons.hub_outlined,
+        l10n.netPortConnectMqtt(port),
+      ),
       ConnectModbusAction(:final port) => (
         Icons.link,
         l10n.netPortConnectModbus(port),

@@ -202,7 +202,7 @@ void main() {
       );
       expect(find.text('Start/stop polling'), findsOneWidget);
       await tester.scrollUntilVisible(
-        find.textContaining('ProtocollExplorer 1.0.0'),
+        find.textContaining('ProtocollExplorer 2.0.0'),
         200,
         scrollable: find
             .descendant(
@@ -211,7 +211,7 @@ void main() {
             )
             .first,
       );
-      expect(find.textContaining('ProtocollExplorer 1.0.0'), findsOneWidget);
+      expect(find.textContaining('ProtocollExplorer 2.0.0'), findsOneWidget);
     });
   });
 }

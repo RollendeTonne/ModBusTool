@@ -3,6 +3,8 @@ import 'package:flutter_riverpod/misc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:modbus_explorer/app.dart';
+import 'package:modbus_explorer/core/routing/active_module.dart';
+import 'package:modbus_explorer/core/routing/app_destination.dart';
 import 'package:modbus_explorer/core/routing/app_router.dart';
 import 'package:modbus_explorer/core/storage/document_store.dart';
 import 'package:modbus_explorer/core/storage/key_value_store.dart';
@@ -50,7 +52,13 @@ extension PumpApp on WidgetTester {
             const FakeSerialPortService(),
           ),
           // Fresh router per test; the default provider would be shared state.
-          appRouterProvider.overrideWith((ref) => createAppRouter()),
+          appRouterProvider.overrideWith(
+            (ref) => createAppRouter(
+              initialLocation: AppDestination.visibleFor(
+                ActiveModuleController.stored(store),
+              ).first.path,
+            ),
+          ),
           ...overrides,
         ],
         child: const ModbusExplorerApp(),

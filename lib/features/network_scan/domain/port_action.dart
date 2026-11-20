@@ -21,6 +21,13 @@ final class ConnectModbusAction extends PortAction {
   final int port;
 }
 
+/// Create an MQTT broker profile for the port and connect in this app.
+final class ConnectMqttAction extends PortAction {
+  const new(this.port, {required this.tls});
+  final int port;
+  final bool tls;
+}
+
 /// No suitable program is known: copy `ip:port` to the clipboard.
 final class CopyAddressAction extends PortAction {
   const new(this.text);
@@ -40,6 +47,8 @@ PortAction portActionFor(Ipv4 address, int port, {bool isModbus = false}) {
   if (isModbus || _modbusPorts.contains(port)) {
     return ConnectModbusAction(port);
   }
+  if (port == 1883) return const ConnectMqttAction(1883, tls: false);
+  if (port == 8883) return const ConnectMqttAction(8883, tls: true);
   Uri uri(String scheme, int defaultPort) =>
       Uri(scheme: scheme, host: host, port: port == defaultPort ? null : port);
   if (_httpPorts.contains(port)) {

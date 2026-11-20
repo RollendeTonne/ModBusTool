@@ -836,5 +836,19 @@
   "settingsMqttMonitor": "Monitor-Puffer",
   "settingsMqttMonitorHint": "So viele Nachrichten und Ereignisse hält der Monitor; ältere fallen weg.",
   "mqttMonitorCount": "{shown} von {total} Einträgen · Puffer {capacity}",
-  "mqttMonitorEmpty": "Noch keine Einträge."
+  "mqttMonitorEmpty": "Noch keine Einträge.",
+  "mqttTemplates": "Vorlagen",
+  "mqttTemplatesEmpty": "Noch keine Vorlagen.",
+  "mqttTemplateSave": "Als Vorlage speichern",
+  "mqttTemplateName": "Name der Vorlage",
+  "mqttTemplateSaved": "Vorlage „{name}“ gespeichert",
+  "mqttTemplateLoaded": "Vorlage „{name}“ geladen",
+  "mqttTemplateDeleted": "Vorlage „{name}“ gelöscht",
+  "mqttTemplateReplaceHint": "Eine Vorlage mit gleichem Namen wird ersetzt.",
+  "netPortConnectMqtt": "MQTT-Profil anlegen und verbinden (Port {port})",
+  "netMqttProfileCreated": "MQTT-Profil „{name}“ angelegt",
+  "shortcutModule": "Modul wechseln (Modbus ↔ MQTT)",
+  "shortcutMqttFilter": "MQTT: Topic-Baum bzw. Monitor filtern",
+  "shortcutMqttClear": "MQTT: Monitor leeren",
+  "shortcutMqttPublish": "MQTT: veröffentlichen (im Publish-Bereich)"
 }

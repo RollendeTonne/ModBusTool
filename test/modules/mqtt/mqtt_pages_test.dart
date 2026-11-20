@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:typed_data';
 
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -7,9 +8,14 @@ import 'package:material_ui/material_ui.dart';
 import 'package:modbus_explorer/core/storage/document_store.dart';
 import 'package:modbus_explorer/core/storage/secret_store.dart';
 import 'package:modbus_explorer/modules/mqtt/data/mqtt_profile_repository.dart';
+import 'package:modbus_explorer/modules/mqtt/data/publish_template_repository.dart';
+import 'package:modbus_explorer/modules/mqtt/domain/mqtt_config.dart';
 import 'package:modbus_explorer/modules/mqtt/domain/mqtt_message.dart';
+import 'package:modbus_explorer/modules/mqtt/domain/payload_codec.dart';
+import 'package:modbus_explorer/modules/mqtt/presentation/mqtt_connection_controller.dart';
 import 'package:modbus_explorer/modules/mqtt/presentation/mqtt_message_log_controller.dart';
 import 'package:modbus_explorer/modules/mqtt/presentation/mqtt_profile_editor.dart';
+import 'package:modbus_explorer/modules/mqtt/presentation/mqtt_topic_tree_controller.dart';
 import 'package:modbus_explorer/shared/profiles/profile_store.dart';
 
 import '../../helpers/pump_app.dart';
@@ -614,6 +620,140 @@ void main() {
     await tester.pumpAndSettle();
     await detailTab('history');
     expect(find.text('10 messages stored (max. 10)'), findsOneWidget);
+
+    await tester.tapNavigation('Connection');
+    await tester.tap(find.byKey(const Key('mqtt.disconnect')));
+    await tester.pumpAndSettle();
+  });
+
+  testWidgets('publish templates: save, load, replace, delete, persist', (
+    tester,
+  ) async {
+    await openMqtt(tester);
+    await connectDemo(tester);
+    await tester.tapNavigation('Topics');
+    final topic = find.byKey(const Key('mqtt.pub.topic'));
+    final payload = find.byKey(const Key('mqtt.pub.payload'));
+    String text(Finder f) => tester.widget<TextField>(f).controller!.text;
+
+    await tester.enterText(topic, 'cmd/lamp');
+    await tester.tap(
+      find.descendant(
+        of: find.byKey(const Key('mqtt.pub.format')),
+        matching: find.text('JSON'),
+      ),
+    );
+    await tester.enterText(payload, '{"on": true}');
+    await tester.ensureVisible(find.byKey(const Key('mqtt.pub.retain')));
+    await tester.tap(find.byKey(const Key('mqtt.pub.retain')));
+    await tester.ensureVisible(find.byKey(const Key('mqtt.template.save')));
+    await tester.pumpAndSettle();
+    await tester.tap(find.byKey(const Key('mqtt.template.save')));
+    await tester.pumpAndSettle();
+    await tester.enterText(
+      find.byKey(const Key('mqtt.template.name')),
+      'Lamp on',
+    );
+    await tester.tap(find.byKey(const Key('mqtt.template.confirm')));
+    await tester.pumpAndSettle();
+    expect(find.text('Template “Lamp on” saved'), findsOneWidget);
+
+    // Change the form, then load the template back.
+    await tester.enterText(topic, 'other');
+    await tester.enterText(payload, 'x');
+    await tester.tap(find.byKey(const Key('mqtt.template.Lamp on')));
+    await tester.pumpAndSettle();
+    expect(text(topic), 'cmd/lamp');
+    expect(text(payload), '{"on": true}');
+    expect(
+      tester.widget<Checkbox>(find.byKey(const Key('mqtt.pub.retain'))).value,
+      isTrue,
+    );
+    expect(
+      tester
+          .widget<SegmentedButton<PayloadFormat>>(
+            find.byKey(const Key('mqtt.pub.format')),
+          )
+          .selected,
+      {PayloadFormat.json},
+    );
+
+    // Same name (other case) replaces instead of duplicating.
+    await tester.enterText(payload, '{"on": false}');
+    await tester.tap(find.byKey(const Key('mqtt.template.save')));
+    await tester.pumpAndSettle();
+    await tester.enterText(
+      find.byKey(const Key('mqtt.template.name')),
+      'lamp ON',
+    );
+    await tester.tap(find.byKey(const Key('mqtt.template.confirm')));
+    await tester.pumpAndSettle();
+    final doc = containerOf(
+      tester,
+    ).read(documentStoreProvider) as InMemoryDocumentStore;
+    final stored = jsonDecode(
+      doc.documents[PublishTemplateRepository.documentName]!,
+    ) as Map<String, Object?>;
+    final templates = stored['templates']! as List;
+    expect(templates, hasLength(1));
+    expect((templates.single as Map)['payload'], '{"on": false}');
+
+    // Delete via the chip's ×.
+    final chip = find.byKey(const Key('mqtt.template.lamp ON'));
+    await tester.tap(
+      find.descendant(of: chip, matching: find.byIcon(Icons.clear)),
+    );
+    await tester.pumpAndSettle();
+    expect(chip, findsNothing);
+
+    await tester.tapNavigation('Connection');
+    await tester.tap(find.byKey(const Key('mqtt.disconnect')));
+    await tester.pumpAndSettle();
+  });
+
+  testWidgets('burst of 20 000 messages: tree, monitor and counts keep up', (
+    tester,
+  ) async {
+    await openMqtt(tester);
+    await connectDemo(tester);
+    final container = containerOf(tester);
+    final controller = container.read(
+      mqttConnectionControllerProvider.notifier,
+    );
+    await controller.putSubscription(
+      const MqttSubscriptionSpec(filter: 'load/#'),
+    );
+    await tester.tapNavigation('Topics');
+    final payload = Uint8List.fromList(utf8.encode('{"v": 1}'));
+    final watch = Stopwatch()..start();
+    for (var i = 0; i < 20000; i++) {
+      controller.publish(
+        MqttOutgoingMessage(
+          topic: 'load/device${i % 1000}/value',
+          payload: payload,
+        ),
+      );
+    }
+    watch.stop();
+    // Throttled: one frame after the burst updates everything.
+    await tester.pump(const Duration(milliseconds: 250));
+    await tester.pumpAndSettle();
+    final tree = container.read(mqttTopicTreeControllerProvider);
+    expect(tree.tree.find('load')!.descendantTopics, 1000);
+    expect(tree.tree.find('load')!.totalMessages, 20000);
+    expect(find.byKey(const Key('mqtt.tree.row.load')), findsOneWidget);
+    await tester.tap(find.byKey(const Key('mqtt.tree.toggle.load')));
+    await tester.pumpAndSettle();
+    expect(find.byKey(const Key('mqtt.tree.row.load/device0')), findsOneWidget);
+    // Monitor ring buffer capped at its size.
+    final log = container.read(mqttMessageLogControllerProvider);
+    expect(log.entries.length, log.capacity);
+    expect(log.total, greaterThanOrEqualTo(40000));
+    // Diagnostic output for the test log.
+    // ignore: avoid_print
+    print(
+      '20k publishes + echoes processed in ${watch.elapsedMilliseconds} ms',
+    );
 
     await tester.tapNavigation('Connection');
     await tester.tap(find.byKey(const Key('mqtt.disconnect')));
