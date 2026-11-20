@@ -1,0 +1,89 @@
+# Analyze, test and build the desktop apps that cannot be built on macOS.
+# Artifacts: Actions → run → "Artifacts" (kept 30 days).
+name: Build
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+# A newer push to the same branch cancels the running build.
+concurrency:
+  group: build-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  FLUTTER_VERSION: '3.50.0'
+
+jobs:
+  test:
+    name: Analyze & test
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: stable
+          cache: true
+      - run: flutter pub get
+      - run: flutter analyze
+      - run: flutter test
+
+  windows:
+    name: Windows (x64)
+    runs-on: windows-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: stable
+          cache: true
+      - run: flutter pub get
+      - run: flutter build windows --release
+      # The whole Release folder is the app (exe + DLLs + data).
+      - name: Package
+        shell: pwsh
+        run: >
+          Compress-Archive
+          -Path build\windows\x64\runner\Release\*
+          -DestinationPath ProtocollExplorer-windows-x64.zip
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ProtocollExplorer-windows-x64
+          path: ProtocollExplorer-windows-x64.zip
+          retention-days: 30
+
+  linux:
+    name: Linux (x64)
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - name: System libraries
+        # GTK for the runner, libsecret for flutter_secure_storage (MQTT
+        # passwords); libserialport is compiled from third_party/.
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y clang cmake ninja-build pkg-config \
+            libgtk-3-dev liblzma-dev libsecret-1-dev
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: stable
+          cache: true
+      - run: flutter pub get
+      - run: flutter build linux --release
+      - name: Package
+        run: >
+          tar -czf ProtocollExplorer-linux-x64.tar.gz
+          -C build/linux/x64/release bundle
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ProtocollExplorer-linux-x64
+          path: ProtocollExplorer-linux-x64.tar.gz
+          retention-days: 30

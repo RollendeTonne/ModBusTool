@@ -299,6 +299,15 @@ flutter test
 - Die App ist nicht signiert: auf anderen Macs beim ersten Start
   Rechtsklick → Öffnen. Für eine Verteilung braucht es Developer-ID und Notarisierung.
 
+### Windows und Linux per GitHub Actions
+Flutter baut Windows nur unter Windows und Linux nur unter Linux. Der
+Workflow `.github/workflows/build.yml` prüft bei jedem Push auf `main`
+(und bei Pull Requests, manuell über *Run workflow*) Analyse und Tests und
+baut beide Desktop-Apps. Download: GitHub → *Actions* → Lauf → *Artifacts*
+(`ProtocollExplorer-windows-x64.zip`: ganzen Ordner entpacken, `ProtocollExplorer.exe`
+starten; `ProtocollExplorer-linux-x64.tar.gz`: entpacken, `bundle/protocollexplorer`
+starten, braucht GTK 3 und libsecret). Artefakte bleiben 30 Tage.
+
 ### Windows
 - Visual Studio 2022 mit „Desktopentwicklung mit C++“.
 - `flutter build windows --release` → `build\windows\x64\runner\Release\`.

@@ -4,7 +4,7 @@ project(modbus_explorer LANGUAGES CXX)
 
 # The name of the executable created for the application. Change this to change
 # the on-disk name of your application.
-set(BINARY_NAME "modbus_explorer")
+set(BINARY_NAME "ProtocollExplorer")
 
 # Explicitly opt in to modern CMake behaviors to avoid warnings with recent
 # versions of CMake.
