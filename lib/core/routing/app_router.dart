@@ -9,7 +9,8 @@ import 'package:modbus_explorer/modules/modbus/monitor/presentation/monitor_page
 import 'package:modbus_explorer/modules/modbus/registers/presentation/registers_page.dart';
 import 'package:modbus_explorer/modules/modbus/tools/presentation/tools_page.dart';
 import 'package:modbus_explorer/modules/mqtt/presentation/mqtt_connection_page.dart';
-import 'package:modbus_explorer/modules/mqtt/presentation/mqtt_placeholder_page.dart';
+import 'package:modbus_explorer/modules/mqtt/presentation/mqtt_monitor_page.dart';
+import 'package:modbus_explorer/modules/mqtt/presentation/mqtt_tools_page.dart';
 import 'package:modbus_explorer/modules/mqtt/presentation/mqtt_topics_page.dart';
 
 GoRouter createAppRouter({String initialLocation = '/modbus/connection'}) {
@@ -21,10 +22,7 @@ GoRouter createAppRouter({String initialLocation = '/modbus/connection'}) {
     AppDestination.mqttConnection => const MqttConnectionPage(),
     AppDestination.mqttTopics => const MqttTopicsPage(),
     AppDestination.mqttMonitor => const MqttMonitorPage(),
-    AppDestination.mqttTools => MqttPlaceholderPage(
-      icon: destination.icon,
-      milestone: 'M13',
-    ),
+    AppDestination.mqttTools => const MqttToolsPage(),
     AppDestination.settings => const SettingsPage(),
   };
 

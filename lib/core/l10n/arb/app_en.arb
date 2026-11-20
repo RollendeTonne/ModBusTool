@@ -1281,14 +1281,6 @@
       }
     }
   },
-  "mqttComingSoonMilestone": "This area follows in {milestone}.",
-  "@mqttComingSoonMilestone": {
-    "placeholders": {
-      "milestone": {
-        "type": "String"
-      }
-    }
-  },
   "mqttTabTree": "Tree",
   "mqttTabDetails": "Details",
   "mqttTreeSearch": "Filter topics",
@@ -1700,6 +1692,277 @@
   "@settingsMegabytes": {
     "placeholders": {
       "value": {
+        "type": "int"
+      }
+    }
+  },
+  "monitorTopicFilter": "Topic filter",
+  "monitorPayloadFilter": "Payload contains",
+  "monitorPayloadFilterHint": "Text or hex, e.g. 0A 1B",
+  "monitorRx": "Received",
+  "monitorTx": "Sent",
+  "monitorEvents": "Events",
+  "monitorOnlyRetained": "Only retained",
+  "monitorOnlyErrors": "Only errors",
+  "monitorNoMatch": "No entry matches the filter.",
+  "monitorBufferSize": "Buffer size",
+  "monitorExport": "Export",
+  "monitorExportText": "As text",
+  "monitorExportCsv": "As CSV",
+  "monitorExportJsonl": "As JSON Lines (recording)",
+  "monitorExportEmpty": "Nothing to export.",
+  "monitorMessageTitle": "{direction} · {topic}",
+  "@monitorMessageTitle": {
+    "placeholders": {
+      "direction": {
+        "type": "String"
+      },
+      "topic": {
+        "type": "String"
+      }
+    }
+  },
+  "eventConnecting": "Connecting to {detail}",
+  "@eventConnecting": {
+    "placeholders": {
+      "detail": {
+        "type": "String"
+      }
+    }
+  },
+  "eventConnected": "Connected ({detail})",
+  "@eventConnected": {
+    "placeholders": {
+      "detail": {
+        "type": "String"
+      }
+    }
+  },
+  "eventConnectFailed": "Connection failed: {detail}",
+  "@eventConnectFailed": {
+    "placeholders": {
+      "detail": {
+        "type": "String"
+      }
+    }
+  },
+  "eventSubscribe": "Subscribed: {detail}",
+  "@eventSubscribe": {
+    "placeholders": {
+      "detail": {
+        "type": "String"
+      }
+    }
+  },
+  "eventUnsubscribe": "Unsubscribed: {detail}",
+  "@eventUnsubscribe": {
+    "placeholders": {
+      "detail": {
+        "type": "String"
+      }
+    }
+  },
+  "eventDisconnect": "Disconnected",
+  "eventConnectionLost": "Connection lost: {detail}",
+  "@eventConnectionLost": {
+    "placeholders": {
+      "detail": {
+        "type": "String"
+      }
+    }
+  },
+  "eventReconnect": "Reconnect scheduled: {detail}",
+  "@eventReconnect": {
+    "placeholders": {
+      "detail": {
+        "type": "String"
+      }
+    }
+  },
+  "eventPublishFailed": "Publish failed: {detail}",
+  "@eventPublishFailed": {
+    "placeholders": {
+      "detail": {
+        "type": "String"
+      }
+    }
+  },
+  "eventReplayStarted": "Replay started: {detail}",
+  "@eventReplayStarted": {
+    "placeholders": {
+      "detail": {
+        "type": "String"
+      }
+    }
+  },
+  "eventReplayFinished": "Replay finished: {detail}",
+  "@eventReplayFinished": {
+    "placeholders": {
+      "detail": {
+        "type": "String"
+      }
+    }
+  },
+  "replayTitle": "Replay a recording",
+  "replayLoad": "Load file (JSON Lines)",
+  "replayLoaded": "{name}: {count} messages, {topics} topics, duration {duration}",
+  "@replayLoaded": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "count": {
+        "type": "int"
+      },
+      "topics": {
+        "type": "int"
+      },
+      "duration": {
+        "type": "String"
+      }
+    }
+  },
+  "replaySkipped": "{count} lines skipped (events or unreadable)",
+  "replayNoMessages": "The file contains no messages.",
+  "replaySpeed": "Speed",
+  "replayNoPauses": "no pauses",
+  "replayCapPauses": "Shorten pauses over 10 s to 10 s",
+  "replayPrefix": "Topic prefix",
+  "replayPrefixHint": "added to every topic so live data is not overwritten",
+  "replayKeepRetain": "Keep retain flags",
+  "replayKeepRetainHint": "Off: no retained values are left behind by the replay",
+  "replayOnlyReceived": "Only received messages",
+  "replayStart": "Play",
+  "replayConfirm": "{count} messages will be published to the connected broker “{broker}”. Continue?",
+  "@replayConfirm": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "broker": {
+        "type": "String"
+      }
+    }
+  },
+  "replayRunning": "Replay: {done} of {total}",
+  "@replayRunning": {
+    "placeholders": {
+      "done": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "replayStop": "Stop",
+  "replayNeedsConnection": "Connect to a broker to replay.",
+  "toolsBrokerInfo": "Broker info",
+  "toolsTopicTester": "Topic tester",
+  "toolsPayloadConverter": "Payload converter",
+  "brokerInfoEmpty": "No $SYS data. Not every broker publishes it, and it only arrives with a subscription to $SYS/#.",
+  "brokerInfoSubscribe": "Subscribe to $SYS/#",
+  "brokerVersion": "Version",
+  "brokerUptime": "Uptime",
+  "brokerClientsConnected": "Clients connected",
+  "brokerClientsTotal": "Clients total",
+  "brokerClientsMaximum": "Clients maximum",
+  "brokerSubscriptions": "Subscriptions",
+  "brokerRetained": "Retained messages",
+  "brokerMessagesReceived": "Messages received",
+  "brokerMessagesSent": "Messages sent",
+  "brokerLoadReceived": "Received / min (avg 1 min)",
+  "brokerLoadSent": "Sent / min (avg 1 min)",
+  "brokerBytesReceived": "Bytes received",
+  "brokerBytesSent": "Bytes sent",
+  "brokerHeap": "Memory (heap)",
+  "testerFilter": "Topic filter",
+  "testerTopics": "Topics (one per line)",
+  "testerMatch": "matches",
+  "testerMatchMulti": "matches (# from level {level} covers the rest)",
+  "@testerMatchMulti": {
+    "placeholders": {
+      "level": {
+        "type": "int"
+      }
+    }
+  },
+  "testerLevelMismatch": "no match: level {level} differs",
+  "@testerLevelMismatch": {
+    "placeholders": {
+      "level": {
+        "type": "int"
+      }
+    }
+  },
+  "testerTooShort": "no match: topic ends before filter level {level}",
+  "@testerTooShort": {
+    "placeholders": {
+      "level": {
+        "type": "int"
+      }
+    }
+  },
+  "testerTooLong": "no match: topic has more levels than the filter",
+  "testerDollar": "no match: topics starting with $ are never matched by a leading + or #",
+  "testerInvalidFilter": "Invalid filter: {error}",
+  "@testerInvalidFilter": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "testerInvalidTopic": "Invalid topic: {error}",
+  "@testerInvalidTopic": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "testerHelp": "+ stands for exactly one level, # (only at the end) for any number, including the parent level.",
+  "converterInput": "Input",
+  "converterDecimal": "Decimal",
+  "converterCArray": "C array",
+  "converterInvalidUtf8": "not valid UTF-8",
+  "converterLength": "Length",
+  "converterInvalid": "Invalid input: {error}",
+  "@converterInvalid": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "converterCopied": "{label} copied",
+  "@converterCopied": {
+    "placeholders": {
+      "label": {
+        "type": "String"
+      }
+    }
+  },
+  "settingsMqttMonitor": "Monitor buffer",
+  "settingsMqttMonitorHint": "The monitor keeps this many messages and events; older ones are dropped.",
+  "@replaySkipped": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "mqttMonitorCount": "{shown} of {total} entries · buffer {capacity}",
+  "mqttMonitorEmpty": "No entries yet.",
+  "@mqttMonitorCount": {
+    "placeholders": {
+      "shown": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      },
+      "capacity": {
         "type": "int"
       }
     }

@@ -71,3 +71,75 @@ bool topicMatches(String filter, String topic) {
   }
   return f.length == t.length;
 }
+
+/// Why [topicMatches] decided as it did, for the topic tester.
+enum MatchReason {
+  /// Every level matched (wildcards included).
+  match,
+
+  /// `#` at the end matched the rest (or the parent level itself).
+  matchMultiLevel,
+
+  /// Level [MatchExplanation.level] differs.
+  levelMismatch,
+
+  /// The topic ends before the filter does.
+  topicTooShort,
+
+  /// The topic has more levels than the filter.
+  topicTooLong,
+
+  /// A leading wildcard never matches topics starting with `$`.
+  dollarTopic,
+  invalidFilter,
+  invalidTopic,
+}
+
+final class MatchExplanation {
+  const new(this.reason, {this.level, this.filterError, this.topicError});
+
+  final MatchReason reason;
+
+  /// 0-based level where the decision fell.
+  final int? level;
+  final TopicError? filterError;
+  final TopicError? topicError;
+
+  bool get matches =>
+      reason == MatchReason.match || reason == MatchReason.matchMultiLevel;
+}
+
+/// [topicMatches] with the reason, after validating both inputs.
+MatchExplanation explainMatch(String filter, String topic) {
+  final filterError = validateTopicFilter(filter);
+  if (filterError != null) {
+    return MatchExplanation(
+      MatchReason.invalidFilter,
+      filterError: filterError,
+    );
+  }
+  final topicError = validateTopicName(topic);
+  if (topicError != null) {
+    return MatchExplanation(MatchReason.invalidTopic, topicError: topicError);
+  }
+  if (topic.startsWith(r'$') &&
+      (filter.startsWith('+') || filter.startsWith('#'))) {
+    return const MatchExplanation(MatchReason.dollarTopic, level: 0);
+  }
+  final f = filter.split('/');
+  final t = topic.split('/');
+  for (var i = 0; i < f.length; i++) {
+    if (f[i] == '#') {
+      return MatchExplanation(MatchReason.matchMultiLevel, level: i);
+    }
+    if (i >= t.length) {
+      return MatchExplanation(MatchReason.topicTooShort, level: i);
+    }
+    if (f[i] != '+' && f[i] != t[i]) {
+      return MatchExplanation(MatchReason.levelMismatch, level: i);
+    }
+  }
+  return f.length == t.length
+      ? const MatchExplanation(MatchReason.match)
+      : MatchExplanation(MatchReason.topicTooLong, level: f.length);
+}

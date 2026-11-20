@@ -5,13 +5,27 @@ import 'package:modbus_explorer/modules/mqtt/domain/chart_field.dart';
 
 @immutable
 final class MqttHistorySettings {
-  const new({this.perTopic = 100, this.budgetMb = 64});
+  const new({this.perTopic = 100, this.budgetMb = 64, this.monitorSize = 5000});
 
   static const perTopicChoices = [10, 100, 1000, 10000];
   static const budgetChoices = [16, 64, 256];
+  static const monitorChoices = [1000, 5000, 20000, 100000];
 
   final int perTopic;
   final int budgetMb;
+
+  /// Entries kept in the monitor (ring buffer).
+  final int monitorSize;
+
+  MqttHistorySettings copyWith({
+    int? perTopic,
+    int? budgetMb,
+    int? monitorSize,
+  }) => MqttHistorySettings(
+    perTopic: perTopic ?? this.perTopic,
+    budgetMb: budgetMb ?? this.budgetMb,
+    monitorSize: monitorSize ?? this.monitorSize,
+  );
 
   int get budgetBytes => budgetMb << 20;
 }
@@ -21,6 +35,7 @@ final class MqttHistorySettingsController
     extends Notifier<MqttHistorySettings> {
   static const _perTopicKey = 'mqtt.historyPerTopic';
   static const _budgetKey = 'mqtt.historyBudgetMb';
+  static const _monitorKey = 'mqtt.monitorSize';
 
   KeyValueStore get _store => ref.read(keyValueStoreProvider);
 
@@ -34,16 +49,22 @@ final class MqttHistorySettingsController
     return MqttHistorySettings(
       perTopic: read(_perTopicKey, MqttHistorySettings.perTopicChoices, 100),
       budgetMb: read(_budgetKey, MqttHistorySettings.budgetChoices, 64),
+      monitorSize: read(_monitorKey, MqttHistorySettings.monitorChoices, 5000),
     );
   }
 
   Future<void> setPerTopic(int value) async {
-    state = MqttHistorySettings(perTopic: value, budgetMb: state.budgetMb);
+    state = state.copyWith(perTopic: value);
     await _store.setString(_perTopicKey, '$value');
   }
 
+  Future<void> setMonitorSize(int value) async {
+    state = state.copyWith(monitorSize: value);
+    await _store.setString(_monitorKey, '$value');
+  }
+
   Future<void> setBudgetMb(int value) async {
-    state = MqttHistorySettings(perTopic: state.perTopic, budgetMb: value);
+    state = state.copyWith(budgetMb: value);
     await _store.setString(_budgetKey, '$value');
   }
 }

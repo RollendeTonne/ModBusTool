@@ -14,6 +14,7 @@ import 'package:modbus_explorer/modules/mqtt/data/mqtt_session_factory.dart';
 import 'package:modbus_explorer/modules/mqtt/data/simulated_broker.dart';
 import 'package:modbus_explorer/modules/mqtt/domain/mqtt_config.dart';
 import 'package:modbus_explorer/modules/mqtt/domain/mqtt_errors.dart';
+import 'package:modbus_explorer/modules/mqtt/domain/mqtt_log.dart';
 import 'package:modbus_explorer/modules/mqtt/domain/mqtt_message.dart';
 import 'package:modbus_explorer/modules/mqtt/presentation/mqtt_connection_controller.dart';
 import 'package:modbus_explorer/modules/mqtt/presentation/mqtt_message_log_controller.dart';
@@ -102,6 +103,23 @@ void main() {
     expect(state.status, MqttConnectionStatus.error);
     expect(state.failure!.kind, MqttFailureKind.refused);
     expect(state.failure!.code, 0x86);
+  });
+
+  test('a refused connection is logged as an error event', () async {
+    final container = createTestContainer();
+    addTearDown(container.dispose);
+    container.listen(mqttMessageLogControllerProvider, (_, _) {});
+    await container
+        .read(mqttConnectionControllerProvider.notifier)
+        .connect(simProfile(username: 'denied'));
+    await Future<void>.delayed(MqttMessageLogController.flushInterval * 2);
+    final entries = container.read(mqttMessageLogControllerProvider).entries;
+    final errors = entries.where(
+      const MonitorFilter(onlyErrors: true).matcher(),
+    );
+    expect(errors.single, isA<MqttLogEvent>());
+    expect((errors.single as MqttLogEvent).kind, MqttEventKind.connectFailed);
+    expect((errors.single as MqttLogEvent).detail, contains('code 134'));
   });
 
   test('password comes from the secret store', () async {

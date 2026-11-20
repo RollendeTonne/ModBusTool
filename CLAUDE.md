@@ -1,6 +1,6 @@
 # ProtocollExplorer (package `modbus_explorer`)
 
-Flutter debugging tool with two modules: Modbus (done) and MQTT (M9–M12 done, M13–M14 open).
+Flutter debugging tool with two modules: Modbus (done) and MQTT (M9–M13 done, M14 polish open).
 Read DECISIONS.md before changing behaviour; add an entry for every
 non-obvious decision (German, table row `| Dnnn | decision | reason |`).
 
@@ -17,11 +17,14 @@ non-obvious decision (German, table row `| Dnnn | decision | reason |`).
 - Riverpod 3 without codegen (`Notifier`, `AsyncNotifier`, `Provider`);
   check `ref.mounted` after awaits.
 - Structure: `core/` infra · `shared/` cross-module logic (interpretation
-  engine incl. `InterpretationMatrix.fromBytes`, profile store) · `features/` app-wide (settings, network scan) ·
+  engine incl. `InterpretationMatrix.fromBytes` and `parseHexBytes`,
+  profile store) · `features/` app-wide (settings, network scan) ·
   `modules/modbus|mqtt/<feature>/{domain,data,presentation}`. `domain/` is
   pure Dart.
 - Strings in `lib/core/l10n/arb/app_{de,en}.arb` (edit JSON, then
-  `flutter gen-l10n`); placeholders described in the EN file.
+  `flutter gen-l10n`); placeholders described in the EN file. Check that a
+  new key does not exist yet (M13 accidentally overwrote `monitorCount`);
+  prefix module strings (`mqtt…`).
 - Widget tests: never touch real network/processes – inject (e.g.
   `connectionFactoryProvider` with `tcpConnect`, `urlOpenerProvider`,
   `activeNetworkDetectorProvider`, `secretStoreProvider` /

@@ -3758,12 +3758,6 @@ abstract class AppLocalizations {
   /// **'{name} (copy)'**
   String mqttProfileCopy(String name);
 
-  /// No description provided for @mqttComingSoonMilestone.
-  ///
-  /// In en, this message translates to:
-  /// **'This area follows in {milestone}.'**
-  String mqttComingSoonMilestone(String milestone);
-
   /// No description provided for @mqttTabTree.
   ///
   /// In en, this message translates to:
@@ -4615,6 +4609,522 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{value} MB'**
   String settingsMegabytes(int value);
+
+  /// No description provided for @monitorTopicFilter.
+  ///
+  /// In en, this message translates to:
+  /// **'Topic filter'**
+  String get monitorTopicFilter;
+
+  /// No description provided for @monitorPayloadFilter.
+  ///
+  /// In en, this message translates to:
+  /// **'Payload contains'**
+  String get monitorPayloadFilter;
+
+  /// No description provided for @monitorPayloadFilterHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Text or hex, e.g. 0A 1B'**
+  String get monitorPayloadFilterHint;
+
+  /// No description provided for @monitorRx.
+  ///
+  /// In en, this message translates to:
+  /// **'Received'**
+  String get monitorRx;
+
+  /// No description provided for @monitorTx.
+  ///
+  /// In en, this message translates to:
+  /// **'Sent'**
+  String get monitorTx;
+
+  /// No description provided for @monitorEvents.
+  ///
+  /// In en, this message translates to:
+  /// **'Events'**
+  String get monitorEvents;
+
+  /// No description provided for @monitorOnlyRetained.
+  ///
+  /// In en, this message translates to:
+  /// **'Only retained'**
+  String get monitorOnlyRetained;
+
+  /// No description provided for @monitorOnlyErrors.
+  ///
+  /// In en, this message translates to:
+  /// **'Only errors'**
+  String get monitorOnlyErrors;
+
+  /// No description provided for @monitorNoMatch.
+  ///
+  /// In en, this message translates to:
+  /// **'No entry matches the filter.'**
+  String get monitorNoMatch;
+
+  /// No description provided for @monitorBufferSize.
+  ///
+  /// In en, this message translates to:
+  /// **'Buffer size'**
+  String get monitorBufferSize;
+
+  /// No description provided for @monitorExport.
+  ///
+  /// In en, this message translates to:
+  /// **'Export'**
+  String get monitorExport;
+
+  /// No description provided for @monitorExportText.
+  ///
+  /// In en, this message translates to:
+  /// **'As text'**
+  String get monitorExportText;
+
+  /// No description provided for @monitorExportCsv.
+  ///
+  /// In en, this message translates to:
+  /// **'As CSV'**
+  String get monitorExportCsv;
+
+  /// No description provided for @monitorExportJsonl.
+  ///
+  /// In en, this message translates to:
+  /// **'As JSON Lines (recording)'**
+  String get monitorExportJsonl;
+
+  /// No description provided for @monitorExportEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing to export.'**
+  String get monitorExportEmpty;
+
+  /// No description provided for @monitorMessageTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'{direction} · {topic}'**
+  String monitorMessageTitle(String direction, String topic);
+
+  /// No description provided for @eventConnecting.
+  ///
+  /// In en, this message translates to:
+  /// **'Connecting to {detail}'**
+  String eventConnecting(String detail);
+
+  /// No description provided for @eventConnected.
+  ///
+  /// In en, this message translates to:
+  /// **'Connected ({detail})'**
+  String eventConnected(String detail);
+
+  /// No description provided for @eventConnectFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Connection failed: {detail}'**
+  String eventConnectFailed(String detail);
+
+  /// No description provided for @eventSubscribe.
+  ///
+  /// In en, this message translates to:
+  /// **'Subscribed: {detail}'**
+  String eventSubscribe(String detail);
+
+  /// No description provided for @eventUnsubscribe.
+  ///
+  /// In en, this message translates to:
+  /// **'Unsubscribed: {detail}'**
+  String eventUnsubscribe(String detail);
+
+  /// No description provided for @eventDisconnect.
+  ///
+  /// In en, this message translates to:
+  /// **'Disconnected'**
+  String get eventDisconnect;
+
+  /// No description provided for @eventConnectionLost.
+  ///
+  /// In en, this message translates to:
+  /// **'Connection lost: {detail}'**
+  String eventConnectionLost(String detail);
+
+  /// No description provided for @eventReconnect.
+  ///
+  /// In en, this message translates to:
+  /// **'Reconnect scheduled: {detail}'**
+  String eventReconnect(String detail);
+
+  /// No description provided for @eventPublishFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Publish failed: {detail}'**
+  String eventPublishFailed(String detail);
+
+  /// No description provided for @eventReplayStarted.
+  ///
+  /// In en, this message translates to:
+  /// **'Replay started: {detail}'**
+  String eventReplayStarted(String detail);
+
+  /// No description provided for @eventReplayFinished.
+  ///
+  /// In en, this message translates to:
+  /// **'Replay finished: {detail}'**
+  String eventReplayFinished(String detail);
+
+  /// No description provided for @replayTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Replay a recording'**
+  String get replayTitle;
+
+  /// No description provided for @replayLoad.
+  ///
+  /// In en, this message translates to:
+  /// **'Load file (JSON Lines)'**
+  String get replayLoad;
+
+  /// No description provided for @replayLoaded.
+  ///
+  /// In en, this message translates to:
+  /// **'{name}: {count} messages, {topics} topics, duration {duration}'**
+  String replayLoaded(String name, int count, int topics, String duration);
+
+  /// No description provided for @replaySkipped.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} lines skipped (events or unreadable)'**
+  String replaySkipped(int count);
+
+  /// No description provided for @replayNoMessages.
+  ///
+  /// In en, this message translates to:
+  /// **'The file contains no messages.'**
+  String get replayNoMessages;
+
+  /// No description provided for @replaySpeed.
+  ///
+  /// In en, this message translates to:
+  /// **'Speed'**
+  String get replaySpeed;
+
+  /// No description provided for @replayNoPauses.
+  ///
+  /// In en, this message translates to:
+  /// **'no pauses'**
+  String get replayNoPauses;
+
+  /// No description provided for @replayCapPauses.
+  ///
+  /// In en, this message translates to:
+  /// **'Shorten pauses over 10 s to 10 s'**
+  String get replayCapPauses;
+
+  /// No description provided for @replayPrefix.
+  ///
+  /// In en, this message translates to:
+  /// **'Topic prefix'**
+  String get replayPrefix;
+
+  /// No description provided for @replayPrefixHint.
+  ///
+  /// In en, this message translates to:
+  /// **'added to every topic so live data is not overwritten'**
+  String get replayPrefixHint;
+
+  /// No description provided for @replayKeepRetain.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep retain flags'**
+  String get replayKeepRetain;
+
+  /// No description provided for @replayKeepRetainHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Off: no retained values are left behind by the replay'**
+  String get replayKeepRetainHint;
+
+  /// No description provided for @replayOnlyReceived.
+  ///
+  /// In en, this message translates to:
+  /// **'Only received messages'**
+  String get replayOnlyReceived;
+
+  /// No description provided for @replayStart.
+  ///
+  /// In en, this message translates to:
+  /// **'Play'**
+  String get replayStart;
+
+  /// No description provided for @replayConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} messages will be published to the connected broker “{broker}”. Continue?'**
+  String replayConfirm(int count, String broker);
+
+  /// No description provided for @replayRunning.
+  ///
+  /// In en, this message translates to:
+  /// **'Replay: {done} of {total}'**
+  String replayRunning(int done, int total);
+
+  /// No description provided for @replayStop.
+  ///
+  /// In en, this message translates to:
+  /// **'Stop'**
+  String get replayStop;
+
+  /// No description provided for @replayNeedsConnection.
+  ///
+  /// In en, this message translates to:
+  /// **'Connect to a broker to replay.'**
+  String get replayNeedsConnection;
+
+  /// No description provided for @toolsBrokerInfo.
+  ///
+  /// In en, this message translates to:
+  /// **'Broker info'**
+  String get toolsBrokerInfo;
+
+  /// No description provided for @toolsTopicTester.
+  ///
+  /// In en, this message translates to:
+  /// **'Topic tester'**
+  String get toolsTopicTester;
+
+  /// No description provided for @toolsPayloadConverter.
+  ///
+  /// In en, this message translates to:
+  /// **'Payload converter'**
+  String get toolsPayloadConverter;
+
+  /// No description provided for @brokerInfoEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No \$SYS data. Not every broker publishes it, and it only arrives with a subscription to \$SYS/#.'**
+  String get brokerInfoEmpty;
+
+  /// No description provided for @brokerInfoSubscribe.
+  ///
+  /// In en, this message translates to:
+  /// **'Subscribe to \$SYS/#'**
+  String get brokerInfoSubscribe;
+
+  /// No description provided for @brokerVersion.
+  ///
+  /// In en, this message translates to:
+  /// **'Version'**
+  String get brokerVersion;
+
+  /// No description provided for @brokerUptime.
+  ///
+  /// In en, this message translates to:
+  /// **'Uptime'**
+  String get brokerUptime;
+
+  /// No description provided for @brokerClientsConnected.
+  ///
+  /// In en, this message translates to:
+  /// **'Clients connected'**
+  String get brokerClientsConnected;
+
+  /// No description provided for @brokerClientsTotal.
+  ///
+  /// In en, this message translates to:
+  /// **'Clients total'**
+  String get brokerClientsTotal;
+
+  /// No description provided for @brokerClientsMaximum.
+  ///
+  /// In en, this message translates to:
+  /// **'Clients maximum'**
+  String get brokerClientsMaximum;
+
+  /// No description provided for @brokerSubscriptions.
+  ///
+  /// In en, this message translates to:
+  /// **'Subscriptions'**
+  String get brokerSubscriptions;
+
+  /// No description provided for @brokerRetained.
+  ///
+  /// In en, this message translates to:
+  /// **'Retained messages'**
+  String get brokerRetained;
+
+  /// No description provided for @brokerMessagesReceived.
+  ///
+  /// In en, this message translates to:
+  /// **'Messages received'**
+  String get brokerMessagesReceived;
+
+  /// No description provided for @brokerMessagesSent.
+  ///
+  /// In en, this message translates to:
+  /// **'Messages sent'**
+  String get brokerMessagesSent;
+
+  /// No description provided for @brokerLoadReceived.
+  ///
+  /// In en, this message translates to:
+  /// **'Received / min (avg 1 min)'**
+  String get brokerLoadReceived;
+
+  /// No description provided for @brokerLoadSent.
+  ///
+  /// In en, this message translates to:
+  /// **'Sent / min (avg 1 min)'**
+  String get brokerLoadSent;
+
+  /// No description provided for @brokerBytesReceived.
+  ///
+  /// In en, this message translates to:
+  /// **'Bytes received'**
+  String get brokerBytesReceived;
+
+  /// No description provided for @brokerBytesSent.
+  ///
+  /// In en, this message translates to:
+  /// **'Bytes sent'**
+  String get brokerBytesSent;
+
+  /// No description provided for @brokerHeap.
+  ///
+  /// In en, this message translates to:
+  /// **'Memory (heap)'**
+  String get brokerHeap;
+
+  /// No description provided for @testerFilter.
+  ///
+  /// In en, this message translates to:
+  /// **'Topic filter'**
+  String get testerFilter;
+
+  /// No description provided for @testerTopics.
+  ///
+  /// In en, this message translates to:
+  /// **'Topics (one per line)'**
+  String get testerTopics;
+
+  /// No description provided for @testerMatch.
+  ///
+  /// In en, this message translates to:
+  /// **'matches'**
+  String get testerMatch;
+
+  /// No description provided for @testerMatchMulti.
+  ///
+  /// In en, this message translates to:
+  /// **'matches (# from level {level} covers the rest)'**
+  String testerMatchMulti(int level);
+
+  /// No description provided for @testerLevelMismatch.
+  ///
+  /// In en, this message translates to:
+  /// **'no match: level {level} differs'**
+  String testerLevelMismatch(int level);
+
+  /// No description provided for @testerTooShort.
+  ///
+  /// In en, this message translates to:
+  /// **'no match: topic ends before filter level {level}'**
+  String testerTooShort(int level);
+
+  /// No description provided for @testerTooLong.
+  ///
+  /// In en, this message translates to:
+  /// **'no match: topic has more levels than the filter'**
+  String get testerTooLong;
+
+  /// No description provided for @testerDollar.
+  ///
+  /// In en, this message translates to:
+  /// **'no match: topics starting with \$ are never matched by a leading + or #'**
+  String get testerDollar;
+
+  /// No description provided for @testerInvalidFilter.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid filter: {error}'**
+  String testerInvalidFilter(String error);
+
+  /// No description provided for @testerInvalidTopic.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid topic: {error}'**
+  String testerInvalidTopic(String error);
+
+  /// No description provided for @testerHelp.
+  ///
+  /// In en, this message translates to:
+  /// **'+ stands for exactly one level, # (only at the end) for any number, including the parent level.'**
+  String get testerHelp;
+
+  /// No description provided for @converterInput.
+  ///
+  /// In en, this message translates to:
+  /// **'Input'**
+  String get converterInput;
+
+  /// No description provided for @converterDecimal.
+  ///
+  /// In en, this message translates to:
+  /// **'Decimal'**
+  String get converterDecimal;
+
+  /// No description provided for @converterCArray.
+  ///
+  /// In en, this message translates to:
+  /// **'C array'**
+  String get converterCArray;
+
+  /// No description provided for @converterInvalidUtf8.
+  ///
+  /// In en, this message translates to:
+  /// **'not valid UTF-8'**
+  String get converterInvalidUtf8;
+
+  /// No description provided for @converterLength.
+  ///
+  /// In en, this message translates to:
+  /// **'Length'**
+  String get converterLength;
+
+  /// No description provided for @converterInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid input: {error}'**
+  String converterInvalid(String error);
+
+  /// No description provided for @converterCopied.
+  ///
+  /// In en, this message translates to:
+  /// **'{label} copied'**
+  String converterCopied(String label);
+
+  /// No description provided for @settingsMqttMonitor.
+  ///
+  /// In en, this message translates to:
+  /// **'Monitor buffer'**
+  String get settingsMqttMonitor;
+
+  /// No description provided for @settingsMqttMonitorHint.
+  ///
+  /// In en, this message translates to:
+  /// **'The monitor keeps this many messages and events; older ones are dropped.'**
+  String get settingsMqttMonitorHint;
+
+  /// No description provided for @mqttMonitorCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{shown} of {total} entries · buffer {capacity}'**
+  String mqttMonitorCount(int shown, int total, int capacity);
+
+  /// No description provided for @mqttMonitorEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No entries yet.'**
+  String get mqttMonitorEmpty;
 }
 
 class _AppLocalizationsDelegate

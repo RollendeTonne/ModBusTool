@@ -225,6 +225,23 @@ void main() {
         await tester.pumpAndSettle();
       }
       await go('Monitor');
+      // A message opened from the monitor, then every tools tab.
+      await tester.tap(find.byKey(const Key('mqtt.monitor.row.0')));
+      await tester.pumpAndSettle();
+      final sheet = find.byKey(const Key('mqtt.monitor.sheet'));
+      if (sheet.evaluate().isNotEmpty) {
+        Navigator.of(tester.element(sheet)).pop();
+        await tester.pumpAndSettle();
+      }
+      await tester.tap(find.byKey(const Key('mqtt.monitor.replay')));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Abbrechen'));
+      await tester.pumpAndSettle();
+      await go('Werkzeuge');
+      for (final tab in ['Topic-Tester', 'Payload-Konverter', 'Broker-Info']) {
+        await tester.tap(find.widgetWithText(Tab, tab));
+        await tester.pumpAndSettle();
+      }
       await go('Verbindung');
       await tester.tap(find.byKey(const Key('mqtt.disconnect')));
       await tester.pumpAndSettle();

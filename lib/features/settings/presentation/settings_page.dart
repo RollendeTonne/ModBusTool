@@ -142,6 +142,21 @@ class SettingsPage extends ConsumerWidget {
                     .setBudgetMb(s.single),
               ),
             ),
+            _LabeledControl(
+              label: l10n.settingsMqttMonitor,
+              hint: l10n.settingsMqttMonitorHint,
+              child: SegmentedButton<int>(
+                key: const Key('settings.mqttMonitor'),
+                segments: [
+                  for (final n in MqttHistorySettings.monitorChoices)
+                    ButtonSegment(value: n, label: Text('$n')),
+                ],
+                selected: {history.monitorSize},
+                onSelectionChanged: (s) => ref
+                    .read(mqttHistorySettingsProvider.notifier)
+                    .setMonitorSize(s.single),
+              ),
+            ),
             const SizedBox(height: 16),
             _SectionHeader(l10n.settingsShortcuts),
             const _ShortcutTable(),

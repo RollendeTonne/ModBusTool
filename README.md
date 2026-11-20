@@ -2,8 +2,8 @@
 
 > Debugging-Werkzeug mit zwei Modulen: **Modbus** (fertig) und **MQTT**
 > (Verbindung, Publish/Subscribe, Live-Topic-Baum, Payload-Analyse,
-> Verlauf, Vergleich, Graph und Statistik fertig; Monitor und Werkzeuge
-> folgen mit M13–M14). Oben in der App wechselt ein
+> Verlauf, Vergleich, Graph, Statistik, Monitor mit Export und Replay
+> sowie Werkzeuge fertig; Feinschliff folgt mit M14). Oben in der App wechselt ein
 > Umschalter **Modbus | MQTT** zwischen den Modulen.
 
 Plattformübergreifendes Debugging-Werkzeug für **Modbus TCP**, **Modbus RTU**
@@ -91,8 +91,10 @@ einspaltig), Tastaturkürzel, Screenreader-Beschriftungen, Kontraste nach WCAG A
 
 ## MQTT-Modul
 
-**Stand M12:** Broker-Verbindung, Profile, TLS, Abonnements, Publish,
-Live-Topic-Baum, Payload-Analyse, Verlauf, Vergleich, Graph und Statistik.
+**Stand M13:** Broker-Verbindung, Profile, TLS, Abonnements, Publish,
+Live-Topic-Baum, Payload-Analyse, Verlauf, Vergleich, Graph, Statistik,
+Monitor mit Export und Replay, Broker-Info, Topic-Tester,
+Payload-Konverter.
 
 - **Topic-Baum** (Kernansicht): alle empfangenen Topics hierarchisch nach
   `/`, natürlich sortiert (`sensor2` vor `sensor10`), leere Ebenen als
@@ -173,10 +175,32 @@ Live-Topic-Baum, Payload-Analyse, Verlauf, Vergleich, Graph und Statistik.
   Data, Message Expiry, User Properties). Strg/⌘+Enter sendet. Rückfrage
   vor Publish auf bereits empfangene Topics (abschaltbar), eigener Knopf
   „Retained Message löschen“ mit Bestätigung.
-- **Monitor** (vorläufig, wird mit M13 ausgebaut): chronologische
-  Nachrichtenliste (RX/TX, Zeit, QoS, Retain, DUP, Größe, Vorschau),
-  Ringpuffer mit 5000 Einträgen, UI-Aktualisierung gebündelt alle 150 ms,
-  virtualisierte Liste; Anhalten, Leeren (Strg/⌘+L).
+- **Monitor:** chronologisches Live-Log aller empfangenen und gesendeten
+  Nachrichten (Zeit, Topic, QoS, Retain, DUP, Größe, Vorschau) **und der
+  Verbindungsereignisse** (CONNECT, CONNACK bzw. Fehler mit Code,
+  SUBSCRIBE, UNSUBSCRIBE, DISCONNECT, Verbindungsabbruch, Neuversuch,
+  Publish-Fehler, Replay). Filter: Topic (Wildcard, Text oder Regex),
+  Payload-Inhalt (Text oder Hex), Empfangen/Gesendet/Ereignisse, nur
+  Retained, nur Fehler. Anhalten, Leeren (Strg/⌘+L), Puffer 1000–100 000
+  Einträge, Tipp auf eine Nachricht öffnet alle Payload-Darstellungen.
+  **Export** der gefilterten Einträge als Text, CSV oder JSON Lines.
+- **Replay:** eine JSON-Lines-Aufzeichnung (Export des Monitors) an den
+  verbundenen Broker senden, in Originalzeitabständen oder 2×/5×/10×
+  schneller bzw. ohne Pausen; lange Pausen auf 10 s kürzbar. Zum Schutz
+  der Live-Daten standardmäßig mit Topic-Präfix `replay/`, ohne
+  Retain-Flags, nur empfangene Nachrichten und mit Rückfrage; Fortschritt
+  und Stopp im Monitor.
+- **Werkzeuge:**
+  - **Broker-Info:** `$SYS`-Werte als Übersicht (Version, Laufzeit,
+    Clients, Abos, Retained, Nachrichten- und Byte-Zähler, Last pro
+    Minute) für Mosquitto, Version/Laufzeit auch für EMQX; ohne Daten ein
+    Knopf zum Abonnieren von `$SYS/#`.
+  - **Topic-Tester:** prüft Topics gegen einen Filter mit `+`/`#` und
+    erklärt das Ergebnis (welche Ebene abweicht, `$`-Regel, ungültige
+    Eingaben).
+  - **Payload-Konverter:** Text, Hex, Base64 oder JSON eingeben, Ausgabe
+    als Text, Hex, Base64, Dezimal, C-Array samt Interpretations-Matrix –
+    ohne Verbindung. Der Hex-Parser ist derselbe wie im Modbus-Hex-Rechner.
 - **Demo-Broker** eingebaut (Profil „Demo-Broker (Simulator)“): JSON-,
   Binär- (UINT32, FLOAT32) und Retained-Topics, `$SYS`-Werte, MQTT-5-
   Properties; Benutzername `denied` zeigt eine abgelehnte Verbindung.
@@ -290,12 +314,12 @@ dart run flutter_launcher_icons              # Plattform-Icons
 
 | Ebene | Befehl | Inhalt |
 |---|---|---|
-| Unit | `flutter test test/shared test/modules …` | MQTT: Topic-Filter (`+`, `#`, `$SYS`, Grenzfälle), Payload-Formate, CONNACK-Codes, Profil-Speicher, Demo-Broker (Retained, No Local, Retain Handling), Verbindungs-Controller (Neuverbinden, Abos), Ringpuffer, Topic-Baum (Aufbau, Sortierung, Filter, Leistung mit 10 000 Topics), Drosselung der UI-Updates, Payload-Erkennung, JSON-Pfade, XML-Prüfung, Zeichensätze, Hex-Dump, Binär-Interpretation auf Bytes, Verlauf mit Speicherlimit, Statistik, JSON-/Text-/Byte-Vergleich, Graph-Felder. Modbus: CRC16, MBAP/RTU-Framing, PDU-Codec, alle Datentyp-/Byte-Order-Konvertierungen (Referenzwerte unabhängig berechnet), Encoder, Adressen, Exceptions, Client mit Simulator (Timeouts, Retries, CRC, verspätete Antworten), Register-Map, Scanner, Statistik |
+| Unit | `flutter test test/shared test/modules …` | MQTT: Topic-Filter (`+`, `#`, `$SYS`, Grenzfälle), Payload-Formate, CONNACK-Codes, Profil-Speicher, Demo-Broker (Retained, No Local, Retain Handling), Verbindungs-Controller (Neuverbinden, Abos), Ringpuffer, Topic-Baum (Aufbau, Sortierung, Filter, Leistung mit 10 000 Topics), Drosselung der UI-Updates, Payload-Erkennung, JSON-Pfade, XML-Prüfung, Zeichensätze, Hex-Dump, Binär-Interpretation auf Bytes, Verlauf mit Speicherlimit, Statistik, JSON-/Text-/Byte-Vergleich, Graph-Felder, Monitor-Filter, Export (Text/CSV/JSON Lines), Aufzeichnung und Replay-Planung, Broker-Info, Topic-Tester-Erklärungen, gemeinsamer Hex-Parser. Modbus: CRC16, MBAP/RTU-Framing, PDU-Codec, alle Datentyp-/Byte-Order-Konvertierungen (Referenzwerte unabhängig berechnet), Encoder, Adressen, Exceptions, Client mit Simulator (Timeouts, Retries, CRC, verspätete Antworten), Register-Map, Scanner, Statistik |
 | Widget | `flutter test` | Interpretations-Matrix, alle Seiten und Abläufe gegen den Simulator, Import/Export, Tastaturkürzel |
 | Layout | `test/layout_smoke_test.dart` | alle Seiten auf Deutsch in Handy-, Tablet- und Desktop-Größe (Überläufe lassen den Test scheitern) |
 | Barrierefreiheit | `test/core/contrast_test.dart` | Textkontraste ≥ 4,5:1 in beiden Themes |
 | Live (nur lesend) | `MODBUS_HOST=<ip> flutter test test_live/device_probe_test.dart` | gegen ein echtes Gerät: Netzwerk-Scan der einen IP, Device ID, FC03/FC04 ab 19000 mit Interpretation; nicht Teil von `flutter test` |
-| Live MQTT | `MQTT_HOST=localhost flutter test test_live/mqtt_live_test.dart` | gegen den Docker-Mosquitto: beide Protokollversionen über TCP, TLS (eigene CA, abgelehnt ohne CA, „ungültig akzeptieren“), WebSocket, Passwort richtig/falsch, Retained, Binär, MQTT-5-Properties |
+| Live MQTT | `MQTT_HOST=localhost flutter test test_live/mqtt_live_test.dart` | gegen den Docker-Mosquitto: beide Protokollversionen über TCP, TLS (eigene CA, abgelehnt ohne CA, „ungültig akzeptieren“), WebSocket, Passwort richtig/falsch, Retained, Binär, MQTT-5-Properties, Broker-Info aus `$SYS` |
 | Integration | `flutter test integration_test -d macos --no-dds` | in der echten App: libserialport (FFI), TCP, Dateipfade, ARP-Zugriff (nur passiv), Schlüsselbund, MQTT über den App-Netzwerkstack |
 
 `--no-dds` ist nötig, weil der Debug-Dienst in dieser Umgebung nicht startet.
@@ -334,7 +358,7 @@ lib/
       data/        MqttSession-Schnittstelle mit mqtt_client (3.1.1),
                    mqtt5_client (5.0) und Demo-Broker; Profile + Geheimnisse
       presentation/ Verbindung, Profil-Editor, Topic-Baum, Details,
-                   Abos/Publish, Monitor
+                   Abos/Publish, Monitor/Replay, Werkzeuge
 ```
 
 **Transport in drei Schichten:**
@@ -428,7 +452,7 @@ Profil lassen sich Latenz sowie verlorene und verfälschte Antworten simulieren.
 | Strg + R / F5 | einmal lesen (Register oder Register-Map) |
 | Strg + P | Polling starten/stoppen |
 | Strg + Enter | Dialog bestätigen / Profil speichern / MQTT-Publish |
-| Strg + F | MQTT-Topic-Baum filtern |
+| Strg + F | MQTT-Topic-Baum bzw. -Monitor filtern |
 | Strg + L | MQTT-Monitor leeren |
 | Esc | Dialog schließen |
 | Umschalt + Klick | Bereich in der Tabelle auswählen |
@@ -470,8 +494,10 @@ Antwortzeit ~95 ms (Mac) bzw. ~108 ms (Android-Emulator). Die Prüfung lief
   werden auf das /24 um die eigene Adresse begrenzt (max. 4096 Adressen).
 - MQTT über WebSocket (wss): eigene CA und Client-Zertifikate unterstützt
   das MQTT-Paket nicht, es gelten die System-CAs (TLS über TCP kann beides).
-- MQTT: Publish-Vorlagen/Favoriten, Monitor-Filter/Export, Replay und
-  Broker-Info folgen mit M13–M14. Verlauf, Graph und Statistik gelten für
+- MQTT: Publish-Vorlagen/Favoriten folgen mit M14.
+- MQTT-Paketebene: die verwendeten Pakete geben keine Rohpakete heraus;
+  der Monitor zeigt stattdessen die Operationen der App und ihre
+  Ergebnisse (PUBACK/PUBREC usw. sind nicht sichtbar). Verlauf, Graph und Statistik gelten für
   die laufende Sitzung (nicht gespeichert); der Graph zeigt nur, was im
   Verlauf liegt. CBOR, MessagePack und schemalose
   Protobuf-Dekodierung sind als spätere Ausbaustufe vorgesehen.

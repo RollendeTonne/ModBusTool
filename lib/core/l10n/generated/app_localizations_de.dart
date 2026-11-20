@@ -2090,11 +2090,6 @@ class AppLocalizationsDe extends AppLocalizations {
   }
 
   @override
-  String mqttComingSoonMilestone(String milestone) {
-    return 'Dieser Bereich folgt mit $milestone.';
-  }
-
-  @override
   String get mqttTabTree => 'Baum';
 
   @override
@@ -2598,4 +2593,316 @@ class AppLocalizationsDe extends AppLocalizations {
   String settingsMegabytes(int value) {
     return '$value MB';
   }
+
+  @override
+  String get monitorTopicFilter => 'Topic-Filter';
+
+  @override
+  String get monitorPayloadFilter => 'Payload enthält';
+
+  @override
+  String get monitorPayloadFilterHint => 'Text oder Hex, z. B. 0A 1B';
+
+  @override
+  String get monitorRx => 'Empfangen';
+
+  @override
+  String get monitorTx => 'Gesendet';
+
+  @override
+  String get monitorEvents => 'Ereignisse';
+
+  @override
+  String get monitorOnlyRetained => 'Nur Retained';
+
+  @override
+  String get monitorOnlyErrors => 'Nur Fehler';
+
+  @override
+  String get monitorNoMatch => 'Kein Eintrag passt zum Filter.';
+
+  @override
+  String get monitorBufferSize => 'Puffergröße';
+
+  @override
+  String get monitorExport => 'Exportieren';
+
+  @override
+  String get monitorExportText => 'Als Text';
+
+  @override
+  String get monitorExportCsv => 'Als CSV';
+
+  @override
+  String get monitorExportJsonl => 'Als JSON Lines (Aufzeichnung)';
+
+  @override
+  String get monitorExportEmpty => 'Nichts zu exportieren.';
+
+  @override
+  String monitorMessageTitle(String direction, String topic) {
+    return '$direction · $topic';
+  }
+
+  @override
+  String eventConnecting(String detail) {
+    return 'Verbinde mit $detail';
+  }
+
+  @override
+  String eventConnected(String detail) {
+    return 'Verbunden ($detail)';
+  }
+
+  @override
+  String eventConnectFailed(String detail) {
+    return 'Verbindung fehlgeschlagen: $detail';
+  }
+
+  @override
+  String eventSubscribe(String detail) {
+    return 'Abonniert: $detail';
+  }
+
+  @override
+  String eventUnsubscribe(String detail) {
+    return 'Abo beendet: $detail';
+  }
+
+  @override
+  String get eventDisconnect => 'Getrennt';
+
+  @override
+  String eventConnectionLost(String detail) {
+    return 'Verbindung verloren: $detail';
+  }
+
+  @override
+  String eventReconnect(String detail) {
+    return 'Neuer Versuch geplant: $detail';
+  }
+
+  @override
+  String eventPublishFailed(String detail) {
+    return 'Publish fehlgeschlagen: $detail';
+  }
+
+  @override
+  String eventReplayStarted(String detail) {
+    return 'Replay gestartet: $detail';
+  }
+
+  @override
+  String eventReplayFinished(String detail) {
+    return 'Replay beendet: $detail';
+  }
+
+  @override
+  String get replayTitle => 'Aufzeichnung abspielen';
+
+  @override
+  String get replayLoad => 'Datei laden (JSON Lines)';
+
+  @override
+  String replayLoaded(String name, int count, int topics, String duration) {
+    return '$name: $count Nachrichten, $topics Topics, Dauer $duration';
+  }
+
+  @override
+  String replaySkipped(int count) {
+    return '$count Zeilen übersprungen (Ereignisse oder unlesbar)';
+  }
+
+  @override
+  String get replayNoMessages => 'Die Datei enthält keine Nachrichten.';
+
+  @override
+  String get replaySpeed => 'Geschwindigkeit';
+
+  @override
+  String get replayNoPauses => 'ohne Pausen';
+
+  @override
+  String get replayCapPauses => 'Pausen über 10 s auf 10 s kürzen';
+
+  @override
+  String get replayPrefix => 'Topic-Präfix';
+
+  @override
+  String get replayPrefixHint =>
+      'vor jedes Topic, damit Live-Daten nicht überschrieben werden';
+
+  @override
+  String get replayKeepRetain => 'Retain-Flags beibehalten';
+
+  @override
+  String get replayKeepRetainHint =>
+      'Aus: es bleiben keine Retained-Werte vom Replay zurück';
+
+  @override
+  String get replayOnlyReceived => 'Nur empfangene Nachrichten';
+
+  @override
+  String get replayStart => 'Abspielen';
+
+  @override
+  String replayConfirm(int count, String broker) {
+    return '$count Nachrichten werden an den verbundenen Broker „$broker“ gesendet. Fortfahren?';
+  }
+
+  @override
+  String replayRunning(int done, int total) {
+    return 'Replay: $done von $total';
+  }
+
+  @override
+  String get replayStop => 'Stoppen';
+
+  @override
+  String get replayNeedsConnection =>
+      'Für ein Replay mit einem Broker verbinden.';
+
+  @override
+  String get toolsBrokerInfo => 'Broker-Info';
+
+  @override
+  String get toolsTopicTester => 'Topic-Tester';
+
+  @override
+  String get toolsPayloadConverter => 'Payload-Konverter';
+
+  @override
+  String get brokerInfoEmpty =>
+      'Keine \$SYS-Daten. Nicht jeder Broker veröffentlicht sie, und sie kommen nur mit einem Abo auf \$SYS/# an.';
+
+  @override
+  String get brokerInfoSubscribe => '\$SYS/# abonnieren';
+
+  @override
+  String get brokerVersion => 'Version';
+
+  @override
+  String get brokerUptime => 'Laufzeit';
+
+  @override
+  String get brokerClientsConnected => 'Clients verbunden';
+
+  @override
+  String get brokerClientsTotal => 'Clients gesamt';
+
+  @override
+  String get brokerClientsMaximum => 'Clients maximal';
+
+  @override
+  String get brokerSubscriptions => 'Abonnements';
+
+  @override
+  String get brokerRetained => 'Retained Messages';
+
+  @override
+  String get brokerMessagesReceived => 'Nachrichten empfangen';
+
+  @override
+  String get brokerMessagesSent => 'Nachrichten gesendet';
+
+  @override
+  String get brokerLoadReceived => 'Empfangen / min (Ø 1 min)';
+
+  @override
+  String get brokerLoadSent => 'Gesendet / min (Ø 1 min)';
+
+  @override
+  String get brokerBytesReceived => 'Bytes empfangen';
+
+  @override
+  String get brokerBytesSent => 'Bytes gesendet';
+
+  @override
+  String get brokerHeap => 'Speicher (Heap)';
+
+  @override
+  String get testerFilter => 'Topic-Filter';
+
+  @override
+  String get testerTopics => 'Topics (eins pro Zeile)';
+
+  @override
+  String get testerMatch => 'passt';
+
+  @override
+  String testerMatchMulti(int level) {
+    return 'passt (# ab Ebene $level deckt den Rest ab)';
+  }
+
+  @override
+  String testerLevelMismatch(int level) {
+    return 'passt nicht: Ebene $level unterscheidet sich';
+  }
+
+  @override
+  String testerTooShort(int level) {
+    return 'passt nicht: Topic endet vor Ebene $level des Filters';
+  }
+
+  @override
+  String get testerTooLong =>
+      'passt nicht: Topic hat mehr Ebenen als der Filter';
+
+  @override
+  String get testerDollar =>
+      'passt nicht: Topics mit \$ am Anfang werden von + oder # an erster Stelle nie erfasst';
+
+  @override
+  String testerInvalidFilter(String error) {
+    return 'Filter ungültig: $error';
+  }
+
+  @override
+  String testerInvalidTopic(String error) {
+    return 'Topic ungültig: $error';
+  }
+
+  @override
+  String get testerHelp =>
+      '+ steht für genau eine Ebene, # (nur am Ende) für beliebig viele einschließlich der übergeordneten Ebene.';
+
+  @override
+  String get converterInput => 'Eingabe';
+
+  @override
+  String get converterDecimal => 'Dezimal';
+
+  @override
+  String get converterCArray => 'C-Array';
+
+  @override
+  String get converterInvalidUtf8 => 'kein gültiges UTF-8';
+
+  @override
+  String get converterLength => 'Länge';
+
+  @override
+  String converterInvalid(String error) {
+    return 'Ungültige Eingabe: $error';
+  }
+
+  @override
+  String converterCopied(String label) {
+    return '$label kopiert';
+  }
+
+  @override
+  String get settingsMqttMonitor => 'Monitor-Puffer';
+
+  @override
+  String get settingsMqttMonitorHint =>
+      'So viele Nachrichten und Ereignisse hält der Monitor; ältere fallen weg.';
+
+  @override
+  String mqttMonitorCount(int shown, int total, int capacity) {
+    return '$shown von $total Einträgen · Puffer $capacity';
+  }
+
+  @override
+  String get mqttMonitorEmpty => 'Noch keine Einträge.';
 }

@@ -2,6 +2,7 @@ import 'dart:typed_data';
 
 import 'package:meta/meta.dart';
 import 'package:modbus_explorer/modules/modbus/registers/domain/value_input.dart';
+import 'package:modbus_explorer/shared/interpretation/domain/hex_bytes.dart';
 
 enum HexInputMode {
   /// Byte stream, e.g. `41 20 00 00`, `0x41200000`, `41:20:00:00`.
@@ -47,14 +48,22 @@ HexInputResult parseHexInput(String text, HexInputMode mode) {
   final separators = mode == HexInputMode.registersDecimal
       ? _decimalSeparators
       : _byteSeparators;
-  final tokens = text.trim().split(separators).where((t) => t.isNotEmpty);
   final bytes = <int>[];
+  if (mode == HexInputMode.bytes) {
+    final parsed = parseHexBytes(text);
+    if (!parsed.isValid) {
+      return HexInputResult(
+        bytes: Uint8List(0),
+        invalidToken: parsed.invalidToken,
+      );
+    }
+    bytes.addAll(parsed.bytes);
+  }
+  final tokens = mode == HexInputMode.bytes
+      ? const <String>[]
+      : text.trim().split(separators).where((t) => t.isNotEmpty);
   for (final token in tokens) {
-    final parsed = switch (mode) {
-      HexInputMode.bytes => _byteToken(token),
-      HexInputMode.registersHex => _wordToken(token, hex: true),
-      HexInputMode.registersDecimal => _wordToken(token, hex: false),
-    };
+    final parsed = _wordToken(token, hex: mode == HexInputMode.registersHex);
     if (parsed == null) {
       return HexInputResult(bytes: Uint8List(0), invalidToken: token);
     }
@@ -66,20 +75,6 @@ HexInputResult parseHexInput(String text, HexInputMode mode) {
     bytes: Uint8List.fromList(bytes),
     paddedOddByte: padded,
   );
-}
-
-/// One or two hex digits = one byte; longer even-length tokens are split
-/// into byte pairs (`41200000` → 41 20 00 00).
-List<int>? _byteToken(String token) {
-  var hex = token.toLowerCase();
-  if (hex.startsWith('0x')) hex = hex.substring(2);
-  if (hex.isEmpty || !RegExp(r'^[0-9a-f]+$').hasMatch(hex)) return null;
-  if (hex.length <= 2) return [int.parse(hex, radix: 16)];
-  if (hex.length.isOdd) return null;
-  return [
-    for (var i = 0; i < hex.length; i += 2)
-      int.parse(hex.substring(i, i + 2), radix: 16),
-  ];
 }
 
 List<int>? _wordToken(String token, {required bool hex}) {

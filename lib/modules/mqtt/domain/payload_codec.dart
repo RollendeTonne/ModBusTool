@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
+import 'package:modbus_explorer/shared/interpretation/domain/hex_bytes.dart';
 import 'package:modbus_explorer/shared/interpretation/domain/value_formatter.dart';
 
 /// How the user typed a payload.
@@ -18,20 +19,11 @@ Uint8List encodePayload(String input, PayloadFormat format) {
       jsonDecode(input);
       return Uint8List.fromList(utf8.encode(input));
     case PayloadFormat.hex:
-      final digits = input.replaceAll(
-        RegExp(r'0x|[\s,:;-]', caseSensitive: false),
-        '',
-      );
-      if (digits.length.isOdd) {
-        throw const FormatException('Odd number of hex digits');
+      final parsed = parseHexBytes(input);
+      if (!parsed.isValid) {
+        throw FormatException('Not a hex byte: ${parsed.invalidToken}');
       }
-      if (!RegExp(r'^[0-9a-fA-F]*$').hasMatch(digits)) {
-        throw const FormatException('Only 0-9 and A-F allowed');
-      }
-      return Uint8List.fromList([
-        for (var i = 0; i < digits.length; i += 2)
-          int.parse(digits.substring(i, i + 2), radix: 16),
-      ]);
+      return parsed.bytes;
     case PayloadFormat.base64:
       final cleaned = input.replaceAll(RegExp(r'\s'), '');
       return base64.decode(base64.normalize(cleaned));

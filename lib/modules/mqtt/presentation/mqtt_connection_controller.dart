@@ -8,6 +8,7 @@ import 'package:modbus_explorer/modules/mqtt/data/mqtt_session.dart';
 import 'package:modbus_explorer/modules/mqtt/data/mqtt_session_factory.dart';
 import 'package:modbus_explorer/modules/mqtt/domain/mqtt_config.dart';
 import 'package:modbus_explorer/modules/mqtt/domain/mqtt_errors.dart';
+import 'package:modbus_explorer/modules/mqtt/domain/mqtt_log.dart';
 import 'package:modbus_explorer/modules/mqtt/domain/mqtt_message.dart';
 import 'package:modbus_explorer/modules/mqtt/presentation/mqtt_profiles_controller.dart';
 
@@ -58,11 +59,42 @@ final class MqttConnectionController extends Notifier<MqttConnectionState> {
   MqttSession? _session;
   final _subscriptions = <StreamSubscription<Object?>>[];
   final _traffic = StreamController<MqttMessageRecord>.broadcast();
+  final _log = StreamController<MqttLogEntry>.broadcast();
   Timer? _retryTimer;
   int _generation = 0;
 
   /// Every received and sent message (log, topic tree).
   Stream<MqttMessageRecord> get traffic => _traffic.stream;
+
+  /// Messages plus connection events, for the monitor.
+  Stream<MqttLogEntry> get log => _log.stream;
+
+  /// Records an event in the monitor (also used by the replay).
+  void logEvent(MqttEventKind kind, [String detail = '']) {
+    if (!_log.isClosed) {
+      _log.add(MqttLogEvent(kind, DateTime.now(), detail: detail));
+    }
+  }
+
+  void _message(MqttMessageRecord record) {
+    _traffic.add(record);
+    if (!_log.isClosed) _log.add(MqttLogMessage(record));
+  }
+
+  static String _subscriptionText(MqttSubscriptionSpec s) => [
+    s.filter,
+    'QoS ${s.qos.value}',
+    if (s.noLocal) 'noLocal',
+    if (s.retainAsPublished) 'retainAsPublished',
+    if (s.retainHandling != MqttRetainHandling.sendOnSubscribe)
+      'retainHandling=${s.retainHandling.name}',
+  ].join(' ');
+
+  static String _failureText(MqttConnectFailure f) => [
+    f.kind.name,
+    if (f.code != null) 'code ${f.code}',
+    if (f.detail != null) f.detail!,
+  ].join(' · ');
 
   @override
   MqttConnectionState build() {
@@ -71,6 +103,7 @@ final class MqttConnectionController extends Notifier<MqttConnectionState> {
       _retryTimer?.cancel();
       unawaited(_closeSession());
       unawaited(_traffic.close());
+      unawaited(_log.close());
     });
     return const MqttConnectionState();
   }
@@ -103,11 +136,18 @@ final class MqttConnectionController extends Notifier<MqttConnectionState> {
       profile.config,
       secrets,
     );
+    final c = profile.config;
+    logEvent(
+      MqttEventKind.connecting,
+      '${c.simulated ? 'demo broker' : c.endpoint} '
+      'MQTT ${c.protocolVersion.name}',
+    );
     try {
       await session.connect();
     } on MqttConnectFailure catch (failure) {
       await session.disconnect();
       if (!ref.mounted || generation != _generation) return;
+      logEvent(MqttEventKind.connectFailed, _failureText(failure));
       _onFailure(profile, failure, generation, attempt: attempt);
       return;
     }
@@ -117,14 +157,18 @@ final class MqttConnectionController extends Notifier<MqttConnectionState> {
     }
     _session = session;
     _subscriptions
-      ..add(session.messages.listen(_traffic.add))
+      ..add(session.messages.listen(_message))
       ..add(
         session.connectionLost.listen(
           (failure) => _onConnectionLost(failure, generation),
         ),
       );
+    logEvent(MqttEventKind.connected, 'client ID ${session.clientId}');
     for (final spec in profile.config.subscriptions) {
-      if (spec.enabled) session.subscribe(spec);
+      if (spec.enabled) {
+        session.subscribe(spec);
+        logEvent(MqttEventKind.subscribe, _subscriptionText(spec));
+      }
     }
     state = MqttConnectionState(
       status: MqttConnectionStatus.connected,
@@ -159,6 +203,7 @@ final class MqttConnectionController extends Notifier<MqttConnectionState> {
   ) async {
     if (generation != _generation) return;
     final profile = state.profile;
+    logEvent(MqttEventKind.connectionLost, _failureText(failure));
     await _closeSession();
     if (!ref.mounted || generation != _generation || profile == null) return;
     if (profile.autoReconnect) {
@@ -179,6 +224,10 @@ final class MqttConnectionController extends Notifier<MqttConnectionState> {
     required int attempt,
   }) {
     final delay = backoffFor(attempt);
+    logEvent(
+      MqttEventKind.reconnectScheduled,
+      'attempt $attempt in ${delay.inSeconds} s',
+    );
     state = MqttConnectionState(
       status: MqttConnectionStatus.reconnecting,
       profile: profile,
@@ -202,6 +251,7 @@ final class MqttConnectionController extends Notifier<MqttConnectionState> {
   );
 
   Future<void> disconnect() async {
+    if (_session != null || state.isActive) logEvent(MqttEventKind.disconnect);
     _generation++;
     _retryTimer?.cancel();
     await _closeSession();
@@ -228,10 +278,17 @@ final class MqttConnectionController extends Notifier<MqttConnectionState> {
   MqttMessageRecord publish(MqttOutgoingMessage message) {
     final session = _session;
     if (session == null || !state.isConnected) {
+      logEvent(MqttEventKind.publishFailed, '${message.topic}: not connected');
       throw StateError('not connected');
     }
-    final record = session.publish(message);
-    _traffic.add(record);
+    final MqttMessageRecord record;
+    try {
+      record = session.publish(message);
+    } on Object catch (e) {
+      logEvent(MqttEventKind.publishFailed, '${message.topic}: $e');
+      rethrow;
+    }
+    _message(record);
     return record;
   }
 
@@ -256,8 +313,12 @@ final class MqttConnectionController extends Notifier<MqttConnectionState> {
           old.enabled &&
           (!spec.enabled || old.filter != spec.filter)) {
         session.unsubscribe(old.filter);
+        logEvent(MqttEventKind.unsubscribe, old.filter);
       }
-      if (spec.enabled) session.subscribe(spec);
+      if (spec.enabled) {
+        session.subscribe(spec);
+        logEvent(MqttEventKind.subscribe, _subscriptionText(spec));
+      }
     }
     await _updateSubscriptions(profile, list);
   }
@@ -265,7 +326,10 @@ final class MqttConnectionController extends Notifier<MqttConnectionState> {
   Future<void> removeSubscription(String filter) async {
     final profile = state.profile;
     if (profile == null) return;
-    if (state.isConnected) _session?.unsubscribe(filter);
+    if (state.isConnected && _session != null) {
+      _session!.unsubscribe(filter);
+      logEvent(MqttEventKind.unsubscribe, filter);
+    }
     await _updateSubscriptions(profile, [
       for (final s in profile.config.subscriptions)
         if (s.filter != filter) s,

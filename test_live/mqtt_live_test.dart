@@ -15,7 +15,9 @@ import 'package:modbus_explorer/modules/mqtt/data/mqtt5_session.dart';
 import 'package:modbus_explorer/modules/mqtt/data/mqtt_session.dart';
 import 'package:modbus_explorer/modules/mqtt/domain/mqtt_config.dart';
 import 'package:modbus_explorer/modules/mqtt/domain/mqtt_errors.dart';
+import 'package:modbus_explorer/modules/mqtt/domain/mqtt_log.dart';
 import 'package:modbus_explorer/modules/mqtt/domain/mqtt_message.dart';
+import 'package:modbus_explorer/modules/mqtt/domain/topic_tree.dart';
 
 final String? host = Platform.environment['MQTT_HOST'];
 
@@ -271,4 +273,34 @@ void main() {
     expect(received, isEmpty);
     await check.disconnect();
   }, skip: skip);
+
+  test(
+    r'broker info from the real $SYS topics',
+    () async {
+      final s = session(MqttConnectionConfig(host: host!));
+      await s.connect();
+      final tree = TopicTree();
+      final subscription = s.messages.listen(tree.add);
+      s.subscribe(const MqttSubscriptionSpec(filter: r'$SYS/#'));
+      // Mosquitto publishes $SYS every 10 s (static values are retained).
+      await Future<void>.delayed(const Duration(seconds: 12));
+      await subscription.cancel();
+      await s.disconnect();
+      final info = BrokerInfo.fromTree(tree);
+      for (final figure in BrokerFigure.values) {
+        // Printed for DECISIONS.md: which figures this broker provides.
+        // ignore: avoid_print
+        print('${figure.name}: ${info.values[figure]}');
+      }
+      expect(
+        info.values[BrokerFigure.version]!.$2,
+        startsWith('mosquitto version'),
+      );
+      expect(info.values.containsKey(BrokerFigure.uptime), isTrue);
+      expect(info.values.containsKey(BrokerFigure.clientsConnected), isTrue);
+      expect(info.values.containsKey(BrokerFigure.loadReceived1m), isTrue);
+    },
+    skip: skip,
+    timeout: const Timeout(Duration(seconds: 40)),
+  );
 }

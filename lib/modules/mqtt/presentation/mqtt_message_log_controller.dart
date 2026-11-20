@@ -2,48 +2,67 @@ import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:meta/meta.dart';
+import 'package:modbus_explorer/modules/mqtt/domain/mqtt_log.dart';
 import 'package:modbus_explorer/modules/mqtt/domain/mqtt_message.dart';
 import 'package:modbus_explorer/modules/mqtt/presentation/mqtt_connection_controller.dart';
+import 'package:modbus_explorer/modules/mqtt/presentation/mqtt_history_settings.dart';
 import 'package:modbus_explorer/shared/collections/ring_buffer.dart';
 
 @immutable
 final class MqttMessageLog {
-  const new({required this.messages, required this.total, this.paused = false});
+  const new({
+    required this.entries,
+    required this.total,
+    required this.capacity,
+    this.paused = false,
+  });
 
-  /// Oldest first; bounded by [MqttMessageLogController.capacity].
-  final List<MqttMessageRecord> messages;
+  /// Oldest first; bounded by [capacity].
+  final List<MqttLogEntry> entries;
 
-  /// All messages since the last clear, including dropped ones.
+  /// All entries since the last clear, including dropped ones.
   final int total;
+  final int capacity;
   final bool paused;
+
+  /// Only the messages (sent and received).
+  Iterable<MqttMessageRecord> get messages =>
+      entries.whereType<MqttLogMessage>().map((m) => m.record);
 }
 
-/// Ring buffer of recent traffic. Incoming messages are batched and
-/// published to the UI at most every [flushInterval], so high message
-/// rates cost one rebuild per interval instead of one per message.
+/// Ring buffer of messages and connection events. Incoming entries are
+/// batched and handed to the UI at most every [flushInterval].
 final class MqttMessageLogController extends Notifier<MqttMessageLog> {
-  static const capacity = 5000;
   static const flushInterval = Duration(milliseconds: 150);
 
-  RingBuffer<MqttMessageRecord> _buffer = RingBuffer(capacity);
-  final _pending = <MqttMessageRecord>[];
+  late RingBuffer<MqttLogEntry> _buffer;
+  final _pending = <MqttLogEntry>[];
   Timer? _flush;
   bool _paused = false;
 
   @override
   MqttMessageLog build() {
+    final capacity = ref.read(mqttHistorySettingsProvider).monitorSize;
+    _buffer = RingBuffer(capacity);
+    ref.listen(mqttHistorySettingsProvider.select((s) => s.monitorSize), (
+      _,
+      size,
+    ) {
+      _buffer = _buffer.resized(size);
+      _emit();
+    });
     final controller = ref.watch(mqttConnectionControllerProvider.notifier);
-    final subscription = controller.traffic.listen(_onMessage);
+    final subscription = controller.log.listen(_onEntry);
     ref.onDispose(() {
       unawaited(subscription.cancel());
       _flush?.cancel();
     });
-    return const MqttMessageLog(messages: [], total: 0);
+    return MqttMessageLog(entries: const [], total: 0, capacity: capacity);
   }
 
-  void _onMessage(MqttMessageRecord record) {
+  void _onEntry(MqttLogEntry entry) {
     if (_paused) return;
-    _pending.add(record);
+    _pending.add(entry);
     _flush ??= Timer(flushInterval, _publish);
   }
 
@@ -52,26 +71,25 @@ final class MqttMessageLogController extends Notifier<MqttMessageLog> {
     if (_pending.isEmpty) return;
     _buffer.addAll(_pending);
     _pending.clear();
-    state = MqttMessageLog(
-      messages: List.unmodifiable(_buffer),
-      total: _buffer.totalAdded,
-      paused: _paused,
-    );
+    _emit();
   }
+
+  void _emit() => state = MqttMessageLog(
+    entries: List.unmodifiable(_buffer),
+    total: _buffer.totalAdded,
+    capacity: _buffer.capacity,
+    paused: _paused,
+  );
 
   void setPaused({required bool paused}) {
     _paused = paused;
-    state = MqttMessageLog(
-      messages: state.messages,
-      total: state.total,
-      paused: paused,
-    );
+    _emit();
   }
 
   void clear() {
     _pending.clear();
-    _buffer = RingBuffer(capacity);
-    state = MqttMessageLog(messages: const [], total: 0, paused: _paused);
+    _buffer = RingBuffer(_buffer.capacity);
+    _emit();
   }
 }
 
@@ -79,3 +97,25 @@ final mqttMessageLogControllerProvider =
     NotifierProvider<MqttMessageLogController, MqttMessageLog>(
       MqttMessageLogController.new,
     );
+
+/// The monitor's filter.
+final class MonitorFilterController extends Notifier<MonitorFilter> {
+  @override
+  MonitorFilter build() => const MonitorFilter();
+
+  void update(MonitorFilter Function(MonitorFilter current) change) =>
+      state = change(state);
+}
+
+final monitorFilterProvider =
+    NotifierProvider<MonitorFilterController, MonitorFilter>(
+      MonitorFilterController.new,
+    );
+
+/// Log entries passing the filter (newest last).
+final filteredLogProvider = Provider<List<MqttLogEntry>>((ref) {
+  final log = ref.watch(mqttMessageLogControllerProvider);
+  final filter = ref.watch(monitorFilterProvider);
+  if (!filter.isActive) return log.entries;
+  return log.entries.where(filter.matcher()).toList();
+});
