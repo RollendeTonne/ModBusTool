@@ -15,5 +15,11 @@ void main() {
     expect(en.mqttBytes(1), '1 byte');
     expect(de.mqttBytes(63), '63 Bytes');
     expect(en.historyCount(1, 100), '1 message stored (max. 100)');
+    // Seen on the phone: "1 Hosts".
+    expect(de.netSummary(1, 0, '0.1'), '1 Host · 0 mit Modbus · 0.1 s');
+    expect(en.netSummary(3, 1, '2.0'), '3 hosts · 1 with Modbus · 2.0 s');
+    expect(de.readStatus(1, 14, '08:00'), '1 Wert · 14 ms · 08:00');
+    expect(de.monitorAttempts(2), '2 Versuche');
+    expect(de.simulatorServerConnections(1), '1 Client verbunden');
   });
 }

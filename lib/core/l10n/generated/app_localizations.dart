@@ -1019,7 +1019,7 @@ abstract class AppLocalizations {
   /// No description provided for @simulatorServerConnections.
   ///
   /// In en, this message translates to:
-  /// **'{count} client(s) connected'**
+  /// **'{count, plural, =1{1 client connected} other{{count} clients connected}}'**
   String simulatorServerConnections(int count);
 
   /// No description provided for @simulatorServerStopped.
@@ -1199,7 +1199,7 @@ abstract class AppLocalizations {
   /// No description provided for @readStatus.
   ///
   /// In en, this message translates to:
-  /// **'{count} values · {latency} ms · {time}'**
+  /// **'{count, plural, =1{1 value} other{{count} values}} · {latency} ms · {time}'**
   String readStatus(int count, int latency, String time);
 
   /// No description provided for @pollStatus.
@@ -1709,13 +1709,13 @@ abstract class AppLocalizations {
   /// No description provided for @mapReadStatus.
   ///
   /// In en, this message translates to:
-  /// **'{count} entries · {time}'**
+  /// **'{count, plural, =1{1 entry} other{{count} entries}} · {time}'**
   String mapReadStatus(int count, String time);
 
   /// No description provided for @mapEntryCount.
   ///
   /// In en, this message translates to:
-  /// **'{count} entries'**
+  /// **'{count, plural, =1{1 entry} other{{count} entries}}'**
   String mapEntryCount(int count);
 
   /// No description provided for @actionInterpret.
@@ -1781,7 +1781,7 @@ abstract class AppLocalizations {
   /// No description provided for @monitorCopied.
   ///
   /// In en, this message translates to:
-  /// **'{count} frames copied'**
+  /// **'{count, plural, =1{1 frame copied} other{{count} frames copied}}'**
   String monitorCopied(int count);
 
   /// No description provided for @monitorEmpty.
@@ -1835,7 +1835,7 @@ abstract class AppLocalizations {
   /// No description provided for @monitorAttempts.
   ///
   /// In en, this message translates to:
-  /// **'{count} attempt(s)'**
+  /// **'{count, plural, =1{1 attempt} other{{count} attempts}}'**
   String monitorAttempts(int count);
 
   /// No description provided for @monitorResultOk.
@@ -2471,13 +2471,13 @@ abstract class AppLocalizations {
   /// No description provided for @importSummary.
   ///
   /// In en, this message translates to:
-  /// **'{count} entries read from {file}.'**
+  /// **'{count, plural, =1{1 entry} other{{count} entries}} read from {file}.'**
   String importSummary(int count, String file);
 
   /// No description provided for @importSkipped.
   ///
   /// In en, this message translates to:
-  /// **'{count} entries could not be read and will be skipped.'**
+  /// **'{count, plural, =1{1 entry could not be read and will be skipped.} other{{count} entries could not be read and will be skipped.}}'**
   String importSkipped(int count);
 
   /// No description provided for @importAdd.
@@ -2501,7 +2501,7 @@ abstract class AppLocalizations {
   /// No description provided for @importDone.
   ///
   /// In en, this message translates to:
-  /// **'{count} entries imported'**
+  /// **'{count, plural, =1{1 entry imported} other{{count} entries imported}}'**
   String importDone(int count);
 
   /// No description provided for @importFailed.
@@ -2525,7 +2525,7 @@ abstract class AppLocalizations {
   /// No description provided for @profilesImported.
   ///
   /// In en, this message translates to:
-  /// **'{count} profiles imported'**
+  /// **'{count, plural, =1{1 profile imported} other{{count} profiles imported}}'**
   String profilesImported(int count);
 
   /// No description provided for @settingsShortcuts.
@@ -2681,13 +2681,13 @@ abstract class AppLocalizations {
   /// No description provided for @netProgress.
   ///
   /// In en, this message translates to:
-  /// **'{phase}: {done} / {total} · {hosts} hosts'**
+  /// **'{phase}: {done} / {total} · {hosts, plural, =1{1 host} other{{hosts} hosts}}'**
   String netProgress(String phase, int done, int total, int hosts);
 
   /// No description provided for @netSummary.
   ///
   /// In en, this message translates to:
-  /// **'{hosts} hosts · {modbus} with Modbus · {seconds} s'**
+  /// **'{hosts, plural, =1{1 host} other{{hosts} hosts}} · {modbus} with Modbus · {seconds} s'**
   String netSummary(int hosts, int modbus, String seconds);
 
   /// No description provided for @netOnlyModbus.
@@ -4469,7 +4469,7 @@ abstract class AppLocalizations {
   /// No description provided for @chartSummary.
   ///
   /// In en, this message translates to:
-  /// **'{count} points · min {min} · max {max} · avg {avg} · last {last}'**
+  /// **'{count, plural, =1{1 point} other{{count} points}} · min {min} · max {max} · avg {avg} · last {last}'**
   String chartSummary(
     int count,
     String min,
@@ -4571,7 +4571,7 @@ abstract class AppLocalizations {
   /// No description provided for @statsHistoryMemoryValue.
   ///
   /// In en, this message translates to:
-  /// **'{count} messages, {size}'**
+  /// **'{count, plural, =1{1 message} other{{count} messages}}, {size}'**
   String statsHistoryMemoryValue(int count, String size);
 
   /// No description provided for @settingsMqtt.
@@ -4793,7 +4793,7 @@ abstract class AppLocalizations {
   /// No description provided for @replaySkipped.
   ///
   /// In en, this message translates to:
-  /// **'{count} lines skipped (events or unreadable)'**
+  /// **'{count, plural, =1{1 line skipped} other{{count} lines skipped}} (events or unreadable)'**
   String replaySkipped(int count);
 
   /// No description provided for @replayNoMessages.
@@ -4859,7 +4859,7 @@ abstract class AppLocalizations {
   /// No description provided for @replayConfirm.
   ///
   /// In en, this message translates to:
-  /// **'{count} messages will be published to the connected broker “{broker}”. Continue?'**
+  /// **'{count, plural, =1{1 message will be} other{{count} messages will be}} published to the connected broker “{broker}”. Continue?'**
   String replayConfirm(int count, String broker);
 
   /// No description provided for @replayRunning.

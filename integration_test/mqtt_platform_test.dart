@@ -21,6 +21,25 @@ const brokerHost = String.fromEnvironment(
   defaultValue: 'localhost',
 );
 
+/// Base64 of docker/mosquitto/certs/ca.crt for the TLS test (optional):
+/// `--dart-define=MQTT_CA_B64=$(base64 -i docker/mosquitto/certs/ca.crt)`.
+const caBase64 = String.fromEnvironment('MQTT_CA_B64');
+
+/// Subscribes to [topic], publishes once and waits for the echo.
+Future<String> echo(MqttSession session, String topic, String text) async {
+  final received = session.messages.firstWhere((m) => m.topic == topic);
+  session.subscribe(MqttSubscriptionSpec(filter: topic));
+  await Future<void>.delayed(const Duration(milliseconds: 300));
+  session.publish(
+    MqttOutgoingMessage(
+      topic: topic,
+      payload: Uint8List.fromList(utf8.encode(text)),
+    ),
+  );
+  final message = await received.timeout(const Duration(seconds: 5));
+  return utf8.decode(message.payload);
+}
+
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
@@ -88,4 +107,55 @@ void main() {
     }
     await session.disconnect();
   });
+
+  testWidgets('WebSocket transport (port 9001)', (tester) async {
+    final session = Mqtt311Session(
+      const MqttConnectionConfig(
+        host: brokerHost,
+        port: 9001,
+        transport: MqttTransport.ws,
+      ),
+      const MqttSecrets(),
+    );
+    try {
+      await session.connect();
+    } on MqttConnectFailure catch (e) {
+      if (e.kind == MqttFailureKind.network) {
+        markTestSkipped('no local broker: $e');
+        return;
+      }
+      rethrow;
+    }
+    expect(await echo(session, 'pe-integration/ws', 'via ws'), 'via ws');
+    await session.disconnect();
+  });
+
+  testWidgets('TLS with own CA, rejected without (port 8883)', (tester) async {
+    const base = MqttConnectionConfig(
+      host: brokerHost,
+      port: 8883,
+      transport: MqttTransport.tls,
+      protocolVersion: MqttProtocolVersion.v5,
+    );
+    final ca = utf8.decode(base64.decode(caBase64));
+    final trusted = Mqtt5Session(
+      base.copyWith(tls: MqttTlsSettings(caCertificatePem: ca)),
+      const MqttSecrets(),
+    );
+    await trusted.connect();
+    expect(await echo(trusted, 'pe-integration/tls', 'secure'), 'secure');
+    await trusted.disconnect();
+
+    final untrusted = Mqtt5Session(base, const MqttSecrets());
+    await expectLater(
+      untrusted.connect(),
+      throwsA(
+        isA<MqttConnectFailure>().having(
+          (f) => f.kind,
+          'kind',
+          MqttFailureKind.tls,
+        ),
+      ),
+    );
+  }, skip: caBase64.isEmpty);
 }

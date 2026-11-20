@@ -231,6 +231,19 @@ docker compose up -d          # Broker + Demo-Publisher
 Der Demo-Publisher sendet `factory/hall1/…` (JSON-Temperatur, UINT32-Zähler
 als Rohbytes, Retained-Status). Nur für lokale Tests gedacht.
 
+**Von Telefon oder Emulator aus:** Broker unter der IP des Rechners bzw.
+`10.0.2.2` (Emulator) ansprechen. Für TLS muss das Serverzertifikat diese
+Adresse enthalten: `EXTRA_SAN="IP:<rechner-ip>, IP:10.0.2.2"
+tool/mqtt/generate_certs.sh`, danach `docker compose restart mosquitto`.
+Integrationstest auf dem Gerät (Keystore, TCP, Passwort, WebSocket, TLS mit
+eigener CA):
+
+```sh
+flutter test integration_test/mqtt_platform_test.dart -d <gerät> --no-dds \
+  --dart-define=MQTT_HOST=<rechner-ip> \
+  --dart-define=MQTT_CA_B64=$(base64 -i docker/mosquitto/certs/ca.crt)
+```
+
 ## Plattformen
 
 | Plattform | TCP | RTU seriell | Status |
@@ -335,7 +348,7 @@ dart run flutter_launcher_icons              # Plattform-Icons
 | Barrierefreiheit | `test/core/contrast_test.dart` | Textkontraste ≥ 4,5:1 in beiden Themes |
 | Live (nur lesend) | `MODBUS_HOST=<ip> flutter test test_live/device_probe_test.dart` | gegen ein echtes Gerät: Netzwerk-Scan der einen IP, Device ID, FC03/FC04 ab 19000 mit Interpretation; nicht Teil von `flutter test` |
 | Live MQTT | `MQTT_HOST=localhost flutter test test_live/mqtt_live_test.dart` | gegen den Docker-Mosquitto: beide Protokollversionen über TCP, TLS (eigene CA, abgelehnt ohne CA, „ungültig akzeptieren“), WebSocket, Passwort richtig/falsch, Retained, Binär, MQTT-5-Properties, Broker-Info aus `$SYS` |
-| Integration | `flutter test integration_test -d macos --no-dds` | in der echten App: libserialport (FFI), TCP, Dateipfade, ARP-Zugriff (nur passiv), Schlüsselbund, MQTT über den App-Netzwerkstack |
+| Integration | `flutter test integration_test -d macos --no-dds` (auch Android-Gerät/Emulator, siehe MQTT-Modul) | in der echten App: libserialport (FFI), TCP, Dateipfade, ARP-Zugriff (nur passiv), Schlüsselbund/Keystore, MQTT über TCP, Passwort, WebSocket, TLS mit eigener CA |
 
 `--no-dds` ist nötig, weil der Debug-Dienst in dieser Umgebung nicht startet.
 

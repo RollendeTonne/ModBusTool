@@ -264,7 +264,7 @@
       }
     }
   },
-  "simulatorServerConnections": "{count} client(s) connected",
+  "simulatorServerConnections": "{count, plural, =1{1 client connected} other{{count} clients connected}}",
   "@simulatorServerConnections": {
     "placeholders": {
       "count": {
@@ -322,7 +322,7 @@
   "bitOn": "ON",
   "bitOff": "OFF",
   "registersEmpty": "No data yet. Press Read or start polling.",
-  "readStatus": "{count} values · {latency} ms · {time}",
+  "readStatus": "{count, plural, =1{1 value} other{{count} values}} · {latency} ms · {time}",
   "@readStatus": {
     "placeholders": {
       "count": {
@@ -503,7 +503,7 @@
       }
     }
   },
-  "mapReadStatus": "{count} entries · {time}",
+  "mapReadStatus": "{count, plural, =1{1 entry} other{{count} entries}} · {time}",
   "@mapReadStatus": {
     "placeholders": {
       "count": {
@@ -514,7 +514,7 @@
       }
     }
   },
-  "mapEntryCount": "{count} entries",
+  "mapEntryCount": "{count, plural, =1{1 entry} other{{count} entries}}",
   "@mapEntryCount": {
     "placeholders": {
       "count": {
@@ -539,7 +539,7 @@
   "monitorAllFunctions": "All functions",
   "monitorCopyText": "Copy as text",
   "monitorCopyCsv": "Copy as CSV",
-  "monitorCopied": "{count} frames copied",
+  "monitorCopied": "{count, plural, =1{1 frame copied} other{{count} frames copied}}",
   "@monitorCopied": {
     "placeholders": {
       "count": {
@@ -579,7 +579,7 @@
       }
     }
   },
-  "monitorAttempts": "{count} attempt(s)",
+  "monitorAttempts": "{count, plural, =1{1 attempt} other{{count} attempts}}",
   "@monitorAttempts": {
     "placeholders": {
       "count": {
@@ -778,7 +778,7 @@
     }
   },
   "importTitle": "Import register map",
-  "importSummary": "{count} entries read from {file}.",
+  "importSummary": "{count, plural, =1{1 entry} other{{count} entries}} read from {file}.",
   "@importSummary": {
     "placeholders": {
       "count": {
@@ -789,7 +789,7 @@
       }
     }
   },
-  "importSkipped": "{count} entries could not be read and will be skipped.",
+  "importSkipped": "{count, plural, =1{1 entry could not be read and will be skipped.} other{{count} entries could not be read and will be skipped.}}",
   "@importSkipped": {
     "placeholders": {
       "count": {
@@ -807,7 +807,7 @@
       }
     }
   },
-  "importDone": "{count} entries imported",
+  "importDone": "{count, plural, =1{1 entry imported} other{{count} entries imported}}",
   "@importDone": {
     "placeholders": {
       "count": {
@@ -825,7 +825,7 @@
   },
   "actionExportProfiles": "Export profiles…",
   "actionImportProfiles": "Import profiles…",
-  "profilesImported": "{count} profiles imported",
+  "profilesImported": "{count, plural, =1{1 profile imported} other{{count} profiles imported}}",
   "@profilesImported": {
     "placeholders": {
       "count": {
@@ -872,7 +872,7 @@
   "netPhaseModbus": "Identifying Modbus devices",
   "netPhaseHostnames": "Resolving host names",
   "netPhaseDone": "Finished",
-  "netProgress": "{phase}: {done} / {total} · {hosts} hosts",
+  "netProgress": "{phase}: {done} / {total} · {hosts, plural, =1{1 host} other{{hosts} hosts}}",
   "@netProgress": {
     "placeholders": {
       "phase": {
@@ -889,7 +889,7 @@
       }
     }
   },
-  "netSummary": "{hosts} hosts · {modbus} with Modbus · {seconds} s",
+  "netSummary": "{hosts, plural, =1{1 host} other{{hosts} hosts}} · {modbus} with Modbus · {seconds} s",
   "@netSummary": {
     "placeholders": {
       "hosts": {
@@ -1616,7 +1616,7 @@
   },
   "chartClear": "Clear selection",
   "chartNoPoints": "No message in the history has a number at this position yet.",
-  "chartSummary": "{count} points · min {min} · max {max} · avg {avg} · last {last}",
+  "chartSummary": "{count, plural, =1{1 point} other{{count} points}} · min {min} · max {max} · avg {avg} · last {last}",
   "@chartSummary": {
     "placeholders": {
       "count": {
@@ -1672,7 +1672,7 @@
   "statsMinMaxSize": "Min / max",
   "statsHistory": "In history",
   "statsHistoryMemory": "History total",
-  "statsHistoryMemoryValue": "{count} messages, {size}",
+  "statsHistoryMemoryValue": "{count, plural, =1{1 message} other{{count} messages}}, {size}",
   "@statsHistoryMemoryValue": {
     "placeholders": {
       "count": {
@@ -1822,7 +1822,7 @@
       }
     }
   },
-  "replaySkipped": "{count} lines skipped (events or unreadable)",
+  "replaySkipped": "{count, plural, =1{1 line skipped} other{{count} lines skipped}} (events or unreadable)",
   "replayNoMessages": "The file contains no messages.",
   "replaySpeed": "Speed",
   "replayNoPauses": "no pauses",
@@ -1833,7 +1833,7 @@
   "replayKeepRetainHint": "Off: no retained values are left behind by the replay",
   "replayOnlyReceived": "Only received messages",
   "replayStart": "Play",
-  "replayConfirm": "{count} messages will be published to the connected broker “{broker}”. Continue?",
+  "replayConfirm": "{count, plural, =1{1 message will be} other{{count} messages will be}} published to the connected broker “{broker}”. Continue?",
   "@replayConfirm": {
     "placeholders": {
       "count": {

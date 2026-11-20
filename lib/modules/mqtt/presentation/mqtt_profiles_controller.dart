@@ -44,6 +44,12 @@ final class MqttProfilesController extends AsyncNotifier<List<MqttProfile>> {
   MqttProfile? byId(String id) => _current.where((p) => p.id == id).firstOrNull;
 
   Future<void> save(MqttProfile profile) async {
+    // The first load may still be running (e.g. a profile created from the
+    // network scan before the list was ever shown): never work on its
+    // empty placeholder, the load would overwrite the change.
+    await future;
+    // Callers may fire and forget (markUsed after connecting).
+    if (!ref.mounted) return;
     final list = [..._current];
     final index = list.indexWhere((p) => p.id == profile.id);
     if (index < 0) {
@@ -58,6 +64,8 @@ final class MqttProfilesController extends AsyncNotifier<List<MqttProfile>> {
     MqttProfile profile, {
     required String name,
   }) async {
+    await future;
+    if (!ref.mounted) throw StateError('profiles disposed');
     final copy = MqttProfile(
       id: newId(),
       name: name,
@@ -78,13 +86,19 @@ final class MqttProfilesController extends AsyncNotifier<List<MqttProfile>> {
   }
 
   Future<void> delete(String id) async {
+    await future;
+    // Callers may fire and forget (markUsed after connecting).
+    if (!ref.mounted) return;
     await _repository.deleteSecrets(id);
     await _persist(_current.where((p) => p.id != id).toList());
   }
 
-  Future<void> markUsed(String id) {
+  Future<void> markUsed(String id) async {
+    await future;
+    // Callers may fire and forget (markUsed after connecting).
+    if (!ref.mounted) return;
     final now = DateTime.now();
-    return _persist(
+    await _persist(
       _current
           .map((p) => p.id == id ? p.copyWith(lastUsedAt: now) : p)
           .toList(),

@@ -531,7 +531,13 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String simulatorServerConnections(int count) {
-    return '$count client(s) connected';
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count clients connected',
+      one: '1 client connected',
+    );
+    return '$_temp0';
   }
 
   @override
@@ -630,7 +636,13 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String readStatus(int count, int latency, String time) {
-    return '$count values · $latency ms · $time';
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count values',
+      one: '1 value',
+    );
+    return '$_temp0 · $latency ms · $time';
   }
 
   @override
@@ -917,12 +929,24 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String mapReadStatus(int count, String time) {
-    return '$count entries · $time';
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count entries',
+      one: '1 entry',
+    );
+    return '$_temp0 · $time';
   }
 
   @override
   String mapEntryCount(int count) {
-    return '$count entries';
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count entries',
+      one: '1 entry',
+    );
+    return '$_temp0';
   }
 
   @override
@@ -959,7 +983,13 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String monitorCopied(int count) {
-    return '$count frames copied';
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count frames copied',
+      one: '1 frame copied',
+    );
+    return '$_temp0';
   }
 
   @override
@@ -995,7 +1025,13 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String monitorAttempts(int count) {
-    return '$count attempt(s)';
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count attempts',
+      one: '1 attempt',
+    );
+    return '$_temp0';
   }
 
   @override
@@ -1341,12 +1377,24 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String importSummary(int count, String file) {
-    return '$count entries read from $file.';
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count entries',
+      one: '1 entry',
+    );
+    return '$_temp0 read from $file.';
   }
 
   @override
   String importSkipped(int count) {
-    return '$count entries could not be read and will be skipped.';
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count entries could not be read and will be skipped.',
+      one: '1 entry could not be read and will be skipped.',
+    );
+    return '$_temp0';
   }
 
   @override
@@ -1362,7 +1410,13 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String importDone(int count) {
-    return '$count entries imported';
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count entries imported',
+      one: '1 entry imported',
+    );
+    return '$_temp0';
   }
 
   @override
@@ -1378,7 +1432,13 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String profilesImported(int count) {
-    return '$count profiles imported';
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count profiles imported',
+      one: '1 profile imported',
+    );
+    return '$_temp0';
   }
 
   @override
@@ -1464,12 +1524,24 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String netProgress(String phase, int done, int total, int hosts) {
-    return '$phase: $done / $total · $hosts hosts';
+    String _temp0 = intl.Intl.pluralLogic(
+      hosts,
+      locale: localeName,
+      other: '$hosts hosts',
+      one: '1 host',
+    );
+    return '$phase: $done / $total · $_temp0';
   }
 
   @override
   String netSummary(int hosts, int modbus, String seconds) {
-    return '$hosts hosts · $modbus with Modbus · $seconds s';
+    String _temp0 = intl.Intl.pluralLogic(
+      hosts,
+      locale: localeName,
+      other: '$hosts hosts',
+      one: '1 host',
+    );
+    return '$_temp0 · $modbus with Modbus · $seconds s';
   }
 
   @override
@@ -2530,7 +2602,13 @@ class AppLocalizationsEn extends AppLocalizations {
     String avg,
     String last,
   ) {
-    return '$count points · min $min · max $max · avg $avg · last $last';
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count points',
+      one: '1 point',
+    );
+    return '$_temp0 · min $min · max $max · avg $avg · last $last';
   }
 
   @override
@@ -2586,7 +2664,13 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String statsHistoryMemoryValue(int count, String size) {
-    return '$count messages, $size';
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count messages',
+      one: '1 message',
+    );
+    return '$_temp0, $size';
   }
 
   @override
@@ -2727,7 +2811,13 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String replaySkipped(int count) {
-    return '$count lines skipped (events or unreadable)';
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count lines skipped',
+      one: '1 line skipped',
+    );
+    return '$_temp0 (events or unreadable)';
   }
 
   @override
@@ -2764,7 +2854,13 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String replayConfirm(int count, String broker) {
-    return '$count messages will be published to the connected broker “$broker”. Continue?';
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count messages will be',
+      one: '1 message will be',
+    );
+    return '$_temp0 published to the connected broker “$broker”. Continue?';
   }
 
   @override

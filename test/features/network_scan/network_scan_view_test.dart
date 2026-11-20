@@ -455,6 +455,17 @@ void main() {
     expect(connectedTo!.host, '192.168.50.7');
     expect(connectedTo!.port, 1883);
     expect(connectedTo!.subscriptions.single.filter, '#');
+    // The profile is kept, although the MQTT profiles were still loading
+    // (first start, module never opened) when it was saved.
+    await tester.pump(const Duration(milliseconds: 100));
+    await tester.pumpAndSettle();
+    expect(
+      find.descendant(
+        of: find.byKey(const Key('mqtt.connectionPage')),
+        matching: find.text('broker.local'),
+      ),
+      findsOneWidget,
+    );
     final card = find.byKey(const Key('mqtt.statusCard'));
     expect(
       find.descendant(of: card, matching: find.textContaining('Connected')),

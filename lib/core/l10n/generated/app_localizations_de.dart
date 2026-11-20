@@ -532,7 +532,13 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String simulatorServerConnections(int count) {
-    return '$count Client(s) verbunden';
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count Clients verbunden',
+      one: '1 Client verbunden',
+    );
+    return '$_temp0';
   }
 
   @override
@@ -633,7 +639,13 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String readStatus(int count, int latency, String time) {
-    return '$count Werte · $latency ms · $time';
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count Werte',
+      one: '1 Wert',
+    );
+    return '$_temp0 · $latency ms · $time';
   }
 
   @override
@@ -923,12 +935,24 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String mapReadStatus(int count, String time) {
-    return '$count Einträge · $time';
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count Einträge',
+      one: '1 Eintrag',
+    );
+    return '$_temp0 · $time';
   }
 
   @override
   String mapEntryCount(int count) {
-    return '$count Einträge';
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count Einträge',
+      one: '1 Eintrag',
+    );
+    return '$_temp0';
   }
 
   @override
@@ -965,7 +989,13 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String monitorCopied(int count) {
-    return '$count Telegramme kopiert';
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count Telegramme kopiert',
+      one: '1 Telegramm kopiert',
+    );
+    return '$_temp0';
   }
 
   @override
@@ -1002,7 +1032,13 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String monitorAttempts(int count) {
-    return '$count Versuch(e)';
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count Versuche',
+      one: '1 Versuch',
+    );
+    return '$_temp0';
   }
 
   @override
@@ -1348,12 +1384,24 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String importSummary(int count, String file) {
-    return '$count Einträge aus $file gelesen.';
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count Einträge',
+      one: '1 Eintrag',
+    );
+    return '$_temp0 aus $file gelesen.';
   }
 
   @override
   String importSkipped(int count) {
-    return '$count Einträge sind nicht lesbar und werden übersprungen.';
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count Einträge sind nicht lesbar und werden übersprungen.',
+      one: '1 Eintrag ist nicht lesbar und wird übersprungen.',
+    );
+    return '$_temp0';
   }
 
   @override
@@ -1369,7 +1417,13 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String importDone(int count) {
-    return '$count Einträge importiert';
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count Einträge importiert',
+      one: '1 Eintrag importiert',
+    );
+    return '$_temp0';
   }
 
   @override
@@ -1385,7 +1439,13 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String profilesImported(int count) {
-    return '$count Profile importiert';
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count Profile importiert',
+      one: '1 Profil importiert',
+    );
+    return '$_temp0';
   }
 
   @override
@@ -1471,12 +1531,24 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String netProgress(String phase, int done, int total, int hosts) {
-    return '$phase: $done / $total · $hosts Hosts';
+    String _temp0 = intl.Intl.pluralLogic(
+      hosts,
+      locale: localeName,
+      other: '$hosts Hosts',
+      one: '1 Host',
+    );
+    return '$phase: $done / $total · $_temp0';
   }
 
   @override
   String netSummary(int hosts, int modbus, String seconds) {
-    return '$hosts Hosts · $modbus mit Modbus · $seconds s';
+    String _temp0 = intl.Intl.pluralLogic(
+      hosts,
+      locale: localeName,
+      other: '$hosts Hosts',
+      one: '1 Host',
+    );
+    return '$_temp0 · $modbus mit Modbus · $seconds s';
   }
 
   @override
@@ -2543,7 +2615,13 @@ class AppLocalizationsDe extends AppLocalizations {
     String avg,
     String last,
   ) {
-    return '$count Punkte · min $min · max $max · Ø $avg · zuletzt $last';
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count Punkte',
+      one: '1 Punkt',
+    );
+    return '$_temp0 · min $min · max $max · Ø $avg · zuletzt $last';
   }
 
   @override
@@ -2599,7 +2677,13 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String statsHistoryMemoryValue(int count, String size) {
-    return '$count Nachrichten, $size';
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count Nachrichten',
+      one: '1 Nachricht',
+    );
+    return '$_temp0, $size';
   }
 
   @override
@@ -2740,7 +2824,13 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String replaySkipped(int count) {
-    return '$count Zeilen übersprungen (Ereignisse oder unlesbar)';
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count Zeilen übersprungen',
+      one: '1 Zeile übersprungen',
+    );
+    return '$_temp0 (Ereignisse oder unlesbar)';
   }
 
   @override
@@ -2777,7 +2867,13 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String replayConfirm(int count, String broker) {
-    return '$count Nachrichten werden an den verbundenen Broker „$broker“ gesendet. Fortfahren?';
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count Nachrichten werden',
+      one: '1 Nachricht wird',
+    );
+    return '$_temp0 an den verbundenen Broker „$broker“ gesendet. Fortfahren?';
   }
 
   @override

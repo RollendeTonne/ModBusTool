@@ -12,6 +12,9 @@ final class PublishTemplatesController
 
   /// Adds, or replaces a template with the same name (case-insensitive).
   Future<void> save(PublishTemplate template) async {
+    await future;
+    // Callers may fire and forget (markUsed after connecting).
+    if (!ref.mounted) return;
     final name = template.name.trim().toLowerCase();
     final existing = _current
         .where((t) => t.name.trim().toLowerCase() == name)
@@ -28,10 +31,15 @@ final class PublishTemplatesController
     );
   }
 
-  Future<void> delete(String id) => _persist([
-    for (final t in _current)
-      if (t.id != id) t,
-  ]);
+  Future<void> delete(String id) async {
+    await future;
+    // Callers may fire and forget (markUsed after connecting).
+    if (!ref.mounted) return;
+    await _persist([
+      for (final t in _current)
+        if (t.id != id) t,
+    ]);
+  }
 
   Future<void> _persist(List<PublishTemplate> templates) async {
     state = AsyncData(templates);

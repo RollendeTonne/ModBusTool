@@ -64,7 +64,7 @@ void main() {
       // Both sentences are in one dialog text.
       expect(find.textContaining('2 entries read from meter.csv.'), findsOne);
       expect(
-        find.textContaining('1 entries could not be read'),
+        find.textContaining('1 entry could not be read'),
         findsOneWidget,
       );
       await tester.tap(find.byKey(const Key('import.add')));
@@ -156,7 +156,7 @@ void main() {
 
     files.toOpen.add(OpenedTextFile(name: 'p.json', content: exported));
     await chooseTransfer(tester, 'profiles.transfer', 'Import profiles…');
-    expect(find.text('1 profiles imported'), findsOneWidget);
+    expect(find.text('1 profile imported'), findsOneWidget);
     expect(find.text('Simulator (Demo)'), findsNWidgets(2));
   });
 
