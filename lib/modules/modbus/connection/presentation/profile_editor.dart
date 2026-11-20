@@ -23,7 +23,7 @@ Future<ConnectionProfile?> showProfileEditor(
 }) {
   final editor = ProfileEditor(initial: initial);
   if (MediaQuery.sizeOf(context).width < Breakpoints.medium) {
-    return Navigator.of(context).push<ConnectionProfile>(
+    return Navigator.of(context, rootNavigator: true).push<ConnectionProfile>(
       MaterialPageRoute(fullscreenDialog: true, builder: (_) => editor),
     );
   }

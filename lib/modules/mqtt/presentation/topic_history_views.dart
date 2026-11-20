@@ -371,7 +371,11 @@ class TopicChartView extends StatelessWidget {
     final maxValue = values.reduce(math.max);
     final avg = values.reduce((a, b) => a + b) / values.length;
     final start = points.first.time;
-    String fmt(double v) => ValueFormatter.formatScaled(v, null);
+    // Six significant digits: averages otherwise show binary noise.
+    String fmt(double v) => ValueFormatter.formatScaled(
+      double.parse(v.toStringAsPrecision(6)),
+      null,
+    );
     final spots = [
       for (final p in points)
         FlSpot(p.time.difference(start).inMilliseconds / 1000, p.value),
@@ -447,13 +451,21 @@ class TopicChartView extends StatelessWidget {
                     sideTitles: SideTitles(
                       showTitles: true,
                       reservedSize: 28,
-                      getTitlesWidget: (value, meta) => SideTitleWidget(
-                        meta: meta,
-                        child: Text(
-                          '${value.toStringAsFixed(0)} s',
-                          style: theme.textTheme.labelSmall,
-                        ),
-                      ),
+                      getTitlesWidget: (value, meta) {
+                        // The end label would collide with the last
+                        // regular one ("55 s56 s").
+                        final offGrid =
+                            value == meta.max &&
+                            value % meta.appliedInterval != 0;
+                        if (offGrid) return const SizedBox.shrink();
+                        return SideTitleWidget(
+                          meta: meta,
+                          child: Text(
+                            '${value.toStringAsFixed(0)} s',
+                            style: theme.textTheme.labelSmall,
+                          ),
+                        );
+                      },
                     ),
                   ),
                 ),

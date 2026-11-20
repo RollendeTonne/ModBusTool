@@ -54,7 +54,12 @@ class MqttTopicsPage extends ConsumerWidget {
                 child: Builder(
                   builder: (context) => Column(
                     children: [
-                      TabBar(tabs: tabs),
+                      TabBar(
+                        // Long labels ("Subscriptions") would be cut off.
+                        isScrollable: true,
+                        tabAlignment: TabAlignment.start,
+                        tabs: tabs,
+                      ),
                       Expanded(
                         child: TabBarView(
                           children: [

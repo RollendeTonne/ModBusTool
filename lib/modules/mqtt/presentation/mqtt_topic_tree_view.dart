@@ -282,29 +282,38 @@ class TopicTreeRow extends StatelessWidget {
           )
         else
           const SizedBox(width: 40),
-        Flexible(
-          child: Text(
-            name,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            style: mono.copyWith(
-              fontWeight: node.isTopic ? FontWeight.w600 : null,
-              fontStyle: node.name.isEmpty ? FontStyle.italic : null,
-            ),
+        // Name and value share the space; badges stay at the right edge.
+        Expanded(
+          child: Row(
+            children: [
+              Flexible(
+                child: Text(
+                  name,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: mono.copyWith(
+                    fontWeight: node.isTopic ? FontWeight.w600 : null,
+                    fontStyle: node.name.isEmpty ? FontStyle.italic : null,
+                  ),
+                ),
+              ),
+              if (last != null) ...[
+                Text(
+                  ' = ',
+                  style: mono.copyWith(color: scheme.onSurfaceVariant),
+                ),
+                Flexible(
+                  child: Text(
+                    payloadPreview(last.payload, maxChars: 80),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: mono.copyWith(color: scheme.onSurfaceVariant),
+                  ),
+                ),
+              ],
+            ],
           ),
         ),
-        if (last != null) ...[
-          Text(' = ', style: mono.copyWith(color: scheme.onSurfaceVariant)),
-          Expanded(
-            child: Text(
-              payloadPreview(last.payload, maxChars: 80),
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: mono.copyWith(color: scheme.onSurfaceVariant),
-            ),
-          ),
-        ] else
-          const Spacer(),
         if (last?.retain ?? false)
           Tooltip(
             message: l10n.mqttRetainedBadge,

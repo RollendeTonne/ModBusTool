@@ -424,6 +424,8 @@ class _MessageRow extends StatelessWidget {
     final sent = record.direction == MqttDirection.sent;
     showModalBottomSheet<void>(
       context: context,
+      // Above the navigation bar, like the full-screen editors.
+      useRootNavigator: true,
       isScrollControlled: true,
       showDragHandle: true,
       builder: (context) => DraggableScrollableSheet(

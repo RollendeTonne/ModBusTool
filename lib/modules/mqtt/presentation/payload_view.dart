@@ -763,7 +763,12 @@ class _JsonTreeViewState extends State<JsonTreeView> {
                 if (widget.onChart != null && (value is num || value is bool))
                   IconButton(
                     key: Key('json.chart.$pathText'),
-                    visualDensity: VisualDensity.compact,
+                    // Same height as the other rows (seen on a device).
+                    constraints: const BoxConstraints.tightFor(
+                      width: 32,
+                      height: 24,
+                    ),
+                    padding: EdgeInsets.zero,
                     iconSize: 18,
                     tooltip: l10n.chartShowJson,
                     icon: const Icon(Icons.show_chart),

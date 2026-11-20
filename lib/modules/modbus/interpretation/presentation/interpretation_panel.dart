@@ -547,6 +547,8 @@ class _TextCard extends ConsumerWidget {
 Future<void> showInterpretationSheet(BuildContext context) =>
     showModalBottomSheet<void>(
       context: context,
+      // Above the navigation bar, like the full-screen editors.
+      useRootNavigator: true,
       isScrollControlled: true,
       showDragHandle: true,
       useSafeArea: true,

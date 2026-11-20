@@ -1,6 +1,6 @@
 # ProtocollExplorer (package `modbus_explorer`)
 
-Flutter debugging tool with two modules: Modbus (done) and MQTT (M9–M13 done, M14 polish open).
+Flutter debugging tool (v2.0.0) with two modules: Modbus and MQTT (M1–M14 done).
 Read DECISIONS.md before changing behaviour; add an entry for every
 non-obvious decision (German, table row `| Dnnn | decision | reason |`).
 
@@ -40,3 +40,11 @@ non-obvious decision (German, table row `| Dnnn | decision | reason |`).
   `MQTT_HOST=localhost flutter test test_live/mqtt_live_test.dart`.
 - Never commit real device/network IPs.
 - Push to GitHub after each milestone (project-specific permission).
+
+## Device checks
+- Android emulator: `~/Library/Android/sdk/emulator/emulator -avd Medium_Phone_API_37.0 -no-window -no-audio -read-only -no-snapshot -no-boot-anim`,
+  screenshots via `adb exec-out screencap -p`; "System UI isn't responding"
+  dialogs → tap "Wait". adb text input is unreliable (drops characters):
+  prefer integration tests (`flutter test integration_test/… -d emulator-5554 --no-dds`,
+  host machine = `10.0.2.2`).
+- Full-screen routes/bottom sheets must use the root navigator (shell).

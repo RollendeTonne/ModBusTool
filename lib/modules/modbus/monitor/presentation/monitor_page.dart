@@ -68,6 +68,8 @@ class _MonitorPageState extends ConsumerState<MonitorPage> {
     final log = ref.read(communicationLogControllerProvider);
     final sheet = showModalBottomSheet<void>(
       context: context,
+      // Above the navigation bar, like the full-screen editors.
+      useRootNavigator: true,
       isScrollControlled: true,
       showDragHandle: true,
       useSafeArea: true,

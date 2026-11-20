@@ -62,9 +62,10 @@ Future<MqttProfile?> showMqttProfileEditor(
   final editor = MqttProfileEditor(initial: initial);
   final MqttEditorResult? result;
   if (MediaQuery.sizeOf(context).width < Breakpoints.medium) {
-    result = await Navigator.of(context).push<MqttEditorResult>(
-      MaterialPageRoute(fullscreenDialog: true, builder: (_) => editor),
-    );
+    result = await Navigator.of(context, rootNavigator: true)
+        .push<MqttEditorResult>(
+          MaterialPageRoute(fullscreenDialog: true, builder: (_) => editor),
+        );
   } else {
     result = await showDialog<MqttEditorResult>(
       context: context,

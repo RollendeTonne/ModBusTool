@@ -2133,7 +2133,19 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String mqttTreeStats(int topics, int messages) {
-    return '$topics Topics · $messages Nachrichten';
+    String _temp0 = intl.Intl.pluralLogic(
+      topics,
+      locale: localeName,
+      other: '$topics Topics',
+      one: '1 Topic',
+    );
+    String _temp1 = intl.Intl.pluralLogic(
+      messages,
+      locale: localeName,
+      other: '$messages Nachrichten',
+      one: '1 Nachricht',
+    );
+    return '$_temp0 · $_temp1';
   }
 
   @override
@@ -2154,7 +2166,13 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String mqttNodeTopics(int count) {
-    return '$count Topics';
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count Topics',
+      one: '1 Topic',
+    );
+    return '$_temp0';
   }
 
   @override
@@ -2199,7 +2217,13 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String mqttBytes(int count) {
-    return '$count Bytes';
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count Bytes',
+      one: '1 Byte',
+    );
+    return '$_temp0';
   }
 
   @override
@@ -2429,7 +2453,13 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String historyCount(int count, int max) {
-    return '$count Nachrichten gespeichert (max. $max)';
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count Nachrichten',
+      one: '1 Nachricht',
+    );
+    return '$_temp0 gespeichert (max. $max)';
   }
 
   @override

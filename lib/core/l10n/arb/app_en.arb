@@ -1301,7 +1301,7 @@
   "mqttTreeExpandAll": "Expand all",
   "mqttTreeCollapseAll": "Collapse all",
   "mqttTreeClear": "Clear tree",
-  "mqttTreeStats": "{topics} topics · {messages} messages",
+  "mqttTreeStats": "{topics, plural, =1{1 topic} other{{topics} topics}} · {messages, plural, =1{1 message} other{{messages} messages}}",
   "@mqttTreeStats": {
     "placeholders": {
       "topics": {
@@ -1330,7 +1330,7 @@
       }
     }
   },
-  "mqttNodeTopics": "{count} topics",
+  "mqttNodeTopics": "{count, plural, =1{1 topic} other{{count} topics}}",
   "@mqttNodeTopics": {
     "placeholders": {
       "count": {
@@ -1351,7 +1351,7 @@
   "mqttDetailSize": "Size",
   "mqttDetailFlags": "QoS / flags",
   "mqttDetailChanged": "Last changed",
-  "mqttBytes": "{count} bytes",
+  "mqttBytes": "{count, plural, =1{1 byte} other{{count} bytes}}",
   "@mqttBytes": {
     "placeholders": {
       "count": {
@@ -1544,7 +1544,7 @@
   "topicTabDiff": "Compare",
   "topicTabChart": "Chart",
   "topicTabStats": "Statistics",
-  "historyCount": "{count} messages stored (max. {max})",
+  "historyCount": "{count, plural, =1{1 message} other{{count} messages}} stored (max. {max})",
   "@historyCount": {
     "placeholders": {
       "count": {

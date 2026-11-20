@@ -3839,7 +3839,7 @@ abstract class AppLocalizations {
   /// No description provided for @mqttTreeStats.
   ///
   /// In en, this message translates to:
-  /// **'{topics} topics · {messages} messages'**
+  /// **'{topics, plural, =1{1 topic} other{{topics} topics}} · {messages, plural, =1{1 message} other{{messages} messages}}'**
   String mqttTreeStats(int topics, int messages);
 
   /// No description provided for @mqttTreeEmpty.
@@ -3869,7 +3869,7 @@ abstract class AppLocalizations {
   /// No description provided for @mqttNodeTopics.
   ///
   /// In en, this message translates to:
-  /// **'{count} topics'**
+  /// **'{count, plural, =1{1 topic} other{{count} topics}}'**
   String mqttNodeTopics(int count);
 
   /// No description provided for @mqttEmptyLevel.
@@ -3953,7 +3953,7 @@ abstract class AppLocalizations {
   /// No description provided for @mqttBytes.
   ///
   /// In en, this message translates to:
-  /// **'{count} bytes'**
+  /// **'{count, plural, =1{1 byte} other{{count} bytes}}'**
   String mqttBytes(int count);
 
   /// No description provided for @mqttTruncated.
@@ -4343,7 +4343,7 @@ abstract class AppLocalizations {
   /// No description provided for @historyCount.
   ///
   /// In en, this message translates to:
-  /// **'{count} messages stored (max. {max})'**
+  /// **'{count, plural, =1{1 message} other{{count} messages}} stored (max. {max})'**
   String historyCount(int count, int max);
 
   /// No description provided for @historyEmpty.

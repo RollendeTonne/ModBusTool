@@ -346,6 +346,9 @@ void main() {
     );
     await tester.pumpAndSettle();
     for (final tab in ['Details', 'Subscriptions', 'Publish', 'Tree']) {
+      // The tab bar scrolls on phones.
+      await tester.ensureVisible(find.widgetWithText(Tab, tab));
+      await tester.pumpAndSettle();
       await tester.tap(find.widgetWithText(Tab, tab));
       await tester.pumpAndSettle();
     }

@@ -1,24 +1,32 @@
-# ProtocollExplorer (vormals Modbus Explorer)
+# ProtocollExplorer 2.0 (vormals Modbus Explorer)
 
-> Debugging-Werkzeug mit zwei Modulen: **Modbus** (fertig) und **MQTT**
-> (Verbindung, Publish/Subscribe, Live-Topic-Baum, Payload-Analyse,
-> Verlauf, Vergleich, Graph, Statistik, Monitor mit Export und Replay
-> sowie Werkzeuge fertig; Feinschliff folgt mit M14). Oben in der App wechselt ein
-> Umschalter **Modbus | MQTT** zwischen den Modulen.
+Plattformübergreifendes Debugging-Werkzeug für die Industrie- und
+IoT-Kommunikation, gebaut mit Flutter. Zwei Module, oben in der App
+umschaltbar (**Modbus | MQTT**, Strg/⌘+Umschalt+M), die sich Oberfläche,
+Profilverwaltung und die Interpretations-Engine teilen:
 
-Plattformübergreifendes Debugging-Werkzeug für **Modbus TCP**, **Modbus RTU**
-(seriell) und **RTU über TCP**, gebaut mit Flutter. Kernidee: Rohe
-Registerwerte werden gleichzeitig in **allen Datentypen und
-Byte-/Wortreihenfolgen** angezeigt, plausible Interpretationen sind
-hervorgehoben. So sieht man sofort, wie ein Gerät seine Werte ablegt.
+- **Modbus** – Modbus TCP, Modbus RTU (seriell) und RTU über TCP. Rohe
+  Registerwerte erscheinen gleichzeitig in **allen Datentypen und
+  Byte-/Wortreihenfolgen**, plausible Interpretationen sind hervorgehoben;
+  dazu Register-Map, Telegramm-Monitor, Scanner, Simulator.
+- **MQTT** – MQTT 3.1.1 und 5.0 über TCP, TLS und WebSocket: Live-Topic-
+  Baum, Payload-Analyse (JSON, XML, Text, Base64, Binär mit derselben
+  Engine), Verlauf, Vergleich, Graph, Statistik, Monitor mit Export und
+  Replay, Broker-Info, Topic-Tester, Payload-Konverter, eingebauter
+  Demo-Broker.
 
-> Screenshots folgen. Platzhalter:
-> `docs/screenshots/registers.png` (Rohwerte + Interpretations-Matrix),
-> `docs/screenshots/monitor.png` (Telegramm-Monitor mit Frame-Zerlegung),
-> `docs/screenshots/mobile.png` (Handy-Layout),
-> `docs/screenshots/mqtt-connection.png` (Broker-Profile und Status),
-> `docs/screenshots/mqtt-topics.png` (Topic-Baum, Details, Abos, Publish),
-> `docs/screenshots/mqtt-payload.png` (JSON-Baum und Binär-Matrix).
+| Modbus: Register (Handy) | MQTT: Verbindung | MQTT: Topic-Baum |
+|---|---|---|
+| ![Modbus-Register](docs/screenshots/mobile.png) | ![MQTT-Verbindung](docs/screenshots/mqtt-connection.png) | ![Topic-Baum](docs/screenshots/mqtt-topics.png) |
+
+| MQTT: Payload-Analyse | MQTT: Graph |
+|---|---|
+| ![Payload-Analyse](docs/screenshots/mqtt-payload.png) | ![Graph](docs/screenshots/mqtt-chart.png) |
+
+Aufgenommen im Android-Emulator (Release-Build) mit Simulator bzw.
+Demo-Broker. Desktop-Platzhalter: `docs/screenshots/registers.png`
+(Rohwerte + Interpretations-Matrix), `docs/screenshots/monitor.png`
+(Telegramm-Monitor mit Frame-Zerlegung).
 
 ## Funktionen
 
@@ -91,10 +99,7 @@ einspaltig), Tastaturkürzel, Screenreader-Beschriftungen, Kontraste nach WCAG A
 
 ## MQTT-Modul
 
-**Stand M13:** Broker-Verbindung, Profile, TLS, Abonnements, Publish,
-Live-Topic-Baum, Payload-Analyse, Verlauf, Vergleich, Graph, Statistik,
-Monitor mit Export und Replay, Broker-Info, Topic-Tester,
-Payload-Konverter.
+Funktionsumfang (Meilensteine M8–M14 abgeschlossen):
 
 - **Topic-Baum** (Kernansicht): alle empfangenen Topics hierarchisch nach
   `/`, natürlich sortiert (`sensor2` vor `sensor10`), leere Ebenen als
@@ -151,6 +156,8 @@ Payload-Konverter.
   Nachrichten auf 10 000 Topics in ~45 ms eingefügt, 11 000 sichtbare
   Zeilen in ~47 ms aufbereitet. Neuer Broker = leerer Baum.
 
+- **Netzwerk-Scan → MQTT:** ein offener Port 1883/8883 im Netzwerk-Scan
+  legt per Tipp ein Broker-Profil an (mit Abo `#`) und verbindet.
 - **Profile:** Host, Port, Transport **TCP (1883) / TLS (8883) / WebSocket
   (ws, wss)**, Protokoll **MQTT 3.1.1 oder 5.0**, Client-ID (leer = bei jeder
   Verbindung zufällig), Benutzer/Passwort, Clean Start, Keep-Alive, Session
@@ -174,7 +181,9 @@ Payload-Konverter.
   Retain, MQTT-5-Properties (Content-Type, Response Topic, Correlation
   Data, Message Expiry, User Properties). Strg/⌘+Enter sendet. Rückfrage
   vor Publish auf bereits empfangene Topics (abschaltbar), eigener Knopf
-  „Retained Message löschen“ mit Bestätigung.
+  „Retained Message löschen“ mit Bestätigung. **Vorlagen/Favoriten:**
+  das ganze Formular unter einem Namen speichern, per Tipp laden
+  (gleicher Name ersetzt, × löscht).
 - **Monitor:** chronologisches Live-Log aller empfangenen und gesendeten
   Nachrichten (Zeit, Topic, QoS, Retain, DUP, Größe, Vorschau) **und der
   Verbindungsereignisse** (CONNECT, CONNACK bzw. Fehler mit Code,
@@ -245,6 +254,12 @@ Funktionen, die eine Plattform nicht kann, werden ausgeblendet
 
 Andere Modbus-Tools können den Simulator ebenfalls nutzen: *Verbindung* →
 **Simulator-TCP-Server** (Desktop, Standard `127.0.0.1:1502`).
+
+**MQTT ohne Broker:** Umschalter auf **MQTT** → Profil **„Demo-Broker
+(Simulator)“** antippen → *Topics*. Der eingebaute Broker liefert JSON-,
+Binär- und Retained-Topics; im Topic-Baum `demo/plant/line1/temperature`
+wählen, im JSON-Baum das Graph-Symbol neben `value` tippen. Mit echtem
+Broker: `docker compose up -d` (siehe [MQTT-Modul](#mqtt-modul)).
 
 ## Bauen
 
@@ -494,7 +509,6 @@ Antwortzeit ~95 ms (Mac) bzw. ~108 ms (Android-Emulator). Die Prüfung lief
   werden auf das /24 um die eigene Adresse begrenzt (max. 4096 Adressen).
 - MQTT über WebSocket (wss): eigene CA und Client-Zertifikate unterstützt
   das MQTT-Paket nicht, es gelten die System-CAs (TLS über TCP kann beides).
-- MQTT: Publish-Vorlagen/Favoriten folgen mit M14.
 - MQTT-Paketebene: die verwendeten Pakete geben keine Rohpakete heraus;
   der Monitor zeigt stattdessen die Operationen der App und ihre
   Ergebnisse (PUBACK/PUBREC usw. sind nicht sichtbar). Verlauf, Graph und Statistik gelten für
